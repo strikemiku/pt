@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title>商品详情</title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1);" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>商品详情</h3>
+        <!--<a href="#" class="sousou">-->
+        <!--<i class="iconfont">&#xe60c;</i>-->
+        <!--</a>-->
+    </div>
+
+    <div style="height:45px;"></div>
+    <!--商品详情区域开始-->
+    <div class="pro_container">
+        <div class="pro_con_top">
+
+            <div class="pro_img">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <foreach name="goods_images_list" item="v">
+                            <div class="swiper-slide"><img src="{$v['image_url']}" style="height: 200px;" alt=""/></div>
+                        </foreach>
+                    </div>
+                    <!-- 如果需要分页器 -->
+                    <div class="swiper-pagination"></div>
+
+                </div>
+                <script>
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        direction: 'horizontal',
+                        loop: true,
+                        autoplay:5000,
+
+                        // 如果需要分页器
+                        pagination: '.swiper-pagination',
+
+                    })
+                </script>
+
+            </div>
+
+        </div>
+
+        <div class="pro_con_title">
+            <h3>{$goods.goods_name}</h3>
+            <p class="pro_jiage clearfixd">
+                <span>&yen;{$goods['market_price']}</span>
+                <!--<i>折扣专区</i>-->
+            </p>
+            <p class="pro_fenlei clearfixd" style="font-size: 0.7rem;color: #1b1b1b;padding-top: 4px;">
+                {$goods['goods_remark']}
+            </p>
+        </div>
+
+        <div class="pro_con_con">
+            <div class="pro_con_top">
+                <img src="__STATIC__/images/shangpin_conbg.png"/>
+            </div>
+
+            <div class="pro_xiangqing">
+                {$goods['goods_content']}
+            </div>
+        </div>
+    </div>
+    <!--商品详情区域结束-->
+    <!--猜你喜欢区域开始-->
+    <!--<div class="tuijian">-->
+    <!--<div class="tuijian_title">-->
+    <!--<p><span>为你推荐</span></p>-->
+    <!--</div>-->
+
+    <!--<ul class="clearfixd">-->
+    <!--<li class="fr_l"><a href="#">-->
+    <!--<div class="tuijian_top">-->
+    <!--<img src="__STATIC__/images/tuijian1.jpg" alt=""/>-->
+    <!--</div>-->
+    <!--<div class="tuijian_bottom">-->
+    <!--<div class="tuijian_list_top clearfixd">-->
+    <!--<span>九阳榨汁机</span>-->
+    <!--<i>￥890</i>-->
+    <!--</div>-->
+    <!--<p>九阳榨汁机 原汁机 慢速揉取 多汁鲜榨节省</p>-->
+    <!--</div>-->
+    <!--</a></li>-->
+
+    <!--<li class="fr_l"><a href="#">-->
+    <!--<div class="tuijian_top">-->
+    <!--<img src="__STATIC__/images/tuijian2.jpg" alt=""/>-->
+    <!--</div>-->
+    <!--<div class="tuijian_bottom">-->
+    <!--<div class="tuijian_list_top clearfixd">-->
+    <!--<span>九阳榨汁机</span>-->
+    <!--<i>￥890</i>-->
+    <!--</div>-->
+    <!--<p>九阳榨汁机 原汁机 慢速揉取 多汁鲜榨节省</p>-->
+    <!--</div>-->
+    <!--</a></li>-->
+
+    <!--<li class="fr_l"><a href="#">-->
+    <!--<div class="tuijian_top">-->
+    <!--<img src="__STATIC__/images/tuijian3.jpg" alt=""/>-->
+    <!--</div>-->
+    <!--<div class="tuijian_bottom">-->
+    <!--<div class="tuijian_list_top clearfixd">-->
+    <!--<span>九阳榨汁机</span>-->
+    <!--<i>￥890</i>-->
+    <!--</div>-->
+    <!--<p>九阳榨汁机 原汁机 慢速揉取 多汁鲜榨节省</p>-->
+    <!--</div>-->
+    <!--</a></li>-->
+
+    <!--<li class="fr_l"><a href="#">-->
+    <!--<div class="tuijian_top">-->
+    <!--<img src="__STATIC__/images/tuijian4.jpg" alt=""/>-->
+    <!--</div>-->
+    <!--<div class="tuijian_bottom">-->
+    <!--<div class="tuijian_list_top clearfixd">-->
+    <!--<span>九阳榨汁机</span>-->
+    <!--<i>￥890</i>-->
+    <!--</div>-->
+    <!--<p>九阳榨汁机 原汁机 慢速揉取 多汁鲜榨节省</p>-->
+    <!--</div>-->
+    <!--</a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--猜你喜欢区域结束-->
+
+
+
+    <!--底部区域开始-->
+    <div style=" height:50px;"></div>
+
+    <div class="pro_btn clearfixd">
+        <div class="pro_btn_r fr_r" style="width: 100%" onclick="buy({$goods['goods_id']})">立即买入</div>
+    </div>
+    <!--底部区域结束-->
+
+
+</div>
+
+<div class="catr">
+    <div class="catr_con">
+
+        <div class="catr_top clearfixd">
+            <div class="catr_left fr_l">
+                <img src="__STATIC__/images/pro_img2.jpg" alt=""/>
+            </div>
+            <div class="catr_right  fr_r">
+                <span>￥1280.00</span>
+                <h3>库存：208件</h3>
+                <h3>已选择：红色；6G+64G</h3>
+            </div>
+
+            <div class="close">×</div>
+        </div>
+        <div class="canshu_container">
+            <div class="canshu">
+                <div class="canshu_tite">
+                    机身颜色
+                </div>
+                <div class="canshu_con">
+                    <ul>
+                        <li>红色</li>
+                        <li>黑色</li>
+                        <li>银色</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canshu">
+                <div class="canshu_tite">
+                    存储容量
+                </div>
+                <div class="canshu_con">
+                    <ul>
+                        <li>6G+64G</li>
+                        <li>6G+128G</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="goumai clearfixd">
+            <div class="goumai_l fr_l">购买数量</div>
+            <div class="goumai_r fr_r clearfixd">
+                <div class="btn_l fr_l">－</div>
+                <div class="btn_con fr_l">1</div>
+                <div class="btn_r fr_r">＋</div>
+            </div>
+        </div>
+        <div style="height:50px;"></div>
+        <div class="catr_btn">确定</div>
+    </div>
+
+</div>
+
+<script>
+    //    $(".pro_btn_l,.pro_btn_r").click(function(){
+    //        $(".catr").show();
+    //
+    //    });
+    function buy(goods_id){
+        var user_id = "{$user.user_id}";
+        if(!user_id){
+            layer.open({
+                title:'温馨提示',
+                content: '你还未登录！',
+                btn: ['去登陆', '再逛逛'],
+                shadeClose: false,
+                yes: function () {
+                    location.href = "/index.php?m=Mobile&c=User&a=login";
+                },
+                no: function () {
+                    layer.closeAll();
+                }
+            });
+        }else{
+            var user_money ="{$user.user_money}";
+            user_money = parseFloat(user_money);
+            var goods_price = "{$goods.market_price}";
+            goods_price = parseFloat(goods_price);
+            if(user_money < goods_price){
+                layer.msg("余额不足!!!",{icon:5,time:1500});
+                return false;
+            }else{
+                window.location.href = "/Mobile/Cart/cart5/id/"+goods_id;
+            }
+        }
+    }
+    $(".catr .close,.catr_btn").click(function(){
+        $(".catr").hide();
+    });
+
+    $(".canshu_container .canshu").each(function() {
+
+        $(this).find(".canshu_con ul li").eq(0).addClass("on");
+        $(this).find(".canshu_con ul li").click(function(){
+            $(this).addClass("on").siblings("li").removeClass("on");
+        })
+    });
+    var shu=$(".btn_con").text();
+    $(".goumai_r .btn_r").click(function(){
+        shu++;
+
+        $(this).siblings(".btn_con").text(shu);
+
+    })
+
+    $(".goumai_r .btn_l").click(function(){
+
+        if(shu>1){
+            shu--;
+            $(this).siblings(".btn_con").text(shu);
+        }else{
+
+            shu=1;
+        }
+
+
+    })
+
+</script>
+</body>
+</html>

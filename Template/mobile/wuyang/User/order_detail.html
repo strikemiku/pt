@@ -1,0 +1,173 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta name="Generator" content="TPSHOP v1.1" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="applicable-device" content="mobile">
+	<title>订单详情</title>
+	<meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+	<meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content=" "/>
+	<link rel="stylesheet" href="__STATIC__/new/css/public.css">
+	<link rel="stylesheet" href="__STATIC__/new/css/user.css">
+	<script type="text/javascript" src="__STATIC__/new/js/js/jquery.js"></script>
+	<script src="__PUBLIC__/js/global.js"></script>
+	<script src="__PUBLIC__/js/mobile_common.js"></script>
+	<script type="text/javascript" src="__STATIC__/new/js/js/mobile.js" ></script>
+	<script type="text/javascript" src="__STATIC__/new/js/js/modernizr.js"></script>
+	<script type="text/javascript" src="__STATIC__/new/js/js/layer.js" ></script>
+
+	<style>
+			.layui-layer-btn .layui-layer-btn0 {
+				border-color: red;
+				background-color: red;
+				color: #fff;
+			}
+	</style>
+
+</head>
+<body>
+<header>
+	<div class="tab_nav">
+		<div class="header">
+			<div class="h-left"><a class="sb-back" href="{:U('User/order_list')}" title="返回"></a></div>
+			<div class="h-mid">订单详情</div>
+		</div>
+	</div>
+</header>
+<div id="tbh5v0">
+	<div class="order">
+
+		<div class="detail_top">
+			<div class="lan">
+				<dl>
+					<dt class="dingdan_1"></dt>
+					<dd>
+						<span>订单状态：
+							{$order_info.order_status_desc}
+						</span
+						><br>
+						<span class="dingdanhao">订单编号&nbsp;:&nbsp;{$order_info.order_sn}</span><br>
+						<!--<span>配送费用&nbsp;:￥{$order_info.shipping_price}元</span>-->
+					</dd>
+				</dl>
+			</div>
+
+			<dl style="border-bottom:1px solid #eeeeee">
+				<dt style=" position:absolute;" class="dingdan_2"></dt>
+				<dd style=" margin-left:30px;"><span class="zhif">支付方式&nbsp;:&nbsp;{$order_info.pay_name}</span>
+					<span class="zhif">订单金额&nbsp;:&nbsp;￥{$order_info.order_amount}元</span>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt class="dingdan_3"></dt>
+				<dd><h3>收货人姓名&nbsp;:&nbsp;{$order_info.consignee}<em>{$order_info.mobile}</em></h3>
+					<div class="adss">详细地址&nbsp;:&nbsp;{$order_info.p_name},{$order_info.c_name},{$order_info.d_name},{$order_info.address}</div>
+				</dd>
+			</dl>
+
+			<!--<if condition="$order_info[shipping_time] gt 0">-->
+			<!--<dl style="border-top:1px solid #eeeeee; margin-top:10px; height:70px; padding-bottom:0px;">-->
+			<!--<dt class="dingdan_4"><img src="__STATIC__/new/images/wuliuimg.png" width="30" height="70"></dt>-->
+			<!--<dd><h3>快递单号:{$order_info.invoice_no}</h3>-->
+			<!--<p><a href="{:U('User/express',array('order_id'=>$order_info['order_id']))}" target="_blank">查看物流</a></p>-->
+			<!--</dd>-->
+			<!--</dl>-->
+			<!--</if>-->
+		</div>
+
+		<div class="ord_list1">
+			<h2><img src="__STATIC__/new/images/dianpu.png">网站自营</h2>
+
+			<!--商品列表-->
+			<volist name="order_info.goods_list" id="good">
+				<div class="order_list">
+					<a href="{:U('/Mobile/Goods/goodsInfo',array('id'=>$good['goods_id']))}">
+						<dl>
+							<dt><img src="{$good.original_img}"></dt>
+							<dd class="name" class="pice" style=" width:55%;">
+								<strong>{$good.goods_name}</strong>
+								<span style="margin-top: 0px;">{$good.spec_key_name}</span>
+							</dd>
+							<dd class="pice" style=" font-size:13px; color:#F60; width:25%;">￥{$good['goods_price']}元<em>x{$good['goods_num']}</em></dd>
+						</dl>
+					</a>
+					<!--<div class="pic" style=" border:0;"><span>小计：</span><strong>￥{$good['member_goods_price'] * $good['goods_num']}元</strong></div>-->
+				</div>
+			</volist>
+			<!-- end 商品列表-->
+			<!--<div class="jiage">-->
+				<!--<p>商品总价&nbsp;:&nbsp;<span class="price">￥{$order_info.order_amount}</span></p>-->
+				<!--<p>支付积分&nbsp;:&nbsp;<span class="price1">{$order_info.order_amount}</span></p>-->
+			<!--</div>-->
+		</div>
+
+		<section class="qita">
+			<div class="navContent">
+				<ul>
+					<li class="first">配送方式&nbsp;:&nbsp;{$order_info.shipping_name|default="---"}</li>
+					<li>支付方式&nbsp;:&nbsp;{$order_info.pay_name}</li>
+				</ul>
+			</div>
+		</section>
+
+		<div style=" height:15px;"></div>
+
+		<div class="detail_dowm">
+			<div class="anniu1">
+				<if condition="$order_info.cancel_btn eq 1"><a onClick="cancel_order({$order_info.order_id})" class="on_comment">取消订单</a></if>
+				<if condition="$order_info.pay_btn eq 1">
+					<a href='{:U("Mobile/Cart/$order_info[order_jump]",array("order_id"=>$order_info[order_id]))}' class="on_comment">立即付款</a>
+				</if>
+				<if condition="$order_info.receive_btn eq 1"><a href="{:U('Mobile/User/order_confirm',array('id'=>$order_info['order_id']))}" class="on_comment">收货确认</a></if>
+				<if condition="$order_info.shipping_btn eq 1"><a href="{:U('User/express',array('order_id'=>$order_info['order_id']))}" class="on_comment">查看物流</a></if>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script>
+    $(function(){
+        var is_member = "{$is_member}";
+        var order_id = "{$order_id}";
+        if(is_member == '1'){
+            $.ajax({
+                type : 'post',
+                url : "{:U('User/send_coupon')}",
+                data:{'order_id':order_id},
+                dataType : 'json',
+                success : function(data){
+                    if(data.status == 1){
+                        layer.open({content:data.msg,time:8});
+                    }else{
+                        console.log(data.msg);
+                    }
+                }
+            })
+        }
+    });
+    //取消订单
+    function cancel_order(id){
+        layer.open({
+            title:'温馨提示',
+            content: '您确定要取消订单吗？',
+            btn: ['确认', '稍后'],
+            shadeClose: false,
+            yes: function () {
+                location.href = "/index.php?m=Mobile&c=User&a=cancel_order&id="+id;
+            },
+            no: function () {
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+</body>
+</html>

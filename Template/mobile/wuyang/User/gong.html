@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>系统消息</title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1)" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>系统消息</h3>
+    </div>
+    <div style="height:45px;"></div>
+    <!--海报区域开始-->
+    <div class="tongzhi_con">
+        <ul>
+            <foreach name="list" item="v">
+                <li>
+                    <a href="{:U('User/gongDetail',array('id'=>$v['article_id']))}">
+                        <div class="left">
+
+                            <img  <if condition="$v.thumb neq ''">src="{$v.thumb}"<else/>src=" __STATIC__/images/tu5.png"</if>/>
+                        </div>
+                        <div class="right">
+                            <!--<div class="du_zhuangtai"></div>-->
+                            <h3>{$v.title}</h3>
+                            <p>{$v.description}</p>
+                            <div class="right_con">
+                                <div class="right_con_lt">
+                                    <i class="iconfont icon-shijian"></i>
+                                    <p>{$v.publish_time}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </foreach>
+        </ul>
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+</body>
+</html>

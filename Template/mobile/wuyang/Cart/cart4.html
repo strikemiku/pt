@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title>订单支付</title>
+    <style>
+        #type{
+            height: 40px;
+            color: #666;
+            font-size: 14px;
+            line-height: 40px;
+            border-radius: 3px;
+            padding: 0 10px;
+            border: 1px solid #e6e6e6;
+            width: 100%;
+        }
+        .successtijiao {
+            border-bottom: #ddd 1px solid;
+            font-size: 16px;
+            color: #9EC069;
+            font-weight: bold;
+            background: url(/Public/images/flow/iconfont-duihao.png) no-repeat 10px center;
+            background-size: 30px;
+            text-indent: 60px;
+            height: 50px;
+            line-height: 50px;
+            margin-bottom: 15px;
+        }
+        .chongzhi_jiner .ct-list li {
+            line-height: 40px;
+            padding: 0 15px;
+            font-size: 14px;
+        }
+        .pay_type{
+            color: #666;
+            font-size: 14px;
+            line-height: 40px;
+        }
+        .pay_type li{
+            font-size: 16px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1);" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>订单支付</h3>
+    </div>
+
+    <div style="height:45px;"></div>
+
+    <div class="chongzhi_con">
+        <div class="chongzhi_jiner clearfixd">
+            <h4 class="successtijiao">订单已经提交成功！</h4>
+            <ul class="ct-list">
+                <li >订单编号：<em>{$order['order_sn']}</em></li>
+                <li>应付金额：<em>&yen;{$order['order_amount']}</em></li>
+            </ul>
+        </div>
+        <div id="pay_code">
+            <div class="chongzhi_jiner clearfixd">
+                <div class="jine_l fr_l">支付方式：</div>
+                <div class="jine_r fr_r">
+                    <select name="type" id="type">
+                        <option value="0">请选择支付方式</option>
+                        <option value="1">支付宝</option>
+                        <option value="2">微信</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chongzhi_jiner clearfixd" id="zhifubao" style="display: none;">
+                <div class="jine_l fr_l">支付宝：</div>
+                <div class="jine_r fr_r">
+                    <img src="{$config['shop_info_zfb_img']}" alt="" style="width: 250px;height: 250px;">
+                </div>
+            </div>
+            <div class="chongzhi_jiner clearfixd" id="wx" style="display: none;">
+                <div class="jine_l fr_l">微信：</div>
+                <div class="jine_r fr_r" >
+                    <img src="{$config['shop_info_wx_img']}" alt="" style="width: 250px;height: 250px;">
+                </div>
+            </div>
+            <div class="chongzhi_jiner clearfixd">
+                <div class="jine_l fr_l">打款截图：</div>
+                <div class="jine_r fr_r">
+                    <input type="hidden" name="dakuan_img" value="" id="data_photo" />
+                    <div class="upload uptou">
+                        <!--    照片添加    -->
+                        <div class="z_photo">
+                            <div class="z_file">
+                                <input type="file" name="file" id="file" value="" accept="image/*" multiple  onchange="up_img()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="chongzhi_jiner clearfixd">
+            <div class="jine_l fr_l">交易密码：</div>
+            <div class="jine_r fr_r"><input type="password" id="twopwd" name="twopwd" placeholder="请输入交易密码"/></div>
+        </div>
+        <div class="chongzhi_btn"><input type="submit"  onClick="checkSubmit()" value="立即支付"/></div>
+    </div>
+
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+<script>
+    $(".pay_check").change(function () {
+        var type = $(this).val();
+        if(type==1){
+            $("#pay_jifen").css('display','none');
+            $("#pay_money").css('display','none');
+            $("#pay_code").css('display','block');
+
+        }else if(type==3){
+            $("#pay_code").css('display','none');
+            $("#pay_jifen").css('display','none');
+            $("#pay_money").css('display','block');
+        }else{
+            $("#pay_code").css('display','none');
+            $("#pay_money").css('display','none');
+            $("#pay_jifen").css('display','block');
+        }
+    });
+    $("#type").change(function () {
+        var type = $(this).val();
+        if(type==1){
+            $("#zhifubao").css('display','block');
+            $("#wx").css('display','none');
+            $("#bank").css('display','none');
+
+        }else if(type==2){
+            $("#zhifubao").css('display','none');
+            $("#wx").css('display','block');
+            $("#bank").css('display','none');
+        }else{
+            $("#zhifubao").css('display','none');
+            $("#wx").css('display','none');
+            $("#bank").css('display','block');
+        }
+    });
+    //上传图片
+    function up_img(){
+
+        var data = new FormData();
+        $.each($('#file')[0].files, function(i, files) {
+            data.append('file', files);
+        });
+        $.ajax({
+            type: "POST",
+            url: "{:U('User/up_img')}",
+            data: data,
+            cache: false,
+            contentType: false,    //不可缺
+            processData: false,    //不可缺
+            dataType:'json',
+            success: function(data) {
+                if(data.code==200){
+                    $('#upload_img').attr('src',data.msg);
+                    $('#data_photo').val(data.msg);
+                    $(".z_file").css( "background" ,"url("+data.msg+")");
+                    $(".z_file").css( "background-size" ,"100% 100%");
+                }else if(data.code == 400){
+                    layer.msg(data.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('上传失败，请检查网络后重试');
+            }
+        });
+    }
+    // author :凌寒 2018年5月17日13:53:02 执行充值方法
+    function checkSubmit()
+    {
+//        var pay_check = $.trim($('.pay_check:checked').val());
+        var type = $.trim($('#type').val());
+//        var zfb = $.trim($('#zfb').val());
+//        var weixin = $.trim($('#weixin').val());
+        var dakuan_img = $.trim($('#data_photo').val());
+        var twopwd = $.trim($('#twopwd').val());
+        var order_id = "{$order.order_id}";
+        if(type==0){
+            layer.msg("请选择支付方式",{icon:5,time:1500});
+            return false;
+        }
+        if(dakuan_img == ''){
+            layer.msg("请上传打款截图",{icon:5,time:1500});
+            return false;
+        }
+        if(twopwd == ''){
+            layer.msg('请输入安全密码!',{icon:5,time:1500});
+            return false;
+        }
+
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=Cart&a=cart4&t='+Math.random(),
+            data : {order_id:order_id,type:type,twopwd:twopwd,dakuan_img:dakuan_img},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href="/Mobile/User/order_list";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+</body>
+</html>

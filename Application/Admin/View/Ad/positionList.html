@@ -1,0 +1,63 @@
+<include file="Public/min-header" />
+<div class="wrapper">
+	<include file="Public/breadcrumb"/>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-header">
+						<nav class="navbar navbar-default">
+							<div class="pull-right navbar-form">
+								<label><a class="btn btn-block btn-primary" href="{:U('Admin/Ad/position')}">新增分类</a></label>
+							</div>
+						</nav>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<table id="list-table" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+									<thead>
+									<tr role="row">
+										<th style="text-align: center">分类ID</th>
+										<th style="text-align: center">分类名称</th>
+										<!--<th>广告位宽度</th>-->
+										<!--<th>广告位高度</th>-->
+										<th style="text-align: center">分类描述</th>
+										<th style="text-align: center">状态</th>
+										<th style="text-align: center">操作</th>
+									</tr>
+									</thead>
+									<tbody>
+									<foreach name="list" item="vo" key="k" >
+										<tr role="row">
+											<td style="text-align: center">{$vo.position_id}</td>
+											<td style="text-align: center">{$vo.position_name}</td>
+											<!--<td>{$vo.ad_width}</td>-->
+											<!--<td>{$vo.ad_height}</td>-->
+											<td style="text-align: center">{$vo.position_desc}</td>
+											<td style="text-align: center">
+												<img width="20" height="20" src="__PUBLIC__/images/<if condition='$vo[is_open] eq 1'>yes.png<else />cancel.png</if>" onclick="changeTableVal('ad_position','position_id','{$vo.position_id}','is_open',this)"/>
+											</td>
+											<td style="text-align: center">
+												<a class="btn btn-info" href="{:U('Admin/Ad/adList',array('pid'=>$vo['position_id']))}">查看</a>
+												<a class="btn btn-primary" href="{:U('Admin/Ad/position',array('act'=>'edit','position_id'=>$vo['position_id']))}">编辑</a>
+											</td>
+										</tr>
+									</foreach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-6 text-left"></div>
+							<div class="col-sm-6 text-right">{$page}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+</html>

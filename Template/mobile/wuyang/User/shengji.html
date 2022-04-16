@@ -1,0 +1,201 @@
+<include file="Public/old_header"/>
+<link rel="stylesheet" href="__STATIC__/old/css/flow.css">
+<style>
+body, button, input, select, textarea {
+    font-size: 14px;font-family: arial,微软雅黑;
+}
+.g-Total {
+    background: #F4F4F4;border-bottom: 1px solid #DCDCDC; line-height: 30px;
+    padding: 5px 10px 0; font-size: 14px;
+}
+a.gray9, .gray9 {color: #999;}
+.g-member {background: #F4F4F4;padding: 10px 5px;}
+.g-Recharge ul {zoom: 1;}
+.g-Recharge li a.z-sel {
+    border: 1px solid #F60; color: #666;
+}
+.g-Recharge li .z-initsel {
+    border: 1px solid #F60;
+}
+.g-Recharge li .z-init {
+    width: 90%;padding: 7px 0; text-align: center;border: none;
+}
+.g-Recharge li .z-initsel input {
+    color: #666;
+}
+.g-Recharge li a.z-sel s, .g-Recharge li .z-initsel s {
+    width: 18px;height: 18px;
+    position: absolute; right: -1px; bottom: -1px;
+    display: inline-block;background-position: 0 0;
+}
+.g-Recharge li:nth-child(3n-1) {
+    width: 34%;text-align: center;
+}
+.g-Recharge li:nth-child(3n-3) {
+    text-align: right;
+}
+.g-Recharge li {
+    width: 33%;float: left;margin-bottom: 10px;
+}
+.g-pay-ment {
+    overflow: hidden;
+}
+.m-round {
+    border: 1px solid #DCDCDC;border-radius: 5px;
+    background: #fff;box-shadow: 1px 1px 1px #e7e7e7;
+}
+.mt10 {
+    margin-top: 10px;
+}
+.g-Recharge li a, .g-Recharge li .z-initsel, .g-Recharge li b {
+    color: #959595;width: 90%;
+    line-height: 30px;display: inline-block;
+    background: #fff;border-radius: 5px;
+    text-align: center;border: 1px solid #EAEAEA;
+    box-shadow: 1px 1px 1px #EDEDED; position: relative;
+}
+.z-sel s, .z-initsel s, .z-Btn-Close b, .z-Btn-Rotation b, .z-Btn-del b, .z-Btn-ok b {
+    background: url(__STATIC__/images/member-icon.png?v=130825);background-size: 40px auto;
+}
+.z-bank-Round {
+    width: 16px;
+    height: 16px;border: 1px solid #bbb;
+    background: #fff;border-radius: 16px;
+    display: inline-block;margin-right: 8px;
+    box-shadow: 0 1px 1px #ccc inset;
+}
+.z-bank-Roundsel s {
+    width: 12px;height: 12px;border-radius: 12px;display: inline-block;
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#ff8a00),color-stop(1,#f60));
+}
+.f-Recharge-btn {display: block;}
+a.orgBtn {background: #f60;border: 1px solid #ef6000;}
+.orgBtn {
+    display: block; width: 100%;
+    -webkit-box-sizing: border-box;
+    height: 43px;line-height: 43px;
+    text-align: center; color: #fff!important;
+    border-radius: 5px;font-size: 18px;
+}
+.clearfix { display: block;}
+.z-bank-Roundsel {
+    width: 16px;height: 16px;line-height: 20px;border: 1px solid #ccc;background: #F6F5F5;
+    border-radius: 16px;display: inline-block;text-align: center;margin-right: 8px;
+}
+.g-pay-ment li {
+    line-height: 36px;border-top: 1px dotted #CBCBCB;max-height: 40px;
+    padding: 0 10px;overflow: hidden;margin-top: -1px;
+}
+.clearfix:after {
+    content: ".";display: block;height: 0;clear: both;visibility: hidden;
+}
+.orange {color: #f60;}
+</style>
+<body>
+<header>
+  <div class="tab_nav">
+    <div class="header">
+      <div class="h-left"><a class="sb-back" href="{:U('User/index')}" title="返回"></a></div>
+      <div class="h-mid">升级团长</div>
+      <div class="h-right" style="line-height:45px;color: white; ">
+          <a href="{:U(shengji_log)}" style="color: white; ">升级记录</a>
+      </div>
+    </div>
+  </div>
+</header>
+<include file="Public/menu"/>
+<div id="tbh5v0">
+	<div class="g-Total gray9">当前用户等级：<span class="orange arial">{$user.level_name}</div>
+	<form method="post"  id="recharge_form" action="{:U('Mobile/Payment/updateLevel')}">
+	<section class="clearfix g-member">
+           <div class="g-Recharge">
+               <ul id="ulOption">
+                   <li money="{$tpshop_config['basic_update_one']}" data-id="3" style="width: 50%;"><a href="javascript:;"  style="width: 99%;">升级{$levelList[2]['level_name']}<s></s></a></li>
+                   <li money="{$tpshop_config['basic_update_two']}" data-id="4" style="width: 50%;"><a href="javascript:;" style="width: 99%;">升级{$levelList[3]['level_name']}<s></s></a></li>
+                   <li money="{$tpshop_config['basic_update_three']}" data-id="5" style="width: 50%;"><a href="javascript:;" style="width: 99%;">升级{$levelList[4]['level_name']}<s></s></a></li>
+                   <li money="{$tpshop_config['basic_update_four']}" data-id="6" style="width: 50%;"><a href="javascript:;" style="width: 99%;">升级{$levelList[5]['level_name']}<s></s></a></li>
+               </ul>
+           </div>
+		<div class="clearfix mt10 m-round g-pay-ment g-bank-ct">
+               <ul id="ulBankList" class="nav nav-list-sidenav">
+                   <li class="gray6">选择支付方式</li>
+                   <foreach name="paymentList" item="v"  key="k"> 
+                    <li class="clearfix" name="payment_name" style="margin-bottom: 4px; margin-top: 4px;padding: 5px 10px">
+                      <label>
+                          <input type="radio"  value="pay_code={$v['code']}" class="c_checkbox_t" name="pay_radio" <if condition="$order[pay_code] eq $v[code]">checked</if> />
+                          <div class="fl shipping_title">
+	                          <img src="/plugins/{$v['type']}/{$v['code']}/{$v['icon']}" onClick="change_pay(this);" width="110" height="40" />
+                          </div>
+                      </label>
+                    </li>
+                   </foreach> 
+               </ul>
+           </div>
+           <div class="mt10 f-Recharge-btn">
+               <a id="btnSubmit" href="javascript:;" class="orgBtn" onclick="recharge_submit()">确认充值</a>
+           </div>
+           <input type="hidden" name="account" id="add_money" value="">
+            <input type="hidden" name="type" id="type" value="">
+           <input type="hidden" name="order_id" value="{$order.order_id}">
+      </section>
+      </form>
+</div>
+</body>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script type="text/javascript">
+$(function () {
+	//$("input[name='pay_radio']").first().trigger('click');
+     $(".g-Recharge ul li").click(function () {
+        $(this).find('a').addClass('z-sel');
+        $(this).siblings().find('a').removeClass('z-sel');
+        $('.gray6').find('em').html($(this).attr('money'));
+        $('#add_money').val($(this).attr('money'));
+         $('#type').val($(this).attr('data-id'));
+     });
+});
+
+function change_pay(obj)
+{
+    $(obj).parent().siblings('input[name="pay_radio"]').trigger('click');
+}
+
+function recharge_submit(){
+
+	var account = $('#add_money').val();
+
+    var type = $('#type').val();
+    var level = "{$user.level}";
+    if(level<2){
+        layer.msg("正式会员才能升级代理!",{icon:5,time:1500});
+        return false;
+    }
+    if(level>=type){
+        layer.msg("升级代理等级不符合!",{icon:5,time:1500});
+        return false;
+    }
+    if(account=='' ){
+	    layer.msg("请选择要升级的代理!",{icon:5,time:1500});
+		return false;
+	}
+    if(type=='' ){
+        layer.msg("请选择要升级的代理!",{icon:5,time:1500});
+        return false;
+    }
+	var checked = $(".c_checkbox_t:checked").val();
+
+	if(!checked){
+        layer.msg("请选择支付方式",{icon:5,time:1500});
+        return false;
+    }
+//    alert(account);return false;
+    if(checked=='pay_code=cod'){
+	    var money = "{$user.shop_money}";
+	    if(parseFloat(money)<parseFloat(account)){
+            layer.msg("账户余额不足",{icon:5,time:1500});
+            return false;
+        }
+    }
+	$('#recharge_form').submit();
+}
+</script>
+</html>

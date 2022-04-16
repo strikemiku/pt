@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>拼团订单</title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="{:U('User/index')}" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>拼团订单</h3>
+    </div>
+    <div style="height:50px;"></div>
+    <div class="ptdd_list">
+    	<div class="nav">
+    		<ul>
+                <a href="/Mobile/User/pt_order/status/1"><li style="color: black;width: 16%;" <if condition="$status eq 1"> class="on"</if> >拼团中</li></a>
+                <a href="/Mobile/User/pt_order/status/2"><li style="color: black;width: 16%;" <if condition="$status eq 2"> class="on"</if> >拼团成功</li></a>
+                <a href="/Mobile/User/pt_order/status/3"><li style="color: black;width: 16%;" <if condition="$status eq 3"> class="on"</if> >未成团</li></a>
+                <a href="/Mobile/User/pt_order/status/4"><li style="color: black;width: 16%;" <if condition="$status eq 4"> class="on"</if> >拼团失败</li></a>
+    		</ul>
+    	</div>
+    	<div class="con">
+    		<div class="con_one">
+                <foreach name="list" item="v">
+                    <div class="one">
+                        <a href="javascript:void(0);">
+                            <div class="top_con">
+                                <img src="__STATIC__/images/pd_titleimg.png">
+                                <span>{$v['add_time']|date="Y-m-d H:i:s",###}</span>
+                                <em>
+                                    <if condition="$v[status] eq 1">
+                                        拼团中
+                                        <elseif condition="$v[status] eq 2"/>
+                                        拼团成功
+                                        <elseif condition="$v[status] eq 3"/>
+                                        未成团
+                                        <elseif condition="$v[status] eq 4"/>
+                                        拼团失败
+                                    </if>
+                                </em>
+                            </div>
+                            <div class="cen_con">
+                                <img src="{$v['img']}">
+                                <div class="text">
+                                    <span>{$v['goods_name']}</span>
+                                    <p>￥{$v['pt_price']}<em>￥{$v['market_price']}</em></p>
+                                </div>
+                            </div>
+                            <div class="bottom_con">
+                                <p>拼团编号:{$v['home_code']}</p>
+                                <!--<button type="button">复制</button>-->
+                            </div>
+                        </a>
+                    </div>
+                </foreach>
+    		</div>
+    	</div>
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+    
+    
+    <script>
+ $(document).ready(function(){
+        $(".nav li").click(function(){
+        $(".nav li").eq($(this).index()).addClass("on").siblings().removeClass('on');
+		$(".con .con_one").hide().eq($(this).index()).show();
+
+        });
+    });
+ </script> 
+
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<include file="Public/min-header"/>
+<div class="wrapper">
+	<include file="Public/breadcrumb"/>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-header">
+						<nav class="navbar navbar-default">
+							<div class="collapse navbar-collapse">
+								<form class="navbar-form form-inline" action="javascript:void(0);" name="change_System" >
+									<div class="form-group">
+										<input type="button" class="btn btn-primary" id="tijiao" onclick="chushi()" value="初始化">
+										<label class="text-danger">数据化将清空所有会员数据,请谨慎操作</label>
+									</div>
+								</form>
+							</div>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<script type="text/javascript">
+    function chushi()
+    {
+        layer.confirm("初始化数据会将所有会员信息清空<br>请谨慎操作",{btn: ['确定', '取消'],title:"温馨提示"}, function(){
+            $("#tijiao").addClass('disabled');
+            $("#tijiao").val('初始化进行中...');
+            $.ajax({
+                type : 'post',
+                url : '/index.php?m=Admin&c=Tools&a=initialize&t='+Math.random(),
+                dataType : 'json',
+                success : function(res){
+                    if(res.status == 200){
+                        layer.msg(res.msg,{icon:6,time:1500},function () {
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:1500});
+                        return false;
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+                }
+            })
+        });
+    }
+    function gobackup(obj){
+        var a = [];
+        $('input[name*=backs]').each(function(i,o){
+            if($(o).is(':checked')){
+                a.push($(o).val());
+            }
+        });
+        if(a.length==0){
+            layer.alert('请选择要备份的数据表', {icon: 2});  //alert('请选择要备份的数据表');
+            return;
+        }else{
+            $(obj).addClass('disabled');
+            $(obj).html('备份进行中...');
+            $.ajax({
+                type :'post',
+                url : "{:U('Admin/Tools/backup')}",
+                datatype : 'json',
+                data : {tables:a},
+                success : function(data){
+                    data = eval('('+data+')');
+                    if(data.stat=='ok'){
+                        layer.alert(data.msg, {icon: 2});  // alert(data.msg);
+                    }else{
+                        layer.alert(data.msg, {icon: 2});  //alert(data.msg);
+                    }
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

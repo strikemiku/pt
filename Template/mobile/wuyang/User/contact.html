@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>联系我们</title>
+    <style>
+        .item_contents{
+            position: relative;
+            color: #000000;
+            background-size: auto 15px;
+            padding-right: 30px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1)" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>联系我们</h3>
+    </div>
+    <div style="height:45px;"></div>
+    <div class="ziliao_con">
+        <ul class="item_list ziliao">
+            <if condition="$config.shop_info_kefu_mobile neq null">
+                <li class="item" style="margin-top: 10px;">
+                    <a class="item_order_link clearfixd" href="javascript:voic(0)">
+                        <i class="iconfont icon_tel fr_l"><img src="__STATIC__/images/geren_img05.png"/></i>
+                        <div class="item_contents">
+                            咨询热线:&nbsp;&nbsp;&nbsp;{$config.shop_info_kefu_mobile}
+                        </div>
+                    </a>
+                </li>
+            </if>
+            <if condition="$config.shop_info_kefu_qq neq null">
+                <li class="item" style="margin-top: 10px;">
+                    <a class="item_order_link clearfixd" href="javascript:voic(0)">
+                        <i class="iconfont icon_nicheng  fr_l"><img src="__STATIC__/images/geren_img02.png"/></i>
+                        <div class="item_contents">
+                            QQ客服:&nbsp;&nbsp;&nbsp;{$config.shop_info_kefu_qq}
+                        </div>
+                    </a>
+                </li>
+            </if>
+            <if condition="$config.shop_info_kefu_weixin neq null">
+                <li class="item" style="margin-top: 10px;">
+                    <a class="item_order_link clearfixd" href="javascript:voic(0)">
+                        <i class="iconfont icon_touxiang fr_l"><img src="__STATIC__/images/geren_img09.png"/></i>
+                        <div class="item_contents">
+                            微信客服:&nbsp;&nbsp;&nbsp;{$config.shop_info_kefu_weixin}
+                        </div>
+                    </a>
+                </li>
+            </if>
+        </ul>
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+</body>
+</html>

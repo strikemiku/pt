@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title>我的团队</title>
+    <style>
+        .team_nav{ width:100%; background:#fff; box-shadow:0 0 5px rgba(0,0,0,0.1); position:relative; z-index:9; margin-top:15px;}
+        .team_nav ul::after{ content:""; display:block; clear:both;}
+        .team_nav ul li{ width:50%; float:left; padding:15px 0; text-align:center; font-size:14px; color:#333;}
+        .team_nav ul li.on{border-bottom: 2px solid #e02e24;color:#e02e24;box-sizing:border-box;}
+        .team_con .con{ display:none;}
+    </style>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1);" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>我的团队</h3>
+
+    </div>
+    <div style="height:45px;"></div>
+
+    <!--<div class="team_nav">-->
+        <!--<ul>-->
+            <!--<li class="on">-->
+                <!--直推会员-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--间推会员-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <div class="team_con">
+        <div class="con" style="display:block;">
+            <div class="tuandui_container">
+                <dl>
+                    <!--<dt class="clearfixd">
+                        <span style="width: 100%">团队人数:{$user['team']}人</span>
+
+                    </dt>-->
+                    <dt class="clearfixd">
+                        <span style="width:33.33%;color: red;">会员姓名</span>
+                        <span style="width: 33.33%;color: red;">手机号</span>
+                        <span style="width: 33.33%;color: red;">注册时间</span>
+                    </dt>
+                    <foreach name="list" item="v">
+                        <dd class="clearfixd">
+                            <span style="width: 33.33%">{$v['nickname']}</span>
+                            <span style="width: 33.33%">{$v['mobile']}</span>
+                            <span style="width: 33.33%">{$v['reg_time']|date='Y-m-d',###}</span>
+                        </dd>
+                    </foreach>
+                </dl>
+            </div>
+        </div>
+
+        <div class="con">
+            <div class="tuandui_container">
+                <dl>
+                    <dt class="clearfixd">
+                        <span style="width:33.33%">会员姓名</span>
+                        <span style="width: 33.33%">手机号</span>
+                        <span style="width: 33.33%">注册时间</span>
+                    </dt>
+                    <foreach name="relation" item="vv">
+                        <dd class="clearfixd">
+                            <span style="width: 33.33%">{$vv['nickname']}</span>
+                            <span style="width: 33.33%">{$vv['mobile']}</span>
+                            <span style="width: 33.33%">{$vv['reg_time']|date='Y-m-d',###}</span>
+                        </dd>
+                    </foreach>
+                </dl>
+            </div>
+
+        </div>
+
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+<script>
+    // author :凌寒 2018年5月17日13:53:02 执行充值方法
+    function jihuo(user_id,is_lock)
+    {
+        if(user_id == ''){
+            layer.msg('会员不存在!',{icon:5,time:1500});
+            return false;
+        }
+        if(is_lock == 1){
+            layer.msg("会员已激活!",{icon:5,time:1500});
+            return false;
+        }
+
+        layer.confirm('您确定要激活该用户吗?',{btn: ['激活', '取消'],title:"温馨提示"}, function(){
+            $.ajax({
+                type : 'post',
+                url : '/index.php?m=Mobile&c=User&a=team&t='+Math.random(),
+                data : {jh_user_id:user_id},
+                dataType : 'json',
+                success : function(res){
+                    if(res.status == 200){
+                        layer.msg(res.msg,{icon:6,time:1500},function () {
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:1500});
+                        return false;
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+                }
+            })
+        });
+    }
+</script>
+<script>
+    $(document).ready(function(){
+        $(".team_nav li").click(function(){
+            $(".team_nav li").eq($(this).index()).addClass("on").siblings().removeClass('on');
+            $(".team_con .con").hide().eq($(this).index()).show();
+
+        });
+    });
+</script>
+</body>
+</html>

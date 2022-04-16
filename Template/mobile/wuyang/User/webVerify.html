@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>网站访问认证</title>
+</head>
+<style>
+*{ padding:0; margin:0; font-size:14px; font-family:"microsoft yahei"}
+a{ text-decoration:none; color:#333;}
+body{ background:#f8f8f8}
+li{ list-style:none;}
+.clear:after{ content:"";display: block;height:0;clear:both;}
+.pay-iphone{ margin: 1rem 5%; color: #4b4b4b;}
+.payment{ width: 90%; margin: 0 5%; overflow: hidden; height: 50px; border: 1px solid #ddd; background: #fff; border-radius: 5px;}
+.payment li{ width:50%; float:left; height: 50px; border-right: 1px solid #ddd; float: left;}
+.payment span{ width:50%; float:right; display:block; height:50px;}
+.payment input{ border: 0; width: 100%; line-height: 50px; text-align: center;}
+.forget_kf{ margin:.5rem 5%; color: #4b4b4b; text-align:right;}.forget_kf a{ color:#38a1fa}
+.confirm{ background-color:#ff711c; color:#fff; border-radius:3px; width:92%; height:40px; line-height:40px; text-align:center; font-size:16px; margin-left:4%;margin-top:14px; border:none; font-family: 'Microsoft YaHei',Arial, Helvetica, sans-serif;}
+</style>
+<body>
+
+  <div class="pay-iphone">请输入验证码后继续访问：</div>
+  <ul class="payment">
+	    	<li><input type="text" onkeyup='this.value=this.value.replace(/\D/gi,"")'></li>
+            <span><img id="imgVerify" style="cursor:pointer;" src="{:U('Admin/Admin/vertify')}" onclick="fleshVerify();"/></span>
+  </ul>
+  <input type="button" class="confirm" value="点击继续访问网站">
+
+  <script>
+      function fleshVerify(){
+          //重载验证码
+          $('#imgVerify').attr('src','/index.php?m=Admin&c=Admin&a=vertify&r='+Math.floor(Math.random()*100));
+      }
+  </script>
+</body>
+</html>

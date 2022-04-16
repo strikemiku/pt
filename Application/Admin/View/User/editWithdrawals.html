@@ -1,0 +1,186 @@
+<include file="Public/min-header"/>
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content">
+        <!-- Main content -->
+        <div class="container-fluid">
+            <div class="pull-right">
+
+                <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default" data-original-title="返回"><i class="fa fa-reply"></i></a>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i> 提现申请</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_tongyong" data-toggle="tab">申请用户</a></li>
+                    </ul>
+                    <!--表单数据-->
+                    <form method="post" id="editForm">
+                        <!--通用信息-->
+                    <div class="tab-content">                 	  
+                        <div class="tab-pane active" id="tab_tongyong">
+                           
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>用户id</td>
+                                    <td>
+                                        <a href="{:U('Admin/user/detail',array('id'=>$data[user_id]))}">{$data[user_id]}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>用户名</td>
+                                    <td>
+                                        {$data.user_name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>可提现购物币</td>
+                                    <td>
+                                        {$user.award_money}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>体现方式</td>
+                                    <td>
+                                        <if condition="$data.type eq 1">
+                                            支付宝
+                                            <elseif condition="$data.type eq 2"/>
+                                            微信
+                                            <else/>
+                                            银行卡
+                                        </if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>申请提现金额</td>
+                                    <td>
+                                        {$data.money}
+                                    </td>
+                                </tr>                                       
+
+                                <tr>
+                                    <td>收款账号</td>
+                                    <td>
+                                        {$data.account_bank}
+                                    </td>
+                                </tr>
+                                <if condition="$data.type eq 3">
+                                    <tr>
+                                        <td>申请提现银行</td>
+                                        <td>
+                                            {$data.bank_name}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>银行账户名</td>
+                                        <td>
+                                            {$data.account_name}
+                                        </td>
+                                    </tr>
+                                </if>
+                                <tr>
+                                    <td>申请时间</td>
+                                    <td>
+                                        {$data.create_time|date="Y-m-d H:i",###}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>审核状态</td>
+                                    <td>
+                                        <input type="radio" name="status"   value="0" <if condition="$data[status] eq 0">checked</if>>申请中
+                                        <input type="radio" name="status"   value="1" <if condition="$data[status] eq 1">checked</if>>通过
+                                        <input type="radio" name="status"    value="2" <if condition="$data[status] eq 2">checked</if>>拒绝
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>备注</td>
+                                    <td>
+                                        <textarea rows="4" cols="60" id="remark" name="remark">{$data.remark}</textarea>
+                                        <span id="err_remark" style="color:#F00; display:none;"></span>                                        
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td>提现流程:</td>
+                                    <td>
+                                        1:用户前台申请提现<br/>
+                                        2:管理员审核( 审核成功时自动扣除用户平台余额 ) <br/>
+                                    </td>
+                                </tr>                                   
+                                </tbody>                                
+                                </table>
+                        </div>                           
+                    </div>              
+                    <div class="pull-right">
+                        <input type="hidden" name="id" id="id" value="{$data.id}">
+                        <input type="hidden" name="user_id" id="user_id" value="{$data.user_id}">
+                        <button class="btn btn-primary" data-toggle="tooltip" type="button" onclick="confirm_withdrawals();">审核</button>
+                    </div>
+                 </form><!--表单数据-->
+                </div>
+            </div>
+        </div>    <!-- /.content -->
+    </section>
+</div>
+<script>
+// 确定提现
+function confirm_withdrawals()
+{
+    var id = $.trim($('#id').val());
+    var user_id = $.trim($('#user_id').val());
+    var status =  $("input[name='status']:checked").val();
+
+    var remark = $.trim($('#remark').val());
+    var checked = "{$data[status]}";
+    if(checked!=0){
+        layer.msg("已审核请勿重复审核!",{icon:5,time:1500});
+        return false;
+    }
+    if(status == 0){
+        layer.msg("请选择是否通过审核",{icon:5,time:1500});
+        return false;
+    }
+    if(remark == ''){
+        layer.msg("请填写审核描述",{icon:5,time:1500});
+        return false;
+    }
+    $.ajax({
+        type : 'post',
+        url :"{:U('User/editWithdrawals')}",
+        data : {id:id,user_id:user_id,status:status,remark:remark},
+        dataType : 'json',
+        success : function(res){
+            if(res.status == 200){
+                layer.msg(res.msg,{icon:6,time:1500},function () {
+                    window.location.href = "{:U('User/withdrawals')}";
+                });
+            }else{
+                layer.msg(res.msg,{icon:5,time:1500});
+                return false;
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            layer.msg('网络失败，请刷新页面后重试');
+        }
+    })
+}
+// 拒绝提现    
+function cancel_withdrawals()
+{
+    if(!confirm('确定要拒绝用户提现吗?'))
+        return false;
+
+    if($.trim($('#remark').val()).length == 0)
+    {
+        alert('请填写拒绝备注');
+        return false;
+    }
+    
+    $('#status').val('2');    
+    $('#editForm').submit();
+}
+</script>
+</body>
+</html>

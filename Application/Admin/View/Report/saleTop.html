@@ -1,0 +1,154 @@
+<include file="Public/min-header" />
+<link href="__PUBLIC__/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+<script src="__PUBLIC__/plugins/daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+	<section class="content">
+       <div class="row">
+       		<div class="col-xs-12">
+	       		<div class="box">
+	             <div class="box-header">
+	             <div class="row">
+  					<div class="col-md-10">
+  						<form action="" method="post">
+							<div class="col-xs-2">
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" name="goods_name" value="{$_REQUEST['goods_name']}" placeholder="请输入商品名称" id="input-mobile" class="form-control">
+										<!--<span class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></span>-->
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-group">
+									<div class="input-group">
+										<select class="form-control" id="price" name="price">
+											<option value="">请选择价格</option>
+											<foreach name="price" item="v">
+												<option value="{$v['price']}" <if condition="$_REQUEST['price'] eq v['price']">selected</if>>{$v['price']}</option>
+											</foreach>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-primary" id="button-filter search-order" type="submit"><i class="fa fa-search"></i> 筛选</button>
+							</div>
+                  		 </form>
+                 	</div>
+		  		 </div>
+	             </div><!-- /.box-header -->
+	             <div class="box-body">
+	           	 <div class="row">
+	            	<div class="col-sm-12">
+		              <table id="list-table" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+		                 <thead>
+		                   <tr role="row">
+							   <td class="text-center">
+								   <a href="javascript:sort('goods_id');">ID</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('goods_name');">商品名称</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('cat_id');">价格</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('sales_sum');">房间数</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">拼团总数</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">拼团进行中</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">拼团成功</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">拼团失败</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">销售额</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">本金退回</a>
+							   </td>
+							   <td class="text-center">
+								   <a href="javascript:sort('shop_price');">红包积分</a>
+							   </td>
+		                   </tr>
+		                 </thead>
+						<tbody>
+                         <foreach name="list" item="vo" key="k" >
+                          <tr >
+                             <td class="text-center">{$k+1}</td>
+                             <td class="text-center">{$vo.goods_name|getSubstr=0,15}</td>
+		                     <td class="text-center">{$vo.shop_price}</td>
+		                     <td class="text-center">{$vo.home_num}</td>
+		                     <td class="text-center">{$vo.total_pt_num}</td>
+							  <td class="text-center">{$vo.total_do_pt_num}</td>
+		                     	<td class="text-center">{$vo.total_win_pt_num}</td>
+							  <td class="text-center">{$vo.total_false_pt_num}</td>
+							  <td class="text-center">{$vo.total_sale_num}</td>
+							  <td class="text-center">{$vo.total_back_num}</td>
+							  <td class="text-center">{$vo.total_back_jifen}</td>
+		                   </tr>
+		                  </foreach>
+		                   </tbody>
+		                 <tfoot>
+		                 </tfoot>
+		               </table>
+	               </div>
+	          </div>
+              <div class="row">
+              	    <div class="col-sm-6 text-left"></div>
+                    <div class="col-sm-6 text-right">{$page}</div>
+              </div>
+	          </div>
+	        </div>
+       	</div>
+       </div>
+   </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#start_time').daterangepicker({
+		format:"YYYY-MM-DD",
+		singleDatePicker: false,
+		showDropdowns: true,
+		minDate:'2016-01-01',
+		maxDate:'2030-01-01',
+		startDate:'2016-01-01',
+        showWeekNumbers: true,
+        timePicker: false,
+        timePickerIncrement: 1,
+        timePicker12Hour: true,
+        ranges: {
+           '今天': [moment(), moment()],
+           '昨天': [moment().subtract('days', 1), moment().subtract('days', 1)],
+           '最近7天': [moment().subtract('days', 6), moment()],
+           '最近30天': [moment().subtract('days', 29), moment()],
+           '上一个月': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        opens: 'right',
+        buttonClasses: ['btn btn-default'],
+        applyClass: 'btn-small btn-primary',
+        cancelClass: 'btn-small',
+	    locale : {
+            applyLabel : '确定',
+            cancelLabel : '取消',
+            fromLabel : '起始时间',
+            toLabel : '结束时间',
+            customRangeLabel : '自定义',
+            daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+            monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月' ],
+            firstDay : 1
+        }
+	});
+
+});
+</script>
+</body>
+</html>

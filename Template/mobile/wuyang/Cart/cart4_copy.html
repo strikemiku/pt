@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title>订单支付</title>
+    <style>
+        #type{
+            height: 40px;
+            color: #666;
+            font-size: 14px;
+            line-height: 40px;
+            border-radius: 3px;
+            padding: 0 10px;
+            border: 1px solid #e6e6e6;
+            width: 100%;
+        }
+        .successtijiao {
+            border-bottom: #ddd 1px solid;
+            font-size: 16px;
+            color: #9EC069;
+            font-weight: bold;
+            background: url(/Public/images/flow/iconfont-duihao.png) no-repeat 10px center;
+            background-size: 30px;
+            text-indent: 60px;
+            height: 50px;
+            line-height: 50px;
+            margin-bottom: 15px;
+        }
+        .chongzhi_jiner .ct-list li {
+            line-height: 40px;
+            padding: 0 15px;
+            font-size: 14px;
+        }
+        .pay_type{
+            color: #666;
+            font-size: 14px;
+            line-height: 40px;
+        }
+        .pay_type li{
+            font-size: 16px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1);" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>订单支付</h3>
+    </div>
+
+    <div style="height:45px;"></div>
+
+    <div class="chongzhi_con">
+        <div class="chongzhi_jiner clearfixd">
+            <h4 class="successtijiao">订单已经提交成功！</h4>
+            <ul class="ct-list">
+                <li >订单编号：<em>{$order['order_sn']}</em></li>
+                <li>应付金额：<em>&yen;{$order['order_amount']}</em></li>
+                <if condition="$order['order_jifen'] gt 0">
+                    <li>应付积分：<em>{$order['order_jifen']}</em></li>
+                </if>
+            </ul>
+        </div>
+        <div class="chongzhi_jiner clearfixd">
+            <div class="jine_l fr_l">支付方式：</div>
+            <ul class="fr_l pay_type">
+                <li style="float: left">
+                    收款码<input type="radio" name="pay_type" value="1" class="pay_check" checked>
+                </li>
+                <eq name="is_recommend" value="0">
+                    <li style="float: left">
+                        积分<input type="radio" name="pay_type" value="2" class="pay_check">
+                    </li>
+                    <li style="float: left">
+                        积分+余额<input type="radio" name="pay_type" value="3" class="pay_check">
+                    </li>
+                </eq>
+            </ul>
+        </div>
+        <div id="pay_money" style="display: none">
+            <div class="chongzhi_jiner clearfixd">
+                平台余额:积分=1:{$config['basic_money_jifen']}<br>
+                您当前积分:{$user[pay_points]|default='0'}.余额:{$user[user_money]|default='0'}元
+            </div>
+            <div class="chongzhi_jiner clearfixd">
+                <div class="jine_l fr_l">使用积分：</div>
+                <div class="jine_r fr_r"><input type="text" id="jifen" name="jifen" value="" placeholder="请输入使用积分数量"/></div>
+            </div>
+        </div>
+        <div id="pay_jifen" style="display: none">
+            <div class="chongzhi_jiner clearfixd">
+                平台余额:积分=1:{$config['basic_money_jifen']}<br>
+                您当前积分:{$user[pay_points]|default='0'}
+            </div>
+        </div>
+        <div id="pay_code">
+            <div class="chongzhi_jiner clearfixd">
+                <div class="jine_l fr_l">&nbsp;收&nbsp;款&nbsp;码：</div>
+                <div class="jine_r fr_r">
+                    <select name="type" id="type">
+                        <option value="0">请选择收款码</option>
+                        <option value="1">支付宝</option>
+                        <option value="2">微信</option>
+                        <!--<option value="3">银行卡</option>-->
+                    </select>
+                </div>
+            </div>
+            <div class="chongzhi_jiner clearfixd" id="zhifubao" style="display: none;">
+                <div class="jine_l fr_l">支付宝：</div>
+                <div class="jine_r fr_r">
+                    <img src="{$config['shop_info_zfb_img']}" alt="" style="width: 250px;height: 250px;">
+                </div>
+            </div>
+            <div class="chongzhi_jiner clearfixd" id="wx" style="display: none;">
+                <div class="jine_l fr_l">微信：</div>
+                <div class="jine_r fr_r" >
+                    <img src="{$config['shop_info_wx_img']}" alt="" style="width: 250px;height: 250px;">
+                </div>
+            </div>
+
+            <!--<div style="display: none" id="bank">-->
+            <!--<div class="chongzhi_jiner clearfixd" >-->
+            <!--<div class="jine_l fr_l">收款姓名：</div>-->
+            <!--<div class="jine_r fr_r"><input type="text" id="bank_card_name" name="bank_card_name" readonly value="{$config['shop_info_com_bank_card_name']}" placeholder="请输入银行名称"/></div>-->
+            <!--</div>-->
+            <!--<div class="chongzhi_jiner clearfixd" >-->
+            <!--<div class="jine_l fr_l">开户行：</div>-->
+            <!--<div class="jine_r fr_r"><input type="text" id="bank_name" name="bank_name" readonly value="{$config['shop_info_com_bank_kai']}" placeholder="请输入开户名"/></div>-->
+            <!--</div>-->
+            <!--<div class="chongzhi_jiner clearfixd" >-->
+            <!--<div class="jine_l fr_l">收款银行：</div>-->
+            <!--<div class="jine_r fr_r"><input type="text" id="bank_title" name="bank_title" readonly value="{$config['shop_info_com_bank_name']}" placeholder="请输入银行名称"/></div>-->
+            <!--</div>-->
+            <!--<div class="chongzhi_jiner clearfixd" >-->
+            <!--<div class="jine_l fr_l">收款卡号：</div>-->
+            <!--<div class="jine_r fr_r"><input type="text" id="bank_card" name="bank_card" readonly value="{$config['shop_info_com_bank_card']}" placeholder="请输入银行卡号"/></div>-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <div class="chongzhi_jiner clearfixd">
+                <div class="jine_l fr_l">打款截图：</div>
+                <div class="jine_r fr_r">
+                    <input type="hidden" name="dakuan_img" value="" id="data_photo" />
+                    <div class="upload uptou">
+                        <!--    照片添加    -->
+                        <div class="z_photo">
+                            <div class="z_file">
+                                <input type="file" name="file" id="file" value="" accept="image/*" multiple  onchange="up_img()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="chongzhi_jiner clearfixd">
+            <div class="jine_l fr_l">交易密码：</div>
+            <div class="jine_r fr_r"><input type="password" id="twopwd" name="twopwd" placeholder="请输入交易密码"/></div>
+        </div>
+        <!--<div class="chongzhi_jiner clearfixd">-->
+        <!--提示:充值手续费为<span style="color:red;">{$config['basic_feiyong']}%</span>.-->
+        <!--</div>-->
+        <div class="chongzhi_btn"><input type="submit"  onClick="checkSubmit()" value="立即支付"/></div>
+    </div>
+
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+<script>
+    $(".pay_check").change(function () {
+        var type = $(this).val();
+        if(type==1){
+            $("#pay_jifen").css('display','none');
+            $("#pay_money").css('display','none');
+            $("#pay_code").css('display','block');
+
+        }else if(type==3){
+            $("#pay_code").css('display','none');
+            $("#pay_jifen").css('display','none');
+            $("#pay_money").css('display','block');
+        }else{
+            $("#pay_code").css('display','none');
+            $("#pay_money").css('display','none');
+            $("#pay_jifen").css('display','block');
+        }
+    });
+    $("#type").change(function () {
+        var type = $(this).val();
+        if(type==1){
+            $("#zhifubao").css('display','block');
+            $("#wx").css('display','none');
+            $("#bank").css('display','none');
+
+        }else if(type==2){
+            $("#zhifubao").css('display','none');
+            $("#wx").css('display','block');
+            $("#bank").css('display','none');
+        }else{
+            $("#zhifubao").css('display','none');
+            $("#wx").css('display','none');
+            $("#bank").css('display','block');
+        }
+    });
+    //上传头像
+    function up_img(){
+
+        var data = new FormData();
+        $.each($('#file')[0].files, function(i, files) {
+            data.append('file', files);
+        });
+        $.ajax({
+            type: "POST",
+            url: "{:U('User/up_img')}",
+            data: data,
+            cache: false,
+            contentType: false,    //不可缺
+            processData: false,    //不可缺
+            dataType:'json',
+            success: function(data) {
+                if(data.code==200){
+                    $('#upload_img').attr('src',data.msg);
+                    $('#data_photo').val(data.msg);
+                    $(".z_file").css( "background" ,"url("+data.msg+")");
+                    $(".z_file").css( "background-size" ,"100% 100%");
+                }else if(data.code == 400){
+                    layer.msg(data.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('上传失败，请检查网络后重试');
+            }
+        });
+    }
+    // author :凌寒 2018年5月17日13:53:02 执行充值方法
+    function checkSubmit()
+    {
+        var pay_check = $.trim($('.pay_check:checked').val());
+        var type = $.trim($('#type').val());
+        var zfb = $.trim($('#zfb').val());
+        var weixin = $.trim($('#weixin').val());
+        var bank_title = $.trim($('#bank_title').val());
+        var bank_card = $.trim($('#bank_card').val());
+        var bank_name = $.trim($('#bank_name').val());
+        var bank_card_name = $.trim($('#bank_card_name').val());
+        var dakuan_img = $.trim($('#data_photo').val());
+        var twopwd = $.trim($('#twopwd').val());
+        var jifen = $.trim($('#jifen').val());
+        var order_id = "{$order.order_id}";
+        if(pay_check==1){
+            if(type==0){
+                layer.msg("请选择收款码方式",{icon:5,time:1500});
+                return false;
+            }
+            if(dakuan_img == ''){
+                layer.msg("请上传打款截图",{icon:5,time:1500});
+                return false;
+            }
+        }else if(pay_check==3){
+            if(jifen == ''){
+                layer.msg("请输入积分数量",{icon:5,time:1500});
+                return false;
+            }
+            if(jifen <= 0){
+                layer.msg("请输入正确积分数量",{icon:5,time:1500});
+                return false;
+            }
+        }
+        if(twopwd == ''){
+            layer.msg('请输入安全密码!',{icon:5,time:1500});
+            return false;
+        }
+
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=Cart&a=cart4&t='+Math.random(),
+            data : {order_id:order_id,pay_check:pay_check,type:type,zfb:zfb,weixin:weixin,bank_title:bank_title,bank_card:bank_card,bank_name:bank_name,bank_card_name:bank_card_name,twopwd:twopwd,dakuan_img:dakuan_img,jifen:jifen},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        if(pay_check==1){
+                            location.href="/Mobile/User/order_list/type/WAITPAY";
+                        }else{
+                            location.href="/Mobile/User/order_list/type/WAITSEND";
+                        }
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+</body>
+</html>

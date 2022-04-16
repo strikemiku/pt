@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+	<script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+	<script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="__STATIC__/js/web.js"></script>
+	<script src="__STATIC__/js/layer/layer.js"></script>
+	<title>提交订单</title>
+	<style>
+		.goods-list-title {
+			height: 50px;
+			line-height: 50px;
+			background: url(/Template/mobile/wuyang/Static/new/images/dianpu.png) no-repeat left center;
+			text-indent: 25px;
+			background-size: 25px 25px;
+			border-bottom: #eee 1px solid;
+			font-family: "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+			font-size: 14px;
+			color: #000000;
+			text-decoration: none;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+<div class="main-container">
+	<div class="header_list">
+		<a href="javascript:history.back(-1);" class="go_back">
+			<i class="iconfont">&#xe892;</i>
+		</a>
+		<h3>提交订单</h3>
+
+	</div>
+
+	<div style="height:45px;"></div>
+	<section class="aui-address-content">
+		<!--<div class="aui-address-box">-->
+		<!--<div class="aui-out">-->
+		<!--<a href="#">新建收货地址</a>-->
+		<!--</div>-->
+		<!--</div>-->
+		<!--<div class="aui-address-box">-->
+		<!--<div class="aui-address-box-list">-->
+		<!--<a href="#" class="aui-address-box-default">-->
+		<!--<ul>-->
+		<!--<li>-->
+		<!--<strong>李嘉华 185****6698</strong>-->
+		<!--<span class="aui-tag aui-tag-default" id="aui-default">默认</span>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<i class="aui-icon aui-icon-address"></i>-->
+		<!--北京海淀区三环到四环之间学院路东里33号楼1门202-->
+		<!--</li>-->
+		<!--</ul>-->
+		<!--</a>-->
+		<!--</div>-->
+		<!--</div>-->
+		<div class="aui-dri">
+
+		</div>
+		<div class="aui-list-product-float-item" style="border-bottom: 1px solid #eee;">
+			<div class="goods-list-title"> 商品详情</div>
+		</div>
+
+		<div class="aui-list-product-float-item" style="border-bottom: 1px solid #eee;">
+			<a href="javascript:void(0);" class="aui-list-product-fl-item">
+
+				<div class="aui-list-product-fl-img">
+					<img src="__STATIC__/images/sf-10.jpg" alt="">
+				</div>
+				<div class="aui-list-product-fl-text">
+					<h3 class="aui-list-product-fl-title">{$goods.goods_name}</h3>
+					<div class="aui-list-product-fl-mes">
+						<div>
+							<span class="aui-list-product-item-price">
+								<em>¥</em>
+								{$goods.market_price}
+							</span>
+						</div>
+						<div class="aui-btn-purchase">
+							<span>x1</span>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="aui-address-well">
+			<!--<div class="jine_radio" style="padding:10px 15px;">-->
+			<!--<ul class="clearfixd">-->
+			<!--<li class="clearfixd">-->
+			<!--<input type="radio" name="radio1" value="" checked/>-->
+			<!--<i></i>-->
+			<!--<span>余额支付</span>-->
+			<!--</li>-->
+
+			<!--<li  class="clearfixd">-->
+			<!--<input type="radio" name="radio1" value=""/>-->
+			<!--<i></i>-->
+			<!--<span>积分支付</span>-->
+			<!--</li>-->
+			<!--</ul>-->
+			<!--</div>-->
+			<a href="javascript:void(0)" class="aui-address-cell aui-fl-arrow aui-fl-arrow-clear">
+				<div class="aui-address-cell-bd">
+					<h3>商品总额:</h3>
+				</div>
+				<div class="aui-address-cell-ft">
+					<span class="aui-red">￥{$goods.market_price}</span>
+				</div>
+			</a>
+		</div>
+
+	</section>
+
+	<div  style="height:55px;"></div>
+	<div class="gouwuche_bottom clearfixd">
+		<div class="gouwu_bottom_l fr_l">
+			<p>实付金额：<span>￥{$goods.market_price}</span></p>
+		</div>
+		<div class="gouwu_bottom_r fr_r">
+			<a href="javascript:void(0);" onclick="buy()">立即支付</a>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+	function buy() {
+	    var goods_id = "{$goods.goods_id}";
+		var goods_price = "{$goods.market_price}";
+		goods_price = parseFloat(goods_price);
+		var user_money = "{$user.user_money}";
+		user_money = parseFloat(user_money);
+
+		if(user_money < goods_price){
+            layer.msg('余额不足!!!',{icon:5,time:1500});
+            return false;
+		}else{
+            layer.open({
+                title:'温馨提示',
+                content: '你确定要使用余额支付吗?',
+                btn: ['支付', '取消'],
+                shadeClose: false,
+                yes: function () {
+                    $.ajax({
+                        type : 'post',
+                        url : "{:U('Cart/tijiao')}",
+                        data : {goods_id:goods_id},
+                        dataType : 'json',
+                        success : function(res){
+                            if(res.status == 200){
+                                layer.msg(res.msg,{icon:6,time:1500},function () {
+                                    location.href="/Mobile/User/jiaoyi/type/1";
+                                });
+                            }else{
+                                layer.msg(res.msg,{icon:5,time:1500});
+                                return false;
+                            }
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+                        }
+                    })
+                },
+                no: function () {
+                    layer.closeAll();
+                }
+            });
+		}
+
+    }
+</script>
+</html>

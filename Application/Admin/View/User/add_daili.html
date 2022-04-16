@@ -1,0 +1,252 @@
+<include file="Public/min-header"/>
+<div class="wrapper">
+    <!-- Content Header (Page header) -->
+    <include file="Public/breadcrumb"/>
+    <section class="content">
+        <!-- Main content -->
+        <!--<div class="container-fluid">-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="pull-right">
+                        <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default"
+                           data-original-title="返回"><i class="fa fa-reply"></i></a>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-list"></i> 添加代理</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!--<form action="" method="post" >-->
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td class="col-sm-2">会员姓名:</td>
+                                    <td><input type="text" class="form-control" name="nickname" value=""></td>
+                                    <td></td>
+                                </tr>
+                                <!--<tr>-->
+                                    <!--<td class="col-sm-2">登录账号:</td>-->
+                                    <!--<td><input type="text" class="form-control" name="user_code" value=""></td>-->
+                                    <!--<td>前台登录账号,必填</td>-->
+                                <!--</tr>-->
+                                <tr>
+                                    <td>手机号:</td>
+                                    <td>
+                                        <input type="text" class="form-control" name="mobile">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>登陆密码:</td>
+                                    <td><input type="password" class="form-control" name="password"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>安全密码:</td>
+                                    <td><input type="password" class="form-control" name="twopassword"></td>
+                                </tr>
+                                <!--<tr>-->
+                                    <!--<td>身份证号:</td>-->
+                                    <!--<td><input type="text" class="form-control" name="id_card"></td>-->
+                                    <!--<td></td>-->
+                                <!--</tr>-->
+                                <tr>
+                                    <td>省/市/区地址：</td>
+                                    <td colspan="2">
+                                        <div class="col-xs-2">
+                                            <select onchange="get_city(this)" id="province" name="province" class="form-control" style="margin-left:-15px;">
+                                                <option value="0">选择省份</option>
+                                                <volist name="province" id="vo">
+                                                    <option value="{$vo.id}"<if condition="$config[province] eq $vo[id]">selected</if>>{$vo.name}</option>
+                                                </volist>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <select onchange="get_area(this)" id="city" name="city" class="form-control">
+                                                <option value="0">选择城市</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <select id="district" name="district" class="form-control">
+                                                <option value="0">选择区域</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>详细地址:</td>
+                                    <td><input type="text" class="form-control" name="address" value=""></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-info" onClick="checkSubmit()">
+                                            <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                                        </button>
+                                        <input type="reset" class="btn btn-default pull-right" value="重置">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        <!--</form>-->
+
+                    </div>
+                </div>
+            </div>
+        </div>    <!-- /.content -->
+    </section>
+</div>
+<script>
+    /**
+     * 获取城市
+     * @param t  省份select对象
+     */
+    function get_city(t){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        $('#twon').empty().css('display','none');
+        var url = '/index.php?m=Home&c=Api&a=getRegion&level=2&parent_id='+ parent_id;
+        $.ajax({
+            type : "GET",
+            url  : url,
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择城市</option>'+ v;
+                $('#city').empty().html(v);
+            }
+        });
+    }
+    /**
+     * 获取地区
+     * @param t  城市select对象
+     */
+    function get_area(t){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        var url = '/index.php?m=Home&c=Api&a=getRegion&level=3&parent_id='+ parent_id;
+        $.ajax({
+            type : "GET",
+            url  : url,
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择区域</option>'+ v;
+                $('#district').empty().html(v);
+            }
+        });
+    }
+    // 获取最后一级乡镇
+    function get_twon(obj){
+        var parent_id = $(obj).val();
+        var url = '/index.php?m=Home&c=Api&a=getTwon&parent_id='+ parent_id;
+        $.ajax({
+            type : "GET",
+            url  : url,
+            success: function(res) {
+                if(parseInt(res) == 0){
+                    $('#twon').empty().css('display','none');
+                }else{
+                    $('#twon').css('display','block');
+                    $('#twon').empty().html(res);
+                }
+            }
+        });
+    }
+    function check_code(user_code) {
+
+        var reg =/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,18}$/;
+
+        if(reg.test(user_code)) {
+            return true;
+        }else{
+            return false;
+        };
+
+    }
+    function checkMobile(tel) {
+        var reg = /(^1[3|4|5|7|8|9][0-9]{9}$)/;
+        if (reg.test(tel)) {
+            return true;
+        }else{
+            return false;
+        };
+    }
+    function checkSubmit() {
+        var nickname = $('input[name="nickname"]').val();
+        var mobile = $('input[name="mobile"]').val();
+        var password = $('input[name="password"]').val();
+        var twopassword = $('input[name="twopassword"]').val();
+        if (nickname == '') {
+            layer.msg("请输入会员姓名", {icon: 5});
+            return false;
+        }
+        if (mobile == '') {
+            layer.msg("请输入手机号", {icon: 5});
+            return false;
+        }
+        if (!checkMobile(mobile)) {
+            layer.msg("手机号格式不正确", {icon: 5});
+            return false;
+        }
+        if (password == '') {
+            layer.msg("密码不能为空", {icon: 5});
+            return false;
+        }
+        if (twopassword == '') {
+            layer.msg("安全密码不能为空", {icon: 5});
+            return false;
+        }
+        var province = $.trim($('#province option:selected').val());
+        var city = $.trim($('#city option:selected').val());
+        var district = $.trim($('#district option:selected').val());
+        var address = $('input[name="address"]').val();
+        if(province == '0') {
+            layer.msg('请选择省份',{icon:5,time:1500});
+            return false;
+        }
+        if(city == '0') {
+            layer.msg('请选择城市',{icon:5,time:1500});
+            return false;
+        }
+        if(district == '0') {
+            layer.msg('请选择区域',{icon:5,time:1500});
+            return false;
+        }
+        if(address == '') {
+            layer.msg('请输入详细地址',{icon:5,time:1500});
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Admin&c=User&a=add_daili',
+            data : {nickname:nickname,mobile:mobile,password:password,twopassword:twopassword,province:province,city:city,district:district,address:address},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href="/Admin/User/daili";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

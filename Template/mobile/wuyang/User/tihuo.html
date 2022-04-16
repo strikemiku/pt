@@ -1,0 +1,165 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta name="Generator" content="tpshop" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>申请提货</title>
+    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="__STATIC__/old/css/public.css">
+    <link rel="stylesheet" href="__STATIC__/old/css/user.css">
+
+    <script src="__PUBLIC__/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/old/js/layer.js" ></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
+</head>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">申请提货</div>
+            <!--<div class="h-right" >-->
+                <!--<a href="javascript:;" style="position: absolute;right: 10px;top: 0;color: white;font-size: 14px;line-height: 45px;">提货记录</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+</header>
+<!--<include file="Public/menu"/>		  -->
+<div id="tbh5v0">
+
+    <div class="addressmone">
+
+            <ul >
+                <li>
+                    <span >收货人名</span>
+                    <input name="consignee" id="consignee" type="text" value="{$address.consignee}" maxlength="12" placeholder="请输入收货人姓名" style="font-size: 14px;color: gray;"/>
+                </li>
+                <li>
+                    <span>联系电话</span>
+                    <input type="text" name="mobile" style="font-size: 14px;color: gray;" value="{$address.mobile}" onpaste="this.value=this.value.replace(/[^\d-]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d-]/g,'')" maxlength="15" placeholder="请输入手机号码"/>
+                </li>
+                <li>
+                    <span>提配商品</span>
+                    <select class="province_select" style="width: 65%;font-size: 14px;color: gray;"  name="goods_id" id="goods_id" >
+                        <option value="0">-请选择提配商品-</option>
+                        <volist name="list" id="v">
+                            <option value="{$v.goods_id}">{$v.goods_name}</option>
+                        </volist>
+                    </select>
+                </li>
+                <li>
+                    <span>收货地址</span>
+                    <input name='country' value='1' type="hidden">
+                    <select class="province_select"  name="province" id="province" onChange="get_city(this)" style="width: 20%;padding-right: 1px;font-size: 14px;color: gray;">
+                        <option value="0">请选择</option>
+                        <volist name="province" id="p">
+                            <option <if condition="$address['province'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>
+                        </volist>
+                    </select>
+                    <select name="city" id="city" onChange="get_area(this)" style="width: 20%;padding-right: 1px;font-size: 14px;color: gray;">
+                        <option  value="0">请选择</option>
+                        <volist name="city" id="p">
+                            <option <if condition="$address['city'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>
+                        </volist>
+                    </select>
+                    <select name="district" id="district" onChange="get_twon(this)" style="width: 20%;padding-right: 1px;font-size: 14px;color: gray;">
+                        <option  value="0">请选择</option>
+                        <volist name="district" id="p">
+                            <option <if condition="$address['district'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>
+                        </volist>
+                    </select>
+                    <!--<select class="di-bl fl seauii" name="twon" id="twon" <if condition="$address['twon'] gt 0 ">style="display:block;"<else/>style="display:none;"</if>>-->
+                    <!--<volist name="twon" id="p">-->
+                    <!--<option <if condition="$address['twon'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>-->
+                    <!--</volist>-->
+                    <!--</select>          -->
+                </li>
+                <li>
+                    <span>详细地址</span> <input type="text"  name="address" id="address" placeholder="请输入详细地址" maxlength="100" value="{$address.address}" style="font-size: 14px;color: gray;"/>
+                </li>
+            </ul>
+            <div style=" height:50px"></div>
+            <div class="dotm_btn">
+                <input type="submit" value="申请提配" class="dotm_btn1" onClick="checkSubmit()" style="width: 90%;"/>
+            </div>
+
+    </div>
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    function checkMobile(tel) {
+        var reg = /(^1[3|4|5|6|7|8][0-9]{9}$)/;
+        if (reg.test(tel)) {
+            return true;
+        }else{
+            return false;
+        };
+    }
+    function checkSubmit(){
+        var consignee = $('input[name="consignee"]').val();
+        var mobile = $('input[name="mobile"]').val();
+        var goods_id = $('select[name="goods_id"]').find('option:selected').val();
+        var province = $('select[name="province"]').find('option:selected').val();
+        var city = $('select[name="city"]').find('option:selected').val();
+        var district = $('select[name="district"]').find('option:selected').val();
+        var address = $('input[name="address"]').val();
+
+        if(consignee == ''){
+            layer.msg('请输入收货人姓名!',{icon:5,time:1500});
+            return false;
+        }
+        if(mobile == ''){
+            layer.msg('请输入手机号!',{icon:5,time:1500});
+            return false;
+        }
+        if(!checkMobile(mobile)){
+            layer.msg('手机号格式不正确!',{icon:5,time:1500});
+            return false;
+        }
+        if(goods_id=='0'){
+            layer.msg('请选择提配商品!',{icon:5,time:1500});
+            return false;
+        }
+        if(province=='0'){
+            layer.msg('请选择省份!',{icon:5,time:1500});
+            return false;
+        }
+        if(city=='0'){
+            layer.msg('请选择城市!',{icon:5,time:1500});
+            return false;
+        }
+        if(district=='0'){
+            layer.msg('请选择地区!',{icon:5,time:1500});
+            return false;
+        }
+        if(address==''){
+            layer.msg('请输入详细地址!',{icon:5,time:1500});
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=User&a=do_tihuo&t='+Math.random(),
+            data : {consignee:consignee,mobile:mobile,goods_id:goods_id,province:province,city:city,district:district,address:address},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href="/Mobile/User/order_list";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<include file="Public/min-header"/>
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+	<section class="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">增加分类</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <form action="{:U('Article/categoryHandle')}" method="post" class="form-horizontal">
+                        <div class="box-body">                         
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">分类名称</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" placeholder="名称" class="form-control" style="width:200px" name="cat_name" value="{$cat_info.cat_name}">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">显示</label>
+                                    <div class="col-sm-8">
+                              			<label> <input type="radio" name="show_in_nav" <if condition="$cat_info[show_in_nav] eq 1">checked</if> value="1"> 是</label>
+                              			<label> <input type="radio" name="show_in_nav" <if condition="$cat_info[show_in_nav] eq 0">checked</if> value="0"> 否</label>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="box-footer">
+                        	<input type="hidden" name="act" value="{$act}">
+                        	<input type="hidden" name="cat_id" value="{$cat_info.cat_id}">
+                            <button type="submit" class="btn btn-primary pull-left" style="margin-left: 17.5%;"><i class="icon-ok"></i>提交  </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+</div>  
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>提现记录</title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="{:U('User/jf_tx')}" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>提现记录</h3>
+    </div>
+
+    <div style="height:45px;"></div>
+
+    <div class="tixianmingxi">
+        <dl>
+            <dt class="clearfixd">
+                <span class="fr_l">申请时间</span>
+                <span class="fr_l">提现数量</span>
+                <span class="fr_l">状态</span>
+            </dt>
+            <foreach name="list" item="v">
+                <dd class="clearfixd">
+                    <span class="fr_l">{$v['create_time']|date="Y-m-d",###}</span>
+                    <span class="fr_l">{$v['money']}</span>
+                    <if condition="$v.status eq 0">
+                        <span class="fr_l" style="color: orange">待审核</span>
+                        <elseif condition="$v.status eq 1"/>
+                        <span class="fr_l" style="color: green">提现成功</span>
+                        <elseif condition="$v.status eq 2"/>
+                        <span class="fr_l" style="color: red">提现失败</span>
+                    </if>
+
+                </dd>
+            </foreach>
+        </dl>
+
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+</body>
+</html>

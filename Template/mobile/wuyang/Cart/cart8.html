@@ -1,0 +1,129 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta name="Generator" content="tpshop" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>确认订单</title>
+    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="__STATIC__/new/css/public.css">
+    <link rel="stylesheet" href="__STATIC__/new/css/flow.css">
+    <link rel="stylesheet" href="__STATIC__/new/css/style_jm.css">
+    <script type="text/javascript" src="__STATIC__/new/js/jquery.js"></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
+    <script src="__STATIC__/new/js/common.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <include file="Public:header" />
+</head>
+<body style="background:#f8f8f8;position:relative;">
+<div class="tab_nav">
+    <div class="header">
+        <div class="h-left"> <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a> </div>
+        <div class="h-mid"> 确认订单 </div>
+    </div>
+</div>
+<div class="screen-wrap fullscreen login" style="margin-top:10px; box-shadow:0 0 5px rgba(0,0,0,0.1)">
+    <form name="cart2_form" id="cart2_form" method="post">
+        <section class="content" style="min-height: 294px;">
+            <div class="wrap">
+                <div class="active" style="min-height: 294px;">
+                    <div class="content-buy">
+                        <div class="wrap order-buy">
+                            <a href="{:U('User/address_list',array('source'=>'cart8','maichu_id'=>$info[id]))}">
+                                <section class="address">
+                                    <div class="address-info" >收货人:
+                                        <p class="address-name">{$address.consignee}</p>
+                                        <p class="address-phone">{$address.mobile}</p>
+                                    </div>
+                                    <div class="address-details">收货地址：{$address.pcd}{$address.address}</div>
+                                    <input type="hidden" value="{$address.address_id}" name="address_id" />
+                                </section>
+                            </a>
+                            <section class="order " id="order4">
+                                <section class="order-info" style=" margin-top:0px;">
+                                    <div class="order-list">
+                                        <div class="goods-list-title"> 商品详情</div>
+                                        <ul class="order-list-info">
+                                            <li class="item" >
+                                                <div class="itemPay list-price-nums" id="itemPay17">
+                                                    <p class="price">￥{$info.maichu_money} <br><span style="color: grey;">x&nbsp; {$info.goods_num}</span>  </p>
+                                                    <p class="nums"></p>
+                                                </div>
+                                                <div class="itemInfo list-info" id="itemInfo12">
+                                                    <div class="list-img">
+                                                        <img src="{$info.goods.original_img}" style="width: 60px;height: 60px;">
+                                                    </div>
+                                                    <div class="list-cont">
+                                                        <h5 class="goods-title">{$info.goods.goods_name}</h5>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <section class="order-info">
+                                                <div class="order-list">
+                                                    <div class="content ptop0">
+                                                        <div class="panel panel-default info-box">
+                                                            <div class="con-ct fo-con">
+                                                                <ul class="ct-list order_total_ul" id="ECS_ORDERTOTAL" >
+                                                                    <li>
+                                                                        <div class="subtotal">
+                                                                            <span class="total-text">商品总额：</span>￥<em class="price">{$total_price}</em><br/>
+                                                                            <span class="total-text">应付金额：</span>￥<strong class="price_total">{$total_price}</strong>
+                                                                            <span class="total-text" style=""></span>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="panel panel-default info-box">
+                                                                <div class="pay-btn">
+                                                                    <input type="hidden" name="id" value="{$info['id']}">
+                                                                    <input onClick="submit_order();" type="button" class="sub-btn btnRadius" value="提交订单"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </form>
+</div>
+<section class="f_mask" style="display: none;"></section>
+<script type="text/javascript">
+    // 提交订单
+    ajax_return_status = 1; // 标识ajax 请求是否已经回来 可以进行下一次请求
+    function submit_order()
+    {
+        if(ajax_return_status == 0){
+            return false;
+        }
+        ajax_return_status = 0;
+        $.ajax({
+            type : "POST",
+            url:"{:U('Mobile/Cart/cart8_price')}",//+tab,
+            data : $('#cart2_form').serialize(),// 你的formid
+            dataType: "json",
+            success: function(data){
+                if(data.status != '1')
+                {
+                    layer.msg(data.msg);
+                    if(data.status == -100){
+                        location.href ="{:U('Mobile/User/login')}";
+                    }
+                    ajax_return_status = 1;
+                    return false;
+                }
+                layer.msg('订单提交成功!',{icon:6});
+                location.href = "/index.php?m=Mobile&c=Cart&a=cart7&order_id="+data.order_id;
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<include file="Public/min-header"/>
+<link href="__PUBLIC__/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+<script src="__PUBLIC__/plugins/daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i>矿机列表</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="navbar navbar-default">
+                        <form id="search-form2" class="navbar-form form-inline"  method="post" action="/Admin/Order/miner">
+                            <div class="form-group">
+                                <label class="control-label">订单编号:</label>
+                                <div class="input-group">
+                                    <input type="text" style="width: 130px;" class="form-control" id="order_sn" name="order_sn"  placeholder="订单编号" value="{$Think.request.order_sn}" />
+                                </div>
+                                <label  class="control-label">状态:</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="">-运行状态-</option>
+                                        <option value="1" <if condition="$_REQUEST['status'] eq 1">selected</if>>运行中</option>
+                                        <option value="2" <if condition="$_REQUEST['status'] eq 2">selected</if>>已完成</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="button-filter search-order" type="submit"><i class="fa fa-search"></i> 筛选</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="ajax_return">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="sorting text-center">ID</th>
+                                    <th class="sorting text-center">订单编号</th>
+                                    <th class="sorting text-center">昵称</th>
+                                    <th class="sorting text-center">订单金额</th>
+                                    <th class="sorting text-center">总收益</th>
+                                    <th class="sorting text-center">周期</th>
+                                    <th class="sorting text-center">每日收益</th>
+                                    <th class="sorting text-center">运行（天）</th>
+                                    <th class="sorting text-center">已获收益</th>
+                                    <th class="sorting text-center">状态</th>
+                                    <th class="sorting text-center">是否卖出</th>
+                                    <th class="sorting text-center">添加时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="list" id="v">
+                                    <tr>
+                                        <td class="text-center">{$v.id}</td>
+                                        <td class="text-center">{$v.order_sn}</td>
+                                        <td class="text-center">{$v.user_name}</td>
+                                        <td class="text-center">{$v.order_amount}</td>
+                                        <td class="text-center">{$v.total_award}</td>
+                                        <td class="text-center">{$v.days}</td>
+                                        <td class="text-center">{$v.per_award}</td>
+                                        <td class="text-center">{$v.send_days}</td>
+                                        <td class="text-center">{$v.send_award}</td>
+                                        <td class="text-center">
+                                            <if condition="$v[status] eq 1"><span style="color: green">运行中</span></if>
+                                            <if condition="$v[status] eq 2"><span style="color: red">已完成</span></if>
+                                        </td>
+                                        <td class="text-center">
+                                            <if condition="$v[is_sell] eq 1"><span style="color: green">正常</span></if>
+                                            <if condition="$v[is_sell] eq 2"><span style="color: red">已卖出</span></if>
+                                        </td>
+                                        <td class="text-center">{$v.add_time|date="Y-m-d H:i",###}</td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 text-left"></div>
+                            <div class="col-sm-6 text-right">{$show}</div>
+                        </div>
+                        <form method="post" id="editForm" >
+                            <table class="table-bordered" style="display: none" id="table">
+                                <tr style="height: 50px;">
+                                    <td>审核状态:</td>
+                                    <td>
+                                        <input type="radio" name="status" value="1" <if condition="$data.status eq 1">checked</if>>通过
+                                        <input type="radio" name="status" value="2" <if condition="$data.status eq 2">checked</if>>拒绝
+                                    </td>
+                                </tr>
+                                <tr style="height: 50px;">
+                                    <td>审核描述:</td>
+                                    <td>
+                                        <textarea rows="4" cols="30" id="remark" name="remark">{$data['remark']}</textarea>
+                                        <span id="err_remark" style="color:#F00; display:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr style="height: 50px;">
+                                    <td></td>
+                                    <td>
+                                        <input type="hidden" id="car_id" value="">
+                                        <input type="button" name="tijao" onclick="tijiao()" value="审核">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<script>
+    // 删除操作
+    function del(id)
+    {
+        if(!confirm('确定要删除吗?'))
+            return false;
+        $.ajax({
+            url:"/index.php?m=Admin&c=User&a=delWithdrawals&id="+id,
+            success: function(v){
+                var v =  eval('('+v+')');
+                if(v.hasOwnProperty('status') && (v.status == 1))
+                    location.href='{:U('Admin/User/withdrawals')}';
+                else
+                layer.msg(v.msg, {icon: 2,time: 1000}); //alert(v.msg);
+            }
+        });
+        return false;
+    }
+
+    $(document).ready(function() {
+        $('#start_time').daterangepicker({
+            format:"YYYY/MM/DD",
+            singleDatePicker: false,
+            showDropdowns: true,
+            minDate:'2016/01/01',
+            maxDate:'2030/01/01',
+            startDate:'2016/01/01',
+            locale : {
+                applyLabel : '确定',
+                cancelLabel : '取消',
+                fromLabel : '起始时间',
+                toLabel : '结束时间',
+                customRangeLabel : '自定义',
+                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                firstDay : 1
+            }
+        });
+    });
+    // author :凌寒 2018年5月31日10:16:06 审核页面弹出
+    function shen(id,status){
+        if(status == '0'){
+            $("#table").css('display','block');
+            layer.open({
+                type: 1,
+                title: '提现审核',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['400px', '250px'], //宽高
+                content: $("#editForm")
+            });
+            $("#car_id").val(id);
+        }else{
+            layer.msg("已审核,请勿重复审核");
+            return false;
+        }
+    }
+    // author :凌寒 2018年5月31日10:16:23 审核提交
+    function tijiao() {
+
+        var id=$("#car_id").val();
+
+        var status = $("input[name='status']:checked").val();
+
+        var remark= $.trim($('#remark').val());
+
+        if(!status){
+            layer.msg("请选择审核状态");
+            return false;
+        }
+        if(remark.length == 0)
+        {
+            layer.msg("请填写审核备注");
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Admin&c=User&a=tx_identify&t='+Math.random(),
+            data : {id:id,status:status,remark:remark},
+            dataType : 'json',
+            success : function(res){
+                if(res.state == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href=res.url;
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert('网络失败，请刷新页面后重试');
+            }
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title>
+        寄售商品
+    </title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1)" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>
+            寄售商品
+        </h3>
+    </div>
+    <div style="height:50px;"></div>
+    <div class="tuijian_list">
+         <ul class="clearfixd">
+             <volist name="lists" id="list">
+                 <li>
+                     <a href="javascript:void (0);">
+                         <img src="{$list.goods.original_img}"/>
+                         <div class="text">
+                             <p>{$list.goods.goods_name}</p>
+                             <span>{$list.goods.goods_remark}</span>
+                             <div class="i">
+                                 <em>￥{$list.maichu_money}</em>
+                                 <i>
+                                     <if condition="$list[sell_user][head_pic] eq null">
+                                         <img src="{$config.shop_info_store_logo}"/>
+                                         <else/>
+                                         <img src="{$list.sell_user.head_pic}"/>
+                                     </if>
+                                 </i>
+                                 <p>{$list.sell_user.nickname}</p>
+                                 <p style="color: red;float: right;">
+                                     <if condition="$list.order_status eq 1">
+                                         未匹配
+                                         <elseif condition="$list.order_status eq 2"/>
+                                         匹配中
+                                         <elseif condition="$list.order_status eq 3"/>
+                                         已完成
+                                     </if>
+                                 </p>
+                             </div>
+                         </div>
+                     </a>
+                 </li>
+             </volist>
+         </ul>
+    </div>
+    <include file="Public/footer"/>
+</div>
+</body>
+<script>
+    function checkSubmit()
+    {
+        $.ajax({
+            type : 'post',
+            url :"{:U('Mobile/User/do_duihuan')}",
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 1){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        window.location.href = "{:U('/Mobile/User/money_log')}";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试');
+            }
+        })
+
+    }
+</script>
+</html>

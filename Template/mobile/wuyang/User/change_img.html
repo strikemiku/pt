@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>修改头像</title>
+</head>
+
+<body>
+
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1)" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>修改头像</h3>
+    </div>
+    <div style="height:45px;"></div>
+    <h3 class="tit"<if condition="$user.head_pic eq ''">style="display: none;"</if>>当前头像</h3>
+    <div class="toubox" <if condition="$user.head_pic eq ''">style="display: none;"</if>>
+        <input type="hidden" name="head_pic" id="head_pic" value="">
+        <img id="img"  src="{$user.head_pic}">
+    </div>
+    <h3 class="tit">请上传头像</h3>
+    <div class="upload uptou">
+        <!--    照片添加    -->
+        <div class="z_photo">
+            <div class="z_file">
+                <input type="file" name="file" id="file" value="" accept="image/*" multiple  onchange="up_img()" />
+            </div>
+        </div>
+    </div>
+    <div class="tjbtn">
+        <input  type="button" class="confirm" onClick="checkSubmit()" value="确认提交">
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    //上传头像
+    function up_img(){
+
+        var data = new FormData();
+        $.each($('#file')[0].files, function(i, files) {
+            data.append('file', files);
+        });
+        $.ajax({
+            type: "POST",
+            url: "{:U('User/up_img')}",
+            data: data,
+            cache: false,
+            contentType: false,    //不可缺
+            processData: false,    //不可缺
+            dataType:'json',
+            success: function(data) {
+                if(data.code==200){
+                    $("#img").attr("src",data.msg);
+                    $("#head_pic").val(data.msg);
+                    $(".tit").show();
+                    $(".toubox").show();
+                }else if(data.code == 400){
+                    layer.msg(data.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('上传失败，请检查网络后重试');
+            }
+        });
+    }
+    function checkSubmit()
+    {
+
+        var head_pic = $.trim($('#head_pic').val());
+        if(head_pic == ''){
+            layer.msg("请上传图片",{icon:5,time:1500});
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url :"{:U('Mobile/User/change_img')}",
+            data : {head_pic:head_pic},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        window.location.href="{:U('Mobile/User/set')}";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试');
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

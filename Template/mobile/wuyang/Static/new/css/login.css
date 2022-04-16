@@ -1,0 +1,77 @@
+@charset "utf-8";
+html, body, div, p, form, label, ul, li, dl, dt, dd, ol, img, button, b, em, strong, small, h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; border: 0; list-style: none; font-style: normal; }
+body { font-family: SimHei, 'Helvetica Neue', Arial, 'Droid Sans', sans-serif; font-size: 14px; color: #333; background: #f2f2f2; }
+a, a.link { color: #666; text-decoration: none; font-weight: 500; }
+a, a.link:hover { color: #666; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+.login { width: 100%; min-height: 100vh; background: linear-gradient(to right bottom, #ff5e3e 0, #ff1679 100%); background-size: cover; z-index: -10; padding-top: 20%; padding-bottom: 100px; box-sizing: border-box; }
+.welcome { width: 100%; margin: 0 0 10%; }
+.welcome img { width: 100%; }
+.login-inp { margin: 0 30px 15px 30px; border: 1px solid #fff; border-radius: 25px; }
+.login-inp label { width: 5em; text-align: center; display: inline-block; color: #fff; }
+.login-inp input { line-height: 40px; color: #fff; background-color: transparent; border: none; outline: none; font-size: 14px; }
+.login-inp input:-moz-placeholder { 
+ color: #fff;
+opacity:0.8;
+}
+ .login-inp input::-moz-placeholder { 
+ color: #fff;
+opacity:0.8;
+}
+ .login-inp input:-ms-input-placeholder {
+ color: #fff;
+opacity:0.8;
+}
+ .login-inp input::-webkit-input-placeholder {
+ color: #fff;
+opacity:0.8;
+}
+.login-inp.login_inp_mima{ position:relative;}
+.login-inp.login_inp_mima .input { width: 8em; }
+.login-inp.login_inp_mima .huoqu_yanz {position: absolute;right: 0;top: 0;padding: 0 20px;}
+.login-inp a { display: block; width: 100%; text-align: center; line-height: 40px; color: #fff; font-size: 16px; letter-spacing: 5px; }
+.login-txt { text-align: center; color: #fff; }
+.login-txt a { color: #fff; padding: 0 5px; }
+
+.other_login{
+      width:100%;
+    min-height: 100%;
+	padding:0 20px; box-sizing:border-box;
+    text-align: center;
+	margin-top:50px;
+}
+.other_login .other,.other_login span{
+    display: inline-block;
+    vertical-align: middle;
+}
+.other_login .other{
+    width: 28%;
+    height: 8px;
+    border-bottom:1px solid #fff;
+}
+.other_login span{
+    width:32%;
+	color:#fff;
+}
+
+.other_choose{
+    width: 100%;
+	margin:20px auto 0;
+}
+.other_choose a{
+    display: block;
+	width:55px;
+	height:55px;
+    border: 2px solid #fff;
+	padding:6px 0;
+	margin:0 auto;
+	box-sizing:border-box;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.other_choose a i{ display:block; width:39px; height:31px; margin:0 auto;}
+.other_choose a i img{
+    width:100%;
+   }
+

@@ -1,0 +1,170 @@
+<include file="Public/old_header"/>
+<link rel="stylesheet" type="text/css" media="all" href="__STATIC__/css/countdown.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+<script src="__STATIC__/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/countdown.js" ></script>
+<script type="text/javascript" src="__STATIC__/new/layer/layer.js"></script>
+<!--<script src="__STATIC__/js/layer/layer.js"></script>-->
+<style>
+
+    .footer{position:fixed;height:50px;width:100%;bottom:0;left:0;box-shadow:0 0 4px 1px rgba(0,0,0,0.1);z-index: 99;}
+
+    .nav_list{ background:#fff; padding:0px;}
+
+    .nav_list ul li{ float:left; width:25%; text-align:center;}
+
+    .nav_list ul li i{ color:#5a5c60; font-size:24px;}
+
+    .nav_list ul li .img{width: 55px;height: 55px;background:#fff;overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,0.1);border-radius:50%;padding:8px;box-sizing:border-box;border: 1px solid #eee;}
+    .nav_list ul li .img img{ width:100%; height:100%;}
+    .nav_list ul li .icon{height: 24px;}
+    .nav_list ul li.on i{color: #e02e24;}
+
+    .nav_list ul li .nav_title{ font-size:14px; color:#666;}
+
+    .nav_list ul li.on .nav_title{color: #e02e24;}
+
+    .layui-layer-btn .layui-layer-btn0 {
+        border-color: red;
+        background-color: red;
+        color: #fff;
+    }
+</style>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="{:U('User/index')}" title="返回"></a></div>
+            <div class="h-mid">我的订单</div>
+        </div>
+    </div>
+</header>
+<include file="Public/menu"/>
+
+<div id="tbh5v0">
+    <!--------筛选 form 表单 开始-------------->
+    <form action="{:U('Mobile/order_list/ajax_order_list')}" name="filter_form" id="filter_form">
+        <div class="Evaluation2">
+            <ul>
+                <li><a href="{:U('/Mobile/User/order_list')}" class="tab_head <if condition="$_GET[type] eq ''">on</if>"  >全部</a></li>
+                <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITPAY'))}"      class="tab_head <if condition="$_GET[type] eq 'WAITPAY'">on</if>">待付款</a></li>
+                <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITSEND'))}"     class="tab_head <if condition="$_GET[type] eq 'WAITSEND'">on</if>">待发货</a></li>
+                <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITRECEIVE'))}"  class="tab_head <if condition="$_GET[type] eq 'WAITRECEIVE'">on</if>">待收货</a></li>
+                <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITCCOMMENT'))}" class="tab_head <if condition="$_GET[type] eq 'WAITCCOMMENT'">on</if>">已完成</a></li>
+            </ul>
+        </div>
+
+        <div class="order ajax_return">
+            <volist name="lists" id="list">
+                <div class="order_list">
+                    <h2>
+                        <a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">
+                            <img src="__STATIC__/new/images/dianpu.png"><span>订单号:{$list.order_sn}</span>
+                        </a>
+                    </h2>
+                    <a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">
+                        <volist name="list.goods_list" id="good">
+                            <dl style="position: relative">
+                                <dt><img src="{$good.original_img}"></dt>
+                                <dd class="name"><strong>{$good.goods_name}</strong>
+                                <dd class="pice">￥{$good['goods_price']}元<em>x{$good['goods_num']}</em></dd>
+                            </dl>
+                        </volist>
+                    </a>
+                    <div class="pic">
+                        <span style="float: right">总额：<strong>￥{$list['order_amount']}元</strong></span>
+                    </div>
+                    <div class="anniu" style="width:95%">
+                        <if condition="$list.receive_btn eq 1"><a href="{:U('Mobile/User/order_confirm',array('id'=>$list['order_id']))}" style="float: right;background-color: red;">收货确认</a></if>
+                        <if condition="$list.shipping_status eq 0 and $list.order_status lt 2 and $list.type eq 3"><a onclick="exchange({$list['order_id']})" style="float: right;background-color: red;">兑换积分</a></if>
+                        <if condition="$list.shipping_btn eq 1">
+                            <a href="https://www.kuaidi100.com/chaxun?com={$list.shipping_code}&nu={$list.invoice_no}" style="float: right;background-color: red;">查看物流</a>
+                        </if>
+                    </div>
+                </div>
+            </volist>
+        </div>
+        <!--查询条件-->
+        <input type="hidden" name="type" value="<?php echo $_GET['type'];?>" />
+    </form>
+</div>
+<!--底部区域开始-->
+<include file="Public/footer"/>
+<!--底部区域结束-->
+
+<script language="javascript">
+    var  page = 1;
+
+    /*** ajax 提交表单 查询订单列表结果*/
+    function ajax_sourch_submit()
+    {
+        page += 1;
+        $.ajax({
+            type : "GET",
+            url:"/index.php?m=Mobile&c=User&a=order_list&type={$_GET['type']}&is_ajax=1&p="+page,//+tab,
+//			url:"{:U('Mobile/User/order_list',array('type'=>$_GET['type']),'')}/is_ajax/1/p/"+page,//+tab,			
+            //data : $('#filter_form').serialize(),
+            success: function(data)
+            {
+                if(data == '')
+                    $('#getmore').hide();
+                else
+                {
+                    $(".ajax_return").append(data);
+                    $(".m_loading").hide();
+                }
+            }
+        });
+    }
+    //取消订单
+    function exchange(order_id){
+        layer.open({
+            title:'温馨提示',
+            content: '您确定要兑换成积分吗？',
+            btn: ['确认', '稍后'],
+            shadeClose: false,
+            yes: function () {
+                $.ajax({
+                    type : 'post',
+                    url :"{:U('Mobile/User/change_jifen')}",
+                    data : {order_id:order_id},
+                    dataType : 'json',
+                    success : function(res){
+                        if(res.status == 200){
+                            layer.msg(res.msg,function () {
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg(res.msg);
+                            return false;
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        layer.msg('网络失败，请刷新页面后重试');
+                    }
+                })
+            },
+            no: function () {
+                layer.closeAll();
+            }
+        });
+    }
+    //取消订单
+    function cancel_order(id){
+        layer.open({
+            title:'温馨提示',
+            content: '您确定要取消订单吗？',
+            btn: ['确认', '稍后'],
+            shadeClose: false,
+            yes: function () {
+                location.href = "/index.php?m=Mobile&c=User&a=cancel_order&id="+id;
+            },
+            no: function () {
+                layer.closeAll();
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

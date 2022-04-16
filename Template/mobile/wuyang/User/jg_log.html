@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+<script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__STATIC__/js/web.js"></script>
+<title>现金转换记录</title>
+</head>
+
+<body>
+<div class="main-container">
+	<div class="header_list">
+    	<a href="javascript:history.back(-1);" class="go_back">
+        	<i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>现金转换记录</h3>
+        <!--<a href="{:U('withdrawals')}" class="mingxi">去提现</a>-->
+    </div>
+    
+    <div style="height:45px;"></div>
+
+<div class="tixianmingxi">
+	<dl>
+    	<dt class="clearfixd">
+        	<span class="fr_l" style="width: 33%">时间</span>
+            <span class="fr_l" style="width: 33%">类型</span>
+            <span class="fr_l" style="width: 33%">金额</span>
+        </dt>
+        <foreach name="log" item="v">
+            <dd class="clearfixd">
+                <span class="fr_l" style="width: 33%">{$v['add_time']|date="Y-m-d",###}</span>
+                <span class="fr_l" style="width: 33%">
+                    <if condition="$v.type eq 4">
+                        转消费积分
+                        <else/>
+                        转爱心积分
+                    </if>
+                </span>
+                <span class="fr_l" style="width: 33%">
+                    <if condition="$v.action eq 0">
+                        -
+                        <else/>
+                        +
+                    </if>
+                    {$v['money']}
+                </span>
+            </dd>
+        </foreach>
+    </dl>
+
+</div>
+ <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+    </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title id="title">
+        代理申请
+    </title>
+    <style>
+        #type{
+            height: 40px;
+            color: #666;
+            font-size: 14px;
+            line-height: 40px;
+            border-radius: 3px;
+            padding: 0 10px;
+            border: 1px solid #e6e6e6;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1);" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3 id="titles">
+            代理申请
+        </h3>
+        <a href="{:U('User/agent_log')}" class="mingxi" id="mingxi">申请记录</a>
+    </div>
+
+    <div style="height:45px;"></div>
+
+    <div class="chongzhi_con">
+        <div class="chongzhi_jiner clearfixd">
+            <div class="jine_l fr_l">姓名：</div>
+            <div class="jine_r fr_r"><input type="text" id="nickname" name="nickname" placeholder="请输入姓名" value="{$user.nickname}"/></div>
+        </div>
+        <div class="chongzhi_jiner clearfixd">
+            <div class="jine_l fr_l">手机号：</div>
+            <div class="jine_r fr_r"><input type="text" id="mobile" name="mobile" placeholder="请输入手机号" value="{$user.mobile}"/></div>
+        </div>
+        <div class="chongzhi_jiner clearfixd">
+            <div class="jine_l fr_l">二级密码：</div>
+            <div class="jine_r fr_r"><input type="password" id="twopwd" name="twopwd" placeholder="请输入二级密码"/></div>
+        </div>
+        <!--<div class="chongzhi_jiner clearfixd" style="font-size:14px; color:#666;">-->
+            <!--提示:当前积分为：<span style="color:red;">{$user['pay_points']}</span>-->
+        <!--</div>-->
+        <div class="chongzhi_btn"><input type="submit"  onClick="checkSubmit()" value="立即申请"/></div>
+    </div>
+
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+</div>
+<script>
+    function checkMobile(tel) {
+        var reg = /(^1[3|4|5|7|8|9][0-9]{9}$)/;
+        if (reg.test(tel)) {
+            return true;
+        }else{
+            return false;
+        };
+    }
+    function checkSubmit()
+    {
+        var nickname = $.trim($('#nickname').val());
+        var mobile = $.trim($('#mobile').val());
+        var money = $.trim($('#money').val());
+        var twopwd = $.trim($('#twopwd').val());
+        if(nickname == ''){
+            layer.msg("请输入姓名",{icon:5,time:1500});
+            return false;
+        }
+        if(mobile == ''){
+            layer.msg("请输入手机号",{icon:5,time:1500});
+            return false;
+        }
+        if(!checkMobile(mobile)){
+            layer.msg('手机号码格式不正确!',{icon:5,time:1500});
+            return false;
+        }
+        if(twopwd == ''){
+            layer.msg('请输入安全密码!',{icon:5,time:1500});
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=User&a=agent&t='+Math.random(),
+            data : {nickname:nickname,mobile:mobile,twopwd:twopwd},
+            dataType : 'json',
+            success : function(data){
+                if(data.status == 200){
+                    layer.open({
+                        title:'温馨提示',
+                        content: data.msg,
+                        btn: ['确定', '关闭'],
+                        shadeClose: false,
+                        yes: function () {
+                            location.href="/Mobile/User/agent_log";
+                        },
+                        no: function () {
+                            layer.closeAll();
+                        }
+                    });
+                }else{
+                    layer.msg(data.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+</body>
+</html>

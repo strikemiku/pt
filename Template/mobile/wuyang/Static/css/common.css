@@ -1,0 +1,160 @@
+@charset "utf-8";
+body,
+div,
+p,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+input,
+select,
+button,
+textarea,
+table,
+th,
+td,
+a,
+span,
+canvas {
+  margin: 0;
+  padding: 0;
+  background: no-repeat center / contain;
+  cursor: default;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+img {
+  border: none;
+}
+a {
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: none;
+}
+input {
+  outline: none;
+}
+.block {
+  display: block;
+}
+.none {
+  display: none;
+}
+.r {
+  position: relative;
+}
+.a {
+  position: absolute;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+
+
+/*规则弹窗*/
+#mask-rule,#mask2,
+#mask {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+#mask .box-rule,#mask2 .box-rule{
+  position: relative;
+  margin: 55% auto;
+  padding: 20px;
+  width: 84%;
+  border-radius: 10px;
+  background-color:#f84034;
+}
+#mask .box-text {
+  width: 100%;
+}
+#mask .box-text h3{text-align:center;color:#FFF;font-size: 16px;font-weight:normal;}
+#mask .box-text .div-h4{ text-align:center;width:4rem; padding:0px; margin:0px auto;}
+#mask .box-text .div-h4 img{ width:100%; display:block}
+#mask .box-text p{text-align:center;color:#ffff66;font-size: 34px;font-weight:bold;margin: 5px auto;}
+#mask .box-text p span{font-size:0.5rem; margin-left:0.1rem}
+#mask .box-text b{ display:block; text-align:center;color:#FFF;font-size:0.6rem;}
+#mask .box-text a{display:block;width:80%;line-height: 30px;text-align:center;margin: 20px auto 0rem auto;color: #f00;font-size: 14px;background: #ffff66;border-radius: 50px;}
+
+#mask2 .box-rule{
+  position: relative;
+  margin: 50% auto;
+  padding-top: 20px;
+  width: 80%;
+}
+#mask2 .box-rule p{text-align:center;color:#ffffff;font-size: 14px;font-weight:bold;}
+#mask2 .box-rule p span{color:#ffff66;}
+#mask2 .box-rule a{display:block;width:80%;line-height: 35px;text-align:center;margin: 20px auto 0rem auto;color: #f00;font-size: 14px;background: #ffff66;border-radius: 35px;}
+
+
+#mask-rule .box-rule {
+  position: relative;
+  margin: 45% auto;
+  padding-top: 5px;
+  width: 90%;
+  border-radius: 10px;
+  background-color:#f84034;
+}
+
+#mask-rule .box-rule h2 {
+  width: 100%;
+  text-align: center;
+  line-height: 30px;
+  font-size: 0.45333333rem;
+  color: #fff886;
+}
+
+#mask-rule #close-rule {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 15px;
+  height: 15px;
+  background-image:url(../image/close.png);
+}
+/*内容盒子*/
+#mask-rule .con {
+  overflow: auto;
+  position: relative;
+  margin: 10px auto;
+  width: 100%;
+  line-height: 1.8em;
+  font-size: 12px;
+  color: #fff;
+  padding: 0 15px 15px;
+  box-sizing: border-box;
+}
+#mask-rule .con .text {
+}

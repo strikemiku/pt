@@ -1,0 +1,85 @@
+<include file="Public/min-header" />
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content ">
+        <!-- Main content -->
+        <div class="container-fluid">
+            <div class="pull-right">
+                <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default" data-original-title="返回"><i class="fa fa-reply"></i></a>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i> 新增虚拟中奖</h3>
+                </div>
+                <div class="panel-body ">
+                    <!--表单数据-->
+                    <form method="post" id="handleposition" action="{:U('Admin/Article/linkHandle')}">
+                        <!--通用信息-->
+                        <div class="tab-content col-md-10">
+                            <div class="tab-pane active" id="tab_tongyong">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <td class="col-sm-2">中奖人员:</td>
+                                        <td>
+                                            <select name="user_id" id="user_id"  class="form-control"  >
+                                                <foreach name="list" item="v">
+                                                    <option value="{$v['user_id']}">{$v['nickname']}</option>
+                                                </foreach>
+                                            </select>
+                                        </td>
+                                        <td class="col-sm-4">请输入虚拟中奖名称</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-2">奖品类型:</td>
+                                        <td>
+                                            <select name="award_type" id="award_type"  class="form-control"  >
+                                                <option value="1">红包</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>奖品：</td>
+                                        <td>
+                                            <input type="text" class="form-control" name="award" value="{$info.award}" >
+                                        </td>
+                                        <td class="col-sm-4">请输入奖品金额</td>
+                                    </tr>
+                                    <!--<tr>-->
+                                        <!--<td>是否显示：</td>-->
+                                        <!--<td >-->
+                                            <!--<input type="radio" class="" name="is_show" value="1" <if condition="$info[is_show] eq 1"> checked="checked"</if>>开启-->
+                                            <!--<input type="radio" class="" name="is_show" value="0" <if condition="$info[is_show] eq 0"> checked="checked"</if>>关闭-->
+                                        <!--</td>-->
+                                        <!--<td class="col-sm-4">是否在前台显示</td>-->
+                                    <!--</tr>-->
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td><input type="hidden" name="act" value="{$act}">
+                                            <input type="hidden" name="link_id" value="{$info.id}">
+                                        </td>
+                                        <td class="text-left"><input class="btn btn-primary" type="button" onclick="adsubmit()" value="保存"></td></tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </form><!--表单数据-->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    // 上传商品图片成功回调函数
+    function call_back(fileurl_tmp){
+        $("#link_logo").val(fileurl_tmp);
+        $("#link_logos").attr('src',fileurl_tmp);
+        $("#link_logos").css('display','block');
+    }
+    function adsubmit(){
+        $('#handleposition').submit();
+    }
+</script>
+</body>
+</html>

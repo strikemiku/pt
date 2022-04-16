@@ -1,0 +1,297 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta name="Generator" content="tpshop" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>确认订单</title>
+    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="__STATIC__/new/css/public.css">
+    <link rel="stylesheet" href="__STATIC__/new/css/flow.css">
+    <link rel="stylesheet" href="__STATIC__/new/css/style_jm.css">
+    <script type="text/javascript" src="__STATIC__/new/js/jquery.js"></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
+    <script src="__STATIC__/new/js/common.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <include file="Public:header" />
+</head>
+<body style="background:#f8f8f8;position:relative;">
+<div class="tab_nav">
+    <div class="header">
+        <div class="h-left"> <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a> </div>
+        <div class="h-mid"> 确认订单 </div>
+    </div>
+</div>
+<form name="cart2_form" id="cart2_form" method="post" action="{:U('Mobile/Payment/getPay')}">
+    <div class="screen-wrap fullscreen login">
+        <section class="content" >
+            <div class="wrap">
+                <div class="active">
+                    <div class="content-buy">
+                        <div class="wrap order-buy">
+                            <a href="{:U('User/address_list',array('source'=>'cart2'))}">
+                                <section class="address">
+                                    <div class="address-info" >收货人:
+                                        <p class="address-name">{$address.consignee}</p>
+                                        <p class="address-phone">{$address.mobile}</p>
+                                    </div>
+                                    <div class="address-details">收货地址：{$address.pcd}{$address.address}</div>
+                                    <input type="hidden"  name="address_id" value="{$address.address_id}"/>
+                                </section>
+                            </a>
+                            <section class="order-info" style=" margin-top:0px;">
+                                <div class="order-list">
+                                    <div class="goods-list-title"> 商品详情</div>
+                                    <ul class="order-list-info">
+                                        <foreach name="cartList" item="v">
+                                            <li class="item" >
+                                                <div class="itemPay list-price-nums" id="itemPay17">
+                                                    <p class="price" style="padding-top: 5px;">￥{$v.goods_price} <br><br><span style="color: black;">x&nbsp; {$v.goods_num}</span>  </p>
+                                                    <p class="nums"></p>
+                                                </div>
+                                                <div class="itemInfo list-info" id="itemInfo12">
+                                                    <div class="list-img"><img src="{$v.original_img}" style="width: 60px;height: 60px;"></div>
+                                                    <div class="list-cont">
+                                                        <h5 class="goods-title">{$v.goods_name} </h5>
+                                                        <p class="godds-specification">{$v.keywords}</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <div class="xqjg_numcon">
+            <div class="one">
+                <span>拼团价格</span>
+                <p>￥{$total_price['total_fee']}</p>
+            </div>
+            <div class="one">
+                <span>配送方式</span>
+                <p>
+                    包邮
+                </p>
+            </div>
+            <div class="one">
+                <span>订单备注</span>
+                <input type="textarea" id="order_desc" placeholder="选填内容，请填写您的备注消息0/100">
+            </div>
+            <div class="two">
+                <p>共{$total_price['num']}件，合计<em>￥{$total_price['total_fee']}</em></p>
+            </div>
+        </div>
+        <div class="xqpt_wfcon">
+            <div class="title">
+                <i></i>
+                <p>拼团玩法</p>
+            </div>
+            <div class="con">
+                <img src="__STATIC__/new/images/wf_img.jpg">
+            </div>
+        </div>
+        <div class="xqhj_numcon">
+            <p>合计:<em>￥{$total_price['total_fee']}</em></p>
+            <a  class="zf_btn">立即支付</a>
+        </div>
+    </div>
+    <div class="zf_tancon">
+        <div class="con">
+            <div class="title">
+                <h3>请选择支付方式</h3>
+                <img src="__STATIC__/new/images/close.png">
+            </div>
+            <div class="con_con">
+                <foreach name="paymentList" item="v">
+                    <if condition="$v['code'] eq 'weixin'">
+                        <!--<div class="one">-->
+                        <!--    <img src="__STATIC__/new/images/zf_wximg.png"/>-->
+                        <!--    <p>微信</p>-->
+                        <!--    <div class="danxuan">-->
+                        <!--        <input type="radio" name="pay_radio" checked class="radio1" value="pay_code={$v['code']}">-->
+                        <!--        <i></i>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <elseif condition="$v['code'] eq 'alipayMobile' and $is_wx eq 2"/>
+                        <!--<div class="one">-->
+                        <!--    <img src="__STATIC__/new/images/zf_zfbimg.png"/>-->
+                        <!--    <p>支付宝</p>-->
+                        <!--    <div class="danxuan">-->
+                        <!--        <input type="radio" name="pay_radio" class="radio1" value="pay_code={$v['code']}">-->
+                        <!--        <i></i>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <elseif condition="$v['code'] eq 'cod'"/>
+                        <div class="one">
+                            <img src="__STATIC__/new/images/zf_yeimg.png"/>
+                            <p>余额<em>当前余额：￥{$user['user_money']}</em></p>
+                            <div class="danxuan">
+                                <input type="radio" name="pay_radio"  class="radio1" value="pay_code={$v['code']}">
+                                <i></i>
+                            </div>
+                        </div>
+                        <elseif condition="$v['code'] eq 'jifen'"/>
+                        <!--<div class="one">-->
+                            <!--<img src="__STATIC__/images/jf_img.png"/>-->
+                            <!--<p>积分<em>当前积分：￥{$user['pay_points']}</em></p>-->
+                            <!--<div class="danxuan">-->
+                                <!--<input type="radio" name="pay_radio"  class="radio1" value="pay_code={$v['code']}">-->
+                                <!--<i></i>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </if>
+                </foreach>
+            </div>
+            <div class="zf_btn">
+                <input type="hidden" name="cart_id" value="{$cartList[0]['id']}">
+                <a onclick="order_submit()"><button type="button" >立即支付</button></a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<section class="f_mask" style="display: none;"></section>
+<script type="text/javascript">
+    $(".zf_btn").click(function(){
+        $(".zf_tancon").fadeIn();
+    });
+    //提交订单
+    function order_submit(){
+        var pay_type = $("input[name='pay_radio']:checked").val();
+        if(pay_type=='pay_code=cod'){
+            var user_money = parseFloat("{$user['user_money']}");
+            var total_price = parseFloat("{$total_price['total_fee']}");
+            if(user_money < total_price){
+                layer.msg("余额不足");return false;
+            }
+            var address_id = "{$address.address_id}";
+            var order_id = "{$cartList[0]['id']}";
+            $.ajax({
+                type: "POST",
+                url: "/index.php?m=Mobile&c=Cart&a=cart_cod",
+                data: {address_id:address_id,order_id:order_id},
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status!=200){
+                        layer.msg(data.msg,{icon:5});
+                        return false;
+                    }
+                    $(".zf_tancon").fadeOut();
+                    layer.msg(data.msg,{icon:6},function () {
+                        location.href = "/index.php?m=Mobile&c=User&a=pt_order";
+                    });
+                }
+            });
+        }else if(pay_type=='pay_code=jifen'){
+            var pay_points = parseFloat("{$user['pay_points']}");
+            var total_price = parseFloat("{$total_price['total_fee']}");
+            if(pay_points < total_price){
+                layer.msg("积分不足");return false;
+            }
+            var address_id = "{$address.address_id}";
+            var order_id = "{$cartList[0]['id']}";
+            $.ajax({
+                type: "POST",
+                url: "/index.php?m=Mobile&c=Cart&a=cart_jifen",
+                data: {address_id:address_id,order_id:order_id},
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status!=200){
+                        layer.msg(data.msg,{icon:5});
+                        return false;
+                    }
+                    $(".zf_tancon").fadeOut();
+                    layer.msg(data.msg,{icon:6},function () {
+                        location.href = "/index.php?m=Mobile&c=User&a=pt_order";
+                    });
+                }
+            });
+        }else{
+            $('#cart2_form').submit();
+        }
+    }
+    // 获取订单价格
+    function ajax_order_price()
+    {
+        $.ajax({
+            type : "POST",
+            url:'/index.php?m=Mobile&c=Cart&a=cart3&act=order_price&t='+Math.random(),
+            data : $('#cart2_form').serialize(),
+            dataType: "json",
+            success: function(data){
+                if(data.status != 1)
+                {
+                    if(data.status == -100){
+                        location.href ="{:U('Mobile/User/login')}";
+                    }else if(data.status == 300){
+                        layer.msg(data.msg,{icon:5},function () {
+                            location.href ="{:U('Mobile/User/order_list')}";
+                        });
+                    }else{
+                        layer.msg(data.msg,{icon:5});
+                    }
+                    return false;
+                }
+                $("#postFee").text(data.result.postFee); // 物流费
+                $("#couponFee").text(data.result.couponFee);// 优惠券
+                $("#balance").text(data.result.balance);// 余额
+                $("#pointsFee").text(data.result.pointsFee);// 积分支付
+                $("#payables").text(data.result.payables);// 应付
+                $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
+            }
+        });
+    }
+
+    // 提交订单
+    ajax_return_status = 1; // 标识ajax 请求是否已经回来 可以进行下一次请求
+    function submit_order()
+    {
+        if(ajax_return_status == 0){
+            return false;
+        }
+        ajax_return_status = 0;
+        $.ajax({
+            type : "POST",
+            url:"{:U('Mobile/Cart/cart3')}",//+tab,
+            data : $('#cart2_form').serialize()+"&act=submit_order",// 你的formid
+            dataType: "json",
+            success: function(data){
+                if(data.status != '1')
+                {
+                    layer.msg(data.msg,{icon:5});
+                    // 登录超时
+                    if(data.status == -100)
+                        location.href ="{:U('Mobile/User/login')}";
+
+                    ajax_return_status = 1; // 上一次ajax 已经返回, 可以进行下一次 ajax请求
+
+                    return false;
+                }
+                // console.log(data);
+                $("#postFee").text(data.result.postFee); // 物流费
+                $("#couponFee").text(data.result.couponFee);// 优惠券
+                $("#balance").text(data.result.balance);// 余额
+                $("#pointsFee").text(data.result.pointsFee);// 积分支付
+                $("#payables").text(data.result.payables);// 应付
+                $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
+                layer.msg('订单提交成功!',{icon:6});
+                location.href = "/index.php?m=Mobile&c=Cart&a=cart9&order_id="+data.result;
+            }
+        });
+    }
+</script>
+<script>
+    $(function(){
+        $(".zf_tancon .title img").click(function(){
+            $(".zf_tancon").fadeOut()
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>匹配详情</title>
+</head>
+
+<body>
+
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1)" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>匹配详情</h3>
+    </div>
+    <div style="height:45px;"></div>
+    <div class="ziliao_con" <if condition="$type eq 1">style="display: block;"<else/>style="display: none;"</if>>
+
+        <ul class="item_list ziliao"    >
+            <li class="item">
+                <div class="item_content" style="background:none;">
+                    卖出会员
+                    <p class="textinfor">{$info.maichu_user_name}</p>
+                </div>
+            </li>
+            <li class="item">
+                <div class="item_content" style="background:none;">
+                    卖出价格
+                    <p class="textinfor">{$info.maichu_money}</p>
+                </div>
+            </li>
+            <li class="item">
+                <div class="item_content" style="background:none;">
+                    匹配时间
+                    <p class="textinfor">{$info.add_time|date="Y-m-d H:m:s",###}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+<div class="ziliao_con" <if condition="$type eq 2">style="display: block;"<else/>style="display: none;"</if> >
+
+    <ul class="item_list ziliao">
+        <li class="item">
+            <div class="item_content" style="background:none;">
+                买入会员
+                <p class="textinfor">{$info.mairu_user_name}</p>
+            </div>
+        </li>
+        <li class="item">
+            <div class="item_content" style="background:none;">
+                买入价格
+                <p class="textinfor">{$info.mairu_money}</p>
+            </div>
+        </li>
+        <li class="item">
+            <div class="item_content" style="background:none;">
+                匹配时间
+                <p class="textinfor">{$info.add_time|date="Y-m-d H:m:s",###}</p>
+            </div>
+        </li>
+    </ul>
+</div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+
+</div>
+</body>
+</html>

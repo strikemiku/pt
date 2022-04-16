@@ -1,0 +1,294 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+
+<link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+
+<script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+
+<script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="__STATIC__/js/web.js"></script>
+
+<title>个人中心</title>
+
+</head>
+
+
+
+<body>
+
+<div class="main-container">
+
+	<div class="header_list">
+
+    	<a href="javascript:history.back(-1);" class="go_back">
+
+        	<i class="iconfont">&#xe892;</i>
+
+        </a>
+
+        <h3>个人中心</h3>
+
+         <a href="{:U('User/logout')}" class="sousou" style="color: white">
+
+			 <input class="tuichu" type="button" value="退出">
+
+        </a>
+
+    </div>
+
+    
+
+    <div style="height:45px;"></div>
+
+    
+
+    
+
+    <div class="geren_top">
+
+        	
+
+            <div class="geren_xinxi">
+
+            	<div class="touxiang">
+
+					<if condition="$user.head_pic neq null">
+
+						<img src="{$user.head_pic}" alt="" style="width: 80px;height: 80px;"/>
+
+						<else/>
+
+						<img src="__STATIC__/images/no_img.png" alt="" style="width: 80px;height: 80px;"/>
+
+					</if>
+
+
+
+                </div>
+
+                <h3><p>{$user.nickname} &nbsp;({$level_name})</p></h3>
+				<if condition="$user.tj_mobile neq null">
+					<h3><p>我的客服:{$user.tj_mobile}</p></h3>
+				</if>
+
+
+                <div class="money clearfixd">
+
+                	<div class="money_l"><a href="#">
+
+                    	<p>购物币</p>
+
+                        <span>{$user.shop_money}</span>
+
+                    </a></div>
+
+                    <div class="money_r"><a href="#">
+
+                    	<p>现金币</p>
+
+                        <span>{$user.award_money}</span>
+
+                    </a></div>
+
+                </div>
+
+                
+
+                 <div class="tixian_btn">
+
+                	<a href="{:U('recharge')}">去充值</a>
+
+                    <a href="{:U('withdrawals')}">去提现</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+	<div class="aui-me-content-order">
+
+			<a href="{:U('Mobile/User/order_list')}" class="aui-well aui-fl-arrow">
+
+				<div class="aui-well-bd">我的订单</div>
+
+				<div class="aui-well-ft">查看全部</div>
+
+			</a>
+
+		</div>
+
+		<section class="aui-grid-content">
+
+			<div class="aui-grid-row">
+
+				<a href="{:U('/Mobile/User/order_list',array('type'=>'WAITPAY'))}" class="aui-grid-row-item">
+
+					<i class="aui-icon-large aui-icon-large-sm aui-icon-wallet"></i>
+
+					<p class="aui-grid-row-label">待付款</p>
+
+				</a>
+
+				<a href="{:U('/Mobile/User/order_list',array('type'=>'WAITSEND'))}" class="aui-grid-row-item">
+
+					<i class="aui-icon-large aui-icon-large-sm aui-icon-goods"></i>
+
+					<p class="aui-grid-row-label">待发货</p>
+
+				</a>
+
+				<a href="{:U('/Mobile/User/order_list',array('type'=>'WAITRECEIVE'))}" class="aui-grid-row-item">
+
+					<i class="aui-icon-large aui-icon-large-sm aui-icon-receipt"></i>
+
+					<p class="aui-grid-row-label">待收货</p>
+
+				</a>
+
+				<a href="{:U('/Mobile/User/order_list',array('type'=>'WAITCCOMMENT'))}" class="aui-grid-row-item">
+
+					<i class="aui-icon-large aui-icon-large-sm aui-icon-refund"></i>
+
+					<p class="aui-grid-row-label">已完成</p>
+
+				</a>
+
+			</div>
+
+			<div class="aui-dri"></div>
+
+            
+
+            <div class="geren_list">
+
+            	<ul>
+
+                	 <li><a href="{:U('User/set')}">
+
+                    	<i class="iconfont ewm">&#xe60e;</i>
+
+                        <p>我的资料</p>
+
+                    </a></li>
+
+                	<li><a href="{:U('User/address_list')}">
+
+                    	<i class="iconfont shouhuo">&#xe6d9;</i>
+
+                        <p>收货地址</p>
+
+                    </a></li>
+
+                    <li><a href="{:U('User/shengji')}">
+
+                    	<i class="iconfont fenhong">&#xe619;</i>
+
+                        <p>升级会员</p>
+
+                    </a></li>
+
+                    <li><a href="{:U('User/account_log')}">
+
+                    	<i class="iconfont jiangjin">&#xe6d0;</i>
+
+                        <p>资金明细</p>
+
+                    </a></li>
+
+
+
+                    <li><a href="{:U('User/qrcode')}">
+
+                    	<i class="iconfont ewm">&#xe617;</i>
+
+                        <p>推广二维码</p>
+
+                    </a></li>
+					<li><a href="{:U('User/jg_hz')}">
+
+						<i class="iconfont tuandui">&#xe603;</i>
+
+						<p>购物币兑换</p>
+
+					</a></li>
+					<li><a href="{:U('User/jj_hz',array('type'=>2))}">
+
+						<i class="iconfont tuandui">&#xe603;</i>
+
+						<p>购物币互转</p>
+
+					</a></li>
+					<li><a href="{:U('User/jj_hz',array('type'=>1))}">
+
+						<i class="iconfont tuandui">&#xe603;</i>
+
+						<p>现金币互转</p>
+
+					</a></li>
+
+                    <li><a href="{:U('User/team')}">
+
+                    	<i class="iconfont tuandui">&#xe603;</i>
+
+                        <p>我的推广</p>
+
+                    </a></li>
+
+                    <li><a href="{:U('User/gong')}">
+
+                    	<i class="iconfont gonggao">&#xe6c0;</i>
+
+                        <p>系统公告</p>
+
+                    </a></li>
+					<li><a href="{:U('User/kefu')}">
+
+						<i class="iconfont ewm">&#xe60e;</i>
+
+						<p>VIP客服专员</p>
+
+					</a></li>
+					<li><a href="{:U('User/link')}">
+
+						<i class="iconfont gonggao">&#xe6c0;</i>
+
+						<p>友情链接</p>
+
+					</a></li>
+                </ul>
+
+            </div>
+
+	</section>		
+
+
+
+  <!--底部区域开始-->
+
+    <include file="Public/footer"/>
+
+    <!--底部区域结束-->
+
+</div>
+
+</body>
+
+</html>
+

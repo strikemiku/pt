@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+<script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__STATIC__/js/web.js"></script>
+<title>公告详情</title>
+</head>
+
+<body>
+<div class="main-container">
+	<div class="header_list">
+    	<a href="javascript:history.back(-1)" class="go_back">
+        	<i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>公告详情</h3>
+      
+    </div>
+    <div style="height:45px;"></div>
+    <div class="newsxiang_con">
+    	<div class="xiangqing_con">
+            <div class="title">
+                <h3>{$detail['title']}</h3>
+                <div class="left">
+                    发布时间：{$detail['publish_time']}
+                </div>
+            </div>
+            <div class="con">
+                {$detail['content']}
+            </div>
+        </div>
+    </div>
+
+<div class="di_folat">
+      <!--<div class="prve">-->
+          <!--<if condition="$pre_info neq null">-->
+              <!--<a href="{:U('User/gongDetail',array('id'=>$pre_info['article_id']))}" class="prve_a">-->
+                  <!--<img src="__STATIC__/images/more_prve.png" alt="">-->
+                  <!--<span class="prve_text">上一篇</span>-->
+              <!--</a>-->
+              <!--<else/>-->
+              <!--<a href="javascript:void(0)" class="prve_a">-->
+                  <!--<img src="__STATIC__/images/more_prve.png" alt="">-->
+                  <!--<span class="prve_text">没有了！</span>-->
+              <!--</a>-->
+          <!--</if>-->
+
+      <!--</div>-->
+      <!--<div class="next">-->
+          <!--<if condition="$next_info neq null">-->
+              <!--<a href="{:U('User/gongDetail',array('id'=>$next_info['article_id']))}" class="prve_a">-->
+                  <!--<img src="__STATIC__/images/more_next.png" alt="">-->
+                  <!--<span class="prve_text">下一篇</span>-->
+              <!--</a>-->
+              <!--<else/>-->
+              <!--<a href="javascript:void(0)" class="prve_a">-->
+                  <!--<img src="__STATIC__/images/more_next.png" alt="">-->
+                  <!--<span class="prve_text">没有了！</span>-->
+              <!--</a>-->
+          <!--</if>-->
+      <!--</div>-->
+   </div>
+   
+</div>   
+
+</body>
+</html>

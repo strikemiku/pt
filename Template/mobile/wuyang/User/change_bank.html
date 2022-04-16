@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <title>修改银行卡</title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1);" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>修改银行卡</h3>
+
+    </div>
+
+    <div style="height:45px;"></div>
+
+    <div class="tel_con" style="margin-top: 20px;">
+        <ul style="box-shadow:0 0 5px rgba(0,0,0,0.1)">
+            <li><input type="text" name="bank_card_name" id="bank_card_name" value="{$user.bank_card_name}" placeholder="请输入收款姓名"/></li>
+            <li><input type="text" name="bank_kai" id="bank_kai" value="{$user.bank_kai}" placeholder="请输入开户行"  /></li>
+            <li><input type="text" name="bank_name" id="bank_name" value="{$user.bank_name}" placeholder="请输入银行名称"  /></li>
+            <li><input type="text" name="bank_card" id="bank_card"  value="{$user.bank_card}" placeholder="请输入银行卡号"  /></li>
+        </ul>
+        <div class="tel_btn"><input type="button" style="background-color: red;color: white;" onClick="checkSubmit()" value="确认"/></div>
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+
+</div>
+<script>
+    // author :凌寒 2018年5月17日13:53:02 执行找回密码方法
+    function checkSubmit()
+    {
+        var bank_card_name = $.trim($('#bank_card_name').val());
+        var bank_kai = $.trim($('#bank_kai').val());
+        var bank_name = $.trim($('#bank_name').val());
+        var bank_card = $.trim($('#bank_card').val());
+        if(bank_card_name == ''){
+            layer.msg('请输入收款人姓名!',{icon:5,time:1500});
+            return false;
+        }
+        if(bank_kai == ''){
+            layer.msg('请输入开户行!',{icon:5,time:1500});
+            return false;
+        }
+        if(bank_name == ''){
+            layer.msg('请输入银行名称!',{icon:5,time:1500});
+            return false;
+        }
+        if(bank_card == ''){
+            layer.msg('请输入银行卡号!',{icon:5,time:1500});
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=User&a=change_bank&t='+Math.random(),
+            data : {bank_card_name:bank_card_name,bank_kai:bank_kai,bank_name:bank_name,bank_card:bank_card},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href="/Mobile/User/set";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+</body>
+</html>
+

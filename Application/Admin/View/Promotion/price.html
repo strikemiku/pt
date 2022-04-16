@@ -1,0 +1,87 @@
+<include file="Public/min-header" />
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content ">
+        <!-- Main content -->
+        <div class="container-fluid">
+            <div class="pull-right">
+                <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default" data-original-title="返回"><i class="fa fa-reply"></i></a>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i> 添加价格</h3>
+                </div>
+                <div class="panel-body ">
+                    <!--表单数据-->
+                    <form method="post" id="handleposition" action="{:U('Admin/Promotion/priceHandle')}">
+                        <!--通用信息-->
+                        <div class="tab-content col-md-10">
+                            <div class="tab-pane active" id="tab_tongyong">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <td class="col-sm-2">名称：</td>
+                                        <td class="col-sm-4">
+                                            <input type="text" class="form-control" name="name" value="{$info.name}" >
+                                            <span id="err_attr_name" style="color:#F00; display:none;"></span>
+                                        </td>
+                                        <td class="col-sm-4">请填写名称
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>价格：</td>
+                                        <td>
+                                            <input type="text" class="form-control" name="price" value="{$info.price}" >
+                                        </td>
+                                        <td class="col-sm-4">请填写价格</td>
+                                    </tr>
+                                    <!--<tr>-->
+                                        <!--<td class="col-sm-2">拼团人数：</td>-->
+                                        <!--<td class="col-xs-8">-->
+                                            <!--<select id="group_num" name="group_num" class="form-control" style="witdh:150px;">-->
+                                                <!--<foreach name="group_num" item="v">-->
+                                                    <!--<option value="{$v['num']}" <if condition="$v[group_num] eq $v['num']">selected</if>>{$v['num']}人</option>-->
+                                                <!--</foreach>-->
+                                            <!--</select>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <tr>
+                                        <td>显示：</td>
+                                        <td >
+                                            <input type="radio" class="" name="is_show" value="1" <if condition="$info[is_show] eq 1"> checked="checked"</if>>开启
+                                            <input type="radio" class="" name="is_show" value="0" <if condition="$info[is_show] eq 0"> checked="checked"</if>>关闭
+                                        </td>
+                                        <td class="col-sm-4">是否显示</td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td><input type="hidden" name="act" value="{$act}">
+                                            <input type="hidden" name="id" value="{$info.id}">
+                                        </td>
+                                        <td class="col-sm-4"><input class="btn btn-primary" type="button" onclick="adsubmit()" value="保存"></td>
+                                        <td class="text-left"></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </form><!--表单数据-->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    // 上传商品图片成功回调函数
+    function call_back(fileurl_tmp){
+        $("#link_logo").val(fileurl_tmp);
+        $("#link_logos").attr('src',fileurl_tmp);
+        $("#link_logos").css('display','block');
+    }
+    function adsubmit(){
+        $('#handleposition').submit();
+    }
+</script>
+</body>
+</html>

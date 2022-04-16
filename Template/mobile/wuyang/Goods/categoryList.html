@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <meta charset="UTF-8">
+    <title>商品分类</title>
+    <link rel="stylesheet" href="__STATIC__/css/web.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+</head>
+<body>
+
+<div class="suo_top">
+    <div class="black"><a href="javascript:history.back(-1);"></a></div>
+    <!--<div class="suo_form">-->
+        <!--商品分类-->
+        <!--&lt;!&ndash;<form action="" method="">&ndash;&gt;-->
+            <!--&lt;!&ndash;<input type="search" placeholder="请输入关键字" />&ndash;&gt;-->
+            <!--&lt;!&ndash;<input type="submit" value="搜索"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</form>&ndash;&gt;-->
+    <!--</div>-->
+    <h3>商品分类</h3>
+</div>
+<section class="aui-scroll-contents">
+    <div class="aui-scroll-box" data-ydui-scrolltab>
+        <div class="aui-scroll-nav">
+            <foreach name="goods_category_tree" key="kk" item="vo">
+                <a href="javascript:0;" class="aui-scroll-item  aui-crt" >
+
+                    <div class="aui-scroll-item-icon"></div>
+                    <div class="aui-scroll-item-text">{$vo['name']}</div>
+                </a>
+            </foreach>
+        </div>
+        <div class="aui-scroll-content">
+            <foreach name="goods_category_tree" item="vv" key="kk">
+                <div class="aui-scroll-content-item">
+                    <div class="aui-class-img" style="height: 99px;">
+                        <img src="{$vv['image']}" alt="">
+                    </div>
+                    <h2 class="aui-scroll-content-title">{$vv['name']}</h2>
+                    <section class="aui-grid-content">
+                        <div class="aui-grid-row aui-grid-row-clear">
+                            <foreach name="vv.tmenu" item="val">
+                                <a href="{:U('Index/goodsList',array('cateId'=>$val['id']))}" class="aui-grid-row-item">
+                                    <i class="aui-icon-large aui-icon-sign"><img src="{$val['image']}" alt=""></i>
+                                    <p class="aui-grid-row-label">{$val['name']}</p>
+                                </a>
+                            </foreach>
+                        </div>
+                    </section>
+                </div>
+            </foreach>
+        </div>
+    </div>
+</section>
+
+
+<include file="Public/footer"/>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/aui.js"></script>
+<script>
+    $(document).ready(function(){
+
+        show();
+
+        $(".aui-scroll-item").click(function(){
+//			alert($(this).index());
+            $(".aui-scroll-item").eq($(this).index()).addClass("aui-crt").siblings().removeClass("aui-crt");
+            $(".aui-scroll-content-item").hide().eq($(this).index()).show();
+        });
+    });
+    function show(){
+        var index = $(".aui-scroll-item").index();
+        $(".aui-scroll-item").eq(index).addClass("aui-crt").siblings().removeClass("aui-crt");
+        $(".aui-scroll-content-item").hide().eq(index).show();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+
+                    <form method="post" enctype="multipart/form-data" target="_blank" id="form-order">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('user_id');">ID</a>
+                                    </td>
+                                    <!--<td class="text-center">-->
+                                        <!--<a href="javascript:sort('username');">会员账号</a>-->
+                                    <!--</td>-->
+                                    <td class="text-center">
+                                        <a href="javascript:sort('username');">会员姓名</a>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="javascript:sort('mobile');">手机号码</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('level');">会员等级</a>
+                                    </td>
+                                    <!--<td class="text-left">-->
+                                        <!--<a href="javascript:sort('mobile');">推荐人</a>-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center">-->
+                                        <!--<a href="javascript:sort('mobile');">推荐人</a>-->
+                                    <!--</td>-->
+                                    <!--<td class="text-left">-->
+                                        <!--<a href="javascript:sort('level');">接点人</a>-->
+                                    <!--</td>-->
+                                    <!--<td class="text-left">-->
+                                        <!--<a href="javascript:sort('level');">接点人编号</a>-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center">-->
+                                        <!--<a href="javascript:sort('total_amount');">累计消费</a>-->
+                                    <!--</td>-->
+                                    <td class="text-center">
+                                        <a href="javascript:sort('user_money');">积分</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('award_money');">直推销售</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('pay_points');">团队销售</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('aixin_jifen');">创业基金额度</a>
+                                    </td>
+
+                                    <!--<td class="text-center">-->
+                                        <!--<a href="javascript:sort('p_c_d');">省市区</a>-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center">-->
+                                        <!--<a href="javascript:sort('p_c_d');">激活状态</a>-->
+                                    <!--</td>-->
+                                    <td class="text-center">
+                                        <a href="javascript:sort('p_c_d');">申请创业基金</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('reg_time');">注册日期</a>
+                                    </td>
+                                    <td class="text-center">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="userList" id="list">
+                                    <tr>
+                                        <td class="text-center">{$list.user_id}</td>
+                                        <!--<td class="text-center">{$list.user_code}</td>-->
+                                        <td class="text-center">{$list.nickname}</td>
+
+                                        <td class="text-center">{$list.mobile}</td>
+                                        <td class="text-center">{$list.level_name}</td>
+                                        <!--<td class="text-center-left">{$list.p_name|default="-&#45;&#45;"}</td>-->
+                                        <!--<td class="text-center">{$list.pcode|default="-&#45;&#45;"}</td>-->
+                                        <!--<td class="text-center-left">{$list.node_name|default="-&#45;&#45;"}</td>-->
+                                        <!--<td class="text-text-center">{$list.node_code|default="-&#45;&#45;"}</td>-->
+                                        <td class="text-center">{$list.user_money}</td>
+                                        <td class="text-center">{$list.zt_num}</td>
+                                        <td class="text-center">{$list.team_num}</td>
+                                        <td class="text-center">{$list.cyjj}</td>
+                                        <!--<td class="text-center">{$list.frozen_money|default=0}</td>-->
+                                        <!--<td class="text-center">{$list.pay_points}</td>-->
+                                        <!--<td class="text-center">{$list.aixin_jifen}</td>-->
+                                        <!--<td class="text-center">{$list.province}{$list.city}{$list.district}</td>-->
+                                        <!--<td class="text-center">-->
+                                            <!--<if condition="$list['is_lock'] eq 0">-->
+                                                <!--<span style="width: 50px;display: block;background-color: red;color: gainsboro;" onclick="jihuo({$list['user_id']},{$list['is_lock']})">未激活</span>-->
+                                                <!--<else/>-->
+                                                <!--<span style="width: 50px;display: block;background-color: green;color: gainsboro;">已激活</span>-->
+                                            <!--</if>-->
+                                        <!--</td>-->
+                                        <td class="text-center" style="text-align: center;">
+                                            <if condition="$list['is_yyzx'] eq 1">
+                                                <span style="width: 65px;display: block;background-color: red;color: gainsboro;text-align: center;" onclick="yunying({$list['user_id']},{$list['is_yyzx']})">否</span>
+                                                <else/>
+                                                <span style="width: 65px;display: block;background-color: green;color: gainsboro;text-align: center;" onclick="yunying({$list['user_id']},{$list['is_yyzx']})">是</span>
+                                            </if>
+                                        </td>
+                                        <td class="text-center">{$list.reg_time|date='Y-m-d H:i',###}</td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" onclick="login({$list['user_id']})"  data-toggle="tooltip" title="" class="btn btn-info" data-original-title="查看详情" >登录</a>
+                                            <a href="{:U('Admin/user/detail',array('id'=>$list['user_id']))}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="查看详情">编辑</a>
+                                            <a href="{:U('Admin/user/address',array('id'=>$list['user_id']))}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="收货地址">收货地址</a>
+                                            <!--<a href="{:U('Admin/order/index',array('user_id'=>$list['user_id']))}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="订单查看"><i class="fa fa-shopping-cart"></i></a>-->
+                                            <a href="{:U('Admin/user/account_edit',array('id'=>$list['user_id']))}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="充值">充值</a>
+                                            <!--<a href="{:U('Admin/user/delete',array('id'=>$list['user_id']))}" id="button-delete6" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="删除"><i class="fa fa-trash-o"></i></a>-->
+                                        </td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-3 text-left">
+                        </div>
+                        <div class="col-sm-6 text-right">{$page}</div>
+                    </div>
+<script>
+    // author :凌寒 2018年5月17日13:53:02 执行充值方法
+    function jihuo(user_id,is_lock)
+    {
+        if(user_id == ''){
+            layer.msg('会员不存在!',{icon:5,time:1500});
+            return false;
+        }
+        if(is_lock == 1){
+            layer.msg("会员已激活!",{icon:5,time:1500});
+            return false;
+        }
+
+        layer.confirm('您确定要激活该用户吗?',{btn: ['激活', '取消'],title:"温馨提示"}, function(){
+            $.ajax({
+                type : 'post',
+                url : '/index.php?m=Admin&c=User&a=jihuo_user&t='+Math.random(),
+                data : {jh_user_id:user_id},
+                dataType : 'json',
+                success : function(res){
+                    if(res.status == 200){
+                        layer.msg(res.msg,{icon:6,time:1500},function () {
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:1500});
+                        return false;
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+                }
+            })
+        });
+    }
+    // author :凌寒 2018年5月17日13:53:02 设置申请创业基金
+    function yunying(user_id,is_yyzx)
+    {
+        if(user_id == ''){
+            layer.msg('会员不存在!',{icon:5,time:1500});
+            return false;
+        }
+        if(is_yyzx == 1){
+            var desc = '设置可以申请创业基金吗?';
+        }else{
+            var desc = '设置取消申请创业基金吗?';
+        }
+        layer.confirm(desc,{btn: ['确定', '取消'],title:"温馨提示"}, function(){
+            $.ajax({
+                type : 'post',
+                url : '/index.php?m=Admin&c=User&a=cyjj&t='+Math.random(),
+                data : {jh_user_id:user_id,},
+                dataType : 'json',
+                success : function(res){
+                    if(res.status == 200){
+                        layer.msg(res.msg,{icon:6,time:1500},function () {
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:1500});
+                        return false;
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+                }
+            })
+        });
+    }
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+    //后台登录前台账号
+    function login(user_id)
+    {
+        var url = "{:U('Mobile/User/do_login')}";
+        open_page(url,user_id);
+//        $.ajax({
+//            type : 'post',
+//            url :"{:U('Mobile/User/do_login')}",
+//            data : {type:'admin',user_id:user_id},
+//            dataType : 'json',
+//            success : function(res){
+//                if(res.status == 1){
+//
+//                }else{
+//                    layer.msg(res.msg,{icon:5,time:1500});
+//                    return false;
+//                }
+//            },
+//            error : function(XMLHttpRequest, textStatus, errorThrown) {
+//                layer.msg('网络失败，请刷新页面后重试');
+//            }
+//        })
+    }
+    function open_page(url, user_id) {
+        var form = '<form action="' + url + '"  target="_blank"  id="windowOpen" style="display:none">';
+        form += '<input name="user_id" value="' +user_id + '"/>';
+        form += '<input name="type" value="admin"/>';
+        form += '</form>';
+        $('body').append(form);
+        $('#windowOpen').submit();
+        $('#windowOpen').remove();
+    }
+</script>

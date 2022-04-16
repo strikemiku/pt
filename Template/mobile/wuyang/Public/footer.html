@@ -1,0 +1,46 @@
+<!--底部区域开始-->
+<div style=" height:55px;"></div>
+<div class="footer">
+    <div class="nav_list">
+        <ul class="">
+            <li style="width: 25%" <if condition="$controller eq 'Index' and $action eq 'index'">class="on "</if>>
+                <a href="{:U('Index/index')}">
+                    <div class="icon"><i class="iconfont">&#xe609;</i></div>
+                    <div class="nav_title">
+                        首页
+                    </div>
+                </a>
+            </li>
+            <li style="width: 25%" <if condition="$controller eq 'Goods'">class="on "</if>>
+            <a href="{:U('Goods/list2')}">
+                <div class="icon"><i class="iconfont">&#xe628;</i></div>
+                <div class="nav_title">
+                    积分专区
+                </div>
+            </a>
+            </li>
+            <li style="width: 25%" <if condition="$controller eq 'User' and $action eq 'updLevel'">class="on "</if>>
+                <a href="{:U('User/updLevel')}">
+                    <div class="icon"><i class="iconfont">&#xe6d0;</i></div>
+                    <div class="nav_title">
+                        优享会员
+                    </div>
+                </a>
+            </li>
+            <li style="width: 25%" <if condition="$controller eq 'User'  and $action neq 'updLevel'">class="on "</if>>
+                <a href="{:U('User/index')}">
+                    <div class="icon"><i class="iconfont">&#xe646;</i></div>
+                    <div class="nav_title">
+                        我的
+                    </div>
+                </a>
+            </li>
+
+
+        </ul>
+    </div>
+</div>
+<!--底部区域结束-->
+<script>
+
+</script>

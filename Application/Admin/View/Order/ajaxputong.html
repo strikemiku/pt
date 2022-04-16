@@ -1,0 +1,197 @@
+
+                    <form method="post" enctype="multipart/form-data" target="_blank" id="form-order">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" style="font-size:12px;">
+                                <thead>
+                                <tr>
+                                    <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"></td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('order_sn');">订单编号</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('consignee');">收货人</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="">应付积分</a>
+                                    </td>      
+                                    <td class="text-center">
+                                        <a href="">应付金额</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('order_status');">订单状态</a>
+                                    </td>
+                                    <td class="text-center">支付状态</td>
+                                    <td class="text-center">发货状态</td>
+                                    <td class="text-center">支付方式</td>
+                                    <td class="text-center">配送方式</td>
+                                    <td class="text-center">
+                                        <a href="javascript:sort('add_time');">下单时间</a>
+                                    </td>
+                                    <td class="text-center">打款截图</td>
+                                    <td class="text-center">审核状态</td>
+                                    <td class="text-center">审核描述</td>
+                                    <td class="text-center">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="orderList" id="list">
+                                    <tr>
+                                        <td class="text-center">
+                                        	<input type="checkbox" name="selected[]" value="6">
+                                        	<input type="hidden" name="shipping_code[]" value="flat.flat">
+                                        </td>
+                                        <td class="text-center">{$list.order_sn}</td>
+                                        <td class="text-center">{$list.consignee}:{$list.mobile}</td>
+                                        <td class="text-center">{$list.order_jifen}</td>
+                                        <td class="text-center">{$list.order_amount}</td>
+                                        <td class="text-center">{$order_status[$list[order_status]]}<if condition="$list['is_cod'] eq '1'"><span style="color: red">(货到付款)</span></if></td>
+                                        <td class="text-center">{$pay_status[$list[pay_status]]}</td>
+                                        <td class="text-center">{$shipping_status[$list[shipping_status]]}</td>
+                                        <td class="text-center">{$list.pay_name|default='其他方式'}</td>
+                                        <td class="text-center">{$list.shipping_name}</td>
+                                        <td class="text-center">{$list.add_time|date='Y-m-d H:i',###}</td>
+                                        <td class="text-center">
+                                            <if condition="$list.dakuan_img neq ''">
+                                                <a href="javascript:void(0);" onclick="show('{$list.dakuan_img}')">
+                                                    查看
+                                                </a>
+                                                <else/>
+                                                ---
+                                            </if>
+                                        </td>
+                                        <script>
+                                            function show(image){
+                                                var img = image;
+                                                if(img==''){
+                                                    layer.msg("用户未上传打款截图!", {icon: 5,time: 1000});
+                                                }else{
+                                                    var img = '<img src="'+img+'" style="width: 400px;height: 550px;">';
+                                                    layer.open({
+                                                        type: 1,//Page层类型
+                                                        area: ['400px', '600px'],
+                                                        title: '打款截图',
+                                                        shade: 0.6 ,//遮罩透明度
+                                                        maxmin: false ,//允许全屏最小化
+                                                        anim: -1 ,//0-6的动画形式，-1不开启
+                                                        content: img
+                                                    });
+                                                }
+                                            }
+                                        </script>
+                                        <td class="text-center">
+                                            <if condition="$list.sh_status eq 3">
+                                                <span style="color: orange">待审核</span>
+                                                <elseif condition="$list.sh_status eq 1"/>
+                                                <span style="color: green">通过</span>
+                                                <else/>
+                                                <span style="color: red">拒绝</span>
+                                            </if>
+                                        </td>
+                                        <td class="text-center">{$list.sh_miaoshu}</td>
+                                        <td class="text-center">
+                                            <if condition="$list.sh_status eq 3">
+                                                <a href="javascript:void(0);" class="btn btn-primary" data-url="" onclick="shen({$list.order_id},{$list.sh_status})"> 审核</a>
+                                            </if>
+                                           <a href="{:U('Admin/order/detail',array('order_id'=>$list['order_id']))}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="">详情</a>
+                                           <!--<if condition="($list['order_status'] eq 3) or ($list['order_status'] eq 5)">-->
+                                                <!--<a href="{:U('Admin/order/delete_order',array('order_id'=>$list['order_id']))}"  data-toggle="tooltip" class="btn btn-danger" title="删除"><i class="fa fa-trash-o"></i></a>-->
+                                        	<!--<else/>-->
+                                        		<!--<a href="javascript:void(0)" onclick="alert('该订单不得删除')" data-toggle="tooltip" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i></a>-->
+                                        	<!--</if>-->
+                                        </td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-6 text-left"></div>
+                        <div class="col-sm-6 text-right">{$page}</div>
+                    </div>
+                    <form method="post" id="editForm" >
+                        <table class="table-bordered" style="display: none" id="table">
+                            <tr style="height: 50px;">
+                                <td>审核状态:</td>
+                                <td>
+                                    <input type="radio" name="status" value="1" <if condition="$data.status eq 1">checked</if>>通过
+                                    <input type="radio" name="status" value="2" <if condition="$data.status eq 2">checked</if>>拒绝
+                                </td>
+                            </tr>
+                            <tr style="height: 50px;">
+                                <td>审核描述:</td>
+                                <td>
+                                    <textarea rows="4" cols="30" id="remark" name="remark"></textarea>
+                                    <span id="err_remark" style="color:#F00; display:none;"></span>
+                                </td>
+                            </tr>
+                            <tr style="height: 50px;">
+                                <td></td>
+                                <td>
+                                    <input type="hidden" id="car_id" value="">
+                                    <input type="button" name="tijao" onclick="tijiao()" value="审核">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+<script>
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+    // author :凌寒 2018年5月31日10:16:06 审核页面弹出
+    function shen(order_id,sh_status){
+        if(sh_status == '3'){
+            $("#table").css('display','block');
+            layer.open({
+                type: 1,
+                title: '订单审核',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['400px', '250px'], //宽高
+                content: $("#editForm")
+            });
+            $("#car_id").val(order_id);
+        }else{
+            layer.msg("已审核,请勿重复审核");
+            return false;
+        }
+    }
+    // author :凌寒 2018年5月31日10:16:23 审核提交
+    function tijiao() {
+
+        var id=$("#car_id").val();
+
+        var status = $("input[name='status']:checked").val();
+
+        var remark= $.trim($('#remark').val());
+
+        if(!status){
+            layer.msg("请选择审核状态");
+            return false;
+        }
+        if(remark.length == 0)
+        {
+            layer.msg("请填写审核备注");
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Admin&c=Order&a=dd_identify&t='+Math.random(),
+            data : {id:id,status:status,remark:remark},
+            dataType : 'json',
+            success : function(res){
+                if(res.state == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href=res.url;
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert('网络失败，请刷新页面后重试');
+            }
+        })
+    }
+</script>

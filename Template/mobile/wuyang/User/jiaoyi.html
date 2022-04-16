@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+	<script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+	<script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="__STATIC__/js/aui.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/web.js"></script>
+	<script src="__STATIC__/js/layer/layer.js"></script>
+	<title>交易管理</title>
+</head>
+
+<body>
+<div class="main-container">
+	<div class="header_list">
+		<a href="/" class="go_back">
+			<i class="iconfont">&#xe892;</i>
+		</a>
+		<h3>交易管理</h3>
+
+	</div>
+
+	<div style="height:45px;"></div>
+
+	<section class="aui-myOrder-content">
+		<div class="m-tab demo-small-pitch" data-ydui-tab>
+			<div class="aui-myOrder-fix">
+				<ul class="tab-nav">
+					<li class="tab-nav-item <if condition='$type eq 1'>tab-active</if>" style="width: 50%"><a href="/Mobile/User/jiaoyi/type/1">买入记录</a></li>
+					<li class="tab-nav-item <if condition='$type eq 2'>tab-active</if>" style="width: 50%"><a href="/Mobile/User/jiaoyi/type/2">卖出记录</a></li>
+				</ul>
+			</div>
+			<!--	<div class="aui-prompt"><i class="aui-icon aui-prompt-sm"></i>双十一期间发货及物流时效公告</div>-->
+			<div class="tab-panel">
+				<div class="tab-panel-item <if condition='$type eq 1'>tab-active</if>">
+					<ul>
+						<foreach name="mairu_list" item="v">
+							<li>
+								<div class="aui-list-title-info">
+									<a href="javascript:void(0);" class="aui-well ">
+										<div class="aui-well-bd">订单编号:{$v.order_sn}</div>
+										<div class="aui-well-ft">
+											<if condition="$v.order_status eq 0">未匹配</if>
+											<if condition="$v.order_status eq 1">已匹配</if>
+										</div>
+									</a>
+									<a href="javascript:void(0);" class="aui-list-product-fl-item">
+										<div class="aui-list-product-fl-img">
+											<img src="{$v.goods_img}" alt="" style="width: 72px;height: 72px;">
+										</div>
+										<div class="aui-list-product-fl-text">
+											<h3 class="aui-list-product-fl-title">{$v.goods_name}</h3>
+											<div class="aui-list-product-fl-mes">
+												<div>
+													<span class="aui-list-product-item-price">
+														<em>¥</em>
+														{$v.mairu_money}
+													</span>
+												</div>
+												<div class="aui-btn-purchase">
+													x{$v.goods_num}
+												</div>
+											</div>
+											<h3 class="aui-list-product-fl-title" style="margin-top: 10px;">买入时间:{$v.add_time|date="Y-m-d H:m:s",###}</h3>
+										</div>
+
+									</a>
+								</div>
+								<div class="aui-list-title-btn">
+									<if condition="$v.order_status eq 1">
+										<a href="/Mobile/User/match/id/{$v.id}/type/1" class="red-color">匹配详情</a>
+									</if>
+									<if condition="$v.ke_mai eq 1 and $v.is_maichu eq 0 and $v.order_status eq 0">
+										<a href="javascript:void(0);" onclick="maichu('{$v[id]}')" class="red-color">卖出</a>
+									</if>
+								</div>
+								<div class="aui-dri"></div>
+							</li>
+						</foreach>
+					</ul>
+				</div>
+				<div class="tab-panel-item <if condition='$type eq 2'>tab-active</if>">
+					<ul>
+						<foreach name="maichu_list" item="v">
+							<li>
+								<div class="aui-list-title-info">
+									<a href="#" class="aui-well ">
+										<div class="aui-well-bd">订单编号:{$v.order_sn}</div>
+										<div class="aui-well-ft">
+											<if condition="$v.order_status eq 0">未匹配</if>
+											<if condition="$v.order_status eq 1">已匹配</if>
+										</div>
+									</a>
+									<a href="javascript:;" class="aui-list-product-fl-item">
+										<div class="aui-list-product-fl-img">
+											<img src="{$v.goods_img}" alt="" style="width: 72px;height: 72px;">
+										</div>
+										<div class="aui-list-product-fl-text">
+											<h3 class="aui-list-product-fl-title">{$v.goods_name}</h3>
+											<div class="aui-list-product-fl-mes">
+												<div>
+													<span class="aui-list-product-item-price">
+														<em>¥</em>
+														{$v.maichu_money}
+													</span>
+												</div>
+												<div class="aui-btn-purchase">
+													x{$v.goods_num}
+												</div>
+											</div>
+											<h3 class="aui-list-product-fl-title" style="margin-top: 10px;">卖出时间:{$v.add_time|date="Y-m-d H:m:s",###}</h3>
+										</div>
+									</a>
+								</div>
+								<div class="aui-list-title-btn">
+									<!--<a href="#">取消订货</a>-->
+									<if condition="$v.order_status eq 1">
+										<a href="/Mobile/User/match/id/{$v.id}/type/2" class="red-color">匹配详情</a>
+									</if>
+								</div>
+								<div class="aui-dri"></div>
+							</li>
+						</foreach>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+<script>
+    function maichu(id) {
+        var maichu_fy = "{$maichu_fy}";
+        layer.open({
+            title:'温馨提示',
+            content: '卖出价格为1820元你确定要卖出<br>此订单吗?',
+            btn: ['卖出', '取消'],
+            shadeClose: false,
+            yes: function () {
+                $.ajax({
+                    type : 'post',
+                    url : "{:U('User/do_maichu')}",
+                    data : {id:id},
+                    dataType : 'json',
+                    success : function(res){
+                        if(res.status == 200){
+                            layer.msg(res.msg,{icon:6,time:1500},function () {
+                                location.href = "/Mobile/User/jiaoyi/type/2";
+                            });
+                        }else{
+                            layer.msg(res.msg,{icon:5,time:1500});
+                            return false;
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+                    }
+                })
+            },
+            no: function () {
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+</html>

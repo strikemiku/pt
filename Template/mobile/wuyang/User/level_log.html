@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/Public/js/html2canvas.min.js"></script>
+    <script type="text/javascript" src="/Public/js/html2image.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+    <title>
+        开通记录
+    </title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="{:U('User/updLevel')}" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>
+            开通记录
+        </h3>
+        <if condition="$user['level'] gt 1">
+            <a href="{:U('User/loan')}" class="mingxi" style="color: black">股东退股</a>
+        </if>
+    </div>
+    <div style="height:50px"></div>
+
+    <div class="kuangji_con">
+        <div class="team_nav">
+            <ul>
+                <li class="on">已支付</li>
+                <li>未支付</li>
+            </ul>
+        </div>
+        <div class="team_con">
+            <div class="con" style=" display: block;">
+                <foreach name="winList" item="v">
+                    <div class="one">
+                        <div class="one_top">
+                            <p>充值编号：{$v['order_sn']}</p>
+                            <span><em>已支付</em></span>
+                        </div>
+                        <div class="one_bottom">
+                            <div class="lt_con">
+                                <p>开通等级：{$v['level_name']}</p>
+                                <p>支付方式：{$v['pay_name']}</p>
+                            </div>
+                            <div class="rt_con">
+                                <p>投资金额：{$v['show_account']}元</p>
+                                <p>到期时间：{$v['end_time']|date="Y-m-d",###}</p>
+                            </div>
+                            <p style="width: 100%;">支付时间：{$v['pay_time']|date="Y-m-d H:i",###}</p>
+                        </div>
+                    </div>
+                </foreach>
+            </div>
+            <div class="con">
+                <foreach name="falseList" item="v">
+                    <div class="one">
+                        <div class="one_top">
+                            <p>充值编号：{$v['order_sn']}</p>
+                            <span><em>未支付</em></span>
+                        </div>
+                        <div class="one_bottom">
+                            <div class="lt_con">
+                                <p>开通等级：{$v['level_name']}</p>
+                                <p>支付方式：{$v['pay_name']}</p>
+                            </div>
+                            <div class="rt_con">
+                                <p>投资金额：{$v['show_account']}元</p>
+                                <p>到期时间：{$v['end_time']|date="Y-m-d",###}</p>
+                            </div>
+                        </div>
+                    </div>
+                </foreach>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $(".team_nav li").click(function(){
+            $(".team_nav li").eq($(this).index()).addClass("on").siblings().removeClass('on');
+            $(".team_con .con").hide().eq($(this).index()).show();
+
+        });
+    });
+</script>
+</body>
+</html>

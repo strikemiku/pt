@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <meta charset="UTF-8">
+    <title>申请团长</title>
+    <link rel="stylesheet" href="__STATIC__/new/css/core.css">
+    <link rel="stylesheet" href="__STATIC__/new/css/icon.css">
+    <link rel="stylesheet" href="__STATIC__/new/css/home.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <script src="__STATIC__/new/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/new/js/layer.js" ></script>
+    <style>
+        #aa .colors{
+            background-color:#FF5E53 ;
+            color:#fff;
+        }
+        .item1 .ui-number .num {
+            display: inline-block;
+            border: 1px;
+            width: 40px;
+            height: 30px;
+            float: right;
+            text-align: center;
+            font-size: 12px;
+            line-height: 30px;
+            color: #666;
+            text-align: center;
+        }
+        .item1 .ui-number .increase {
+            display: inline-block;
+            background: none;
+            border: 0;
+            border-left: 1px solid #ddd9da;
+            float: right;
+            width: 30px;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+            color: #F8849C;
+            background: url(/Template/mobile/wuyang/Static/new/images/flow/shop-cart.png) no-repeat -23px -25px;
+            background-size: 60px;
+            text-indent: -9999px;
+        }
+        .item1 .ui-number .decrease {
+            display: inline-block;
+            background: none;
+            font-size: 24px;
+            line-height: 30px;
+            border: 0;
+            width: 30px;
+            float: right;
+            height: 30px;
+            color: #F8849C;
+            border-right: 1px solid #ddd9da;
+            text-indent: -9999px;
+            background: url(/Template/mobile/wuyang/Static/new/images/flow/shop-cart.png) no-repeat 6px -25px;
+            background-size: 60px;
+        }
+        .aui-product-pages-img img {
+            margin: 0px;
+        }
+
+    </style>
+</head>
+<body>
+<header class="aui-header-default aui-header-fixed aui-header-bg"> <a href="javascript:history.go(-1);"  class="aui-header-item" style="position: relative;z-index:1000;"> <i class="aui-icon aui-icon-back-white"></i> </a>
+    <div class="aui-header-center aui-header-center-clear">
+        <div class="aui-header-center-logo">
+            <div class="aui-car-white-Typeface">申请团长</div>
+        </div>
+    </div>
+</header>
+<div class="aui-banner-content aui-fixed-top" data-aui-slider>
+    <div class="aui-banner-wrapper">
+        <foreach name="goods_images_list" item="v">
+            <div class="aui-banner-wrapper-item">
+                <a href="javascript:void(0);"> <img src="{$v['image_url']}" style="height: 200px;"> </a>
+            </div>
+        </foreach>
+    </div>
+    <div class="aui-banner-pagination"></div>
+</div>
+<div class="aui-product-content">
+    <div class="aui-real-price clearfix">
+        <span>
+          <span id="good_price">
+             <p>
+                 ￥{$goods['shop_price']}
+             </p>
+          </span>
+            <span class="aui-list_it_price" style="color: gray;font-size: 12px;margin-top: 6px;margin-left: 5px;">
+               <if condition="$goods['is_recommend'] eq 1">
+                   (原价:￥{$goods['market_price']})
+               </if>
+            </span>
+        </span>
+        <span  style="margin-left: 5px;" >
+        <i id="gains"></i>
+        </span>
+    </div>
+    <div class="aui-product-title">
+        <h2> {$goods['goods_name']} </h2>
+    </div>
+    <div class="aui-product-coupon">
+        <div class="m-actionsheet" id="actionSheet">
+            <form name="buy_goods_form" method="post" id="buy_goods_form" >
+                <div style="position:relative">
+                    <div class="guige_tan_con_con" style="height: 150px;">
+                        <div class="guige_tancon">
+                            <div class="guitan_top">
+                                <a href="javascript:void;"><img id="picture" src="{$goods['original_img']}" /></a>
+                                <div class="guitan_txt">
+                                    <h3 >
+                                        <em>￥</em>
+                                        <span id="goods_price">
+                                           {$goods['shop_price']}
+                                        </span>
+                                    </h3>
+                                    <p><em>库存</em><span id="kucun">{$goods['store_count']}</span></p>
+                                    <p class="p" ></p>
+                                </div>
+                            </div>
+                            <div class="guige_bottom">
+                                <div class="guicenter_title">
+                                    <p>购买数量</p>
+                                </div>
+                                <div class="item1">
+                                    <span class="ui-number">
+                                          <button type="button" class="increase" onClick="goods_add();">+</button>
+                                            <input type="text" class="num" id="number" name="goods_num" value="1" min="1" max="1000" />
+                                            <input type="hidden" name="goods_id" id="goods_id" value="{$goods.goods_id}"/>
+                                          <button type="button" class="decrease"  onClick="goods_cut();">-</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <a href="javascript:;" class="actionsheet-action" id="cancel">
+
+                    </a>
+                    <div class="aui-product-function">
+                        <!--<a  class="yellow-color" href="javascript:void(0);" onClick="AjaxAddCart({$goods.goods_id},1,0);">加入购物车</a>-->
+                        <a href="javascript:void(0);" style="width: 100%;" class="red-color" onClick="AjaxAddCart({$goods.goods_id},1,1);">立即购买</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+
+
+
+        function click_search (){
+            var search_ka = document.getElementById("search_ka");
+            if (search_ka.className == "s-buy open ui-section-box"){
+                search_ka.className = "s-buy ui-section-box";
+            }else {
+                search_ka.className = "s-buy open ui-section-box";
+            }
+        }
+
+        function changeAtt(t) {
+            t.lastChild.checked='checked';
+            for (var i = 0; i<t.parentNode.childNodes.length;i++) {
+                if (t.parentNode.childNodes[i].className == 'hover') {
+                    t.parentNode.childNodes[i].className = '';
+                    t.childNodes[0].checked="checked";
+                }
+            }
+            t.className = "hover";
+            changePrice();
+        }
+
+        function changeAtt1(t) {
+            t.lastChild.checked='checked';
+            for (var i = 0; i<t.parentNode.childNodes.length;i++) {
+                if (t.className == 'hover') {
+                    t.className = '';
+                    t.childNodes[0].checked = false;
+                }
+                else{
+                    t.className="hover";
+                    t.childNodes[0].checked = true;
+                }
+            }
+            changePrice();
+        }
+
+        function goods_cut(){
+            var num_val=document.getElementById('number');
+            var new_num=num_val.value;
+            var Num = parseInt(new_num);
+            if(Num>1)Num=Num-1;
+            num_val.value=Num;
+        }
+        function goods_add(){
+            var num_val=document.getElementById('number');
+            var new_num=num_val.value;
+            var Num = parseInt(new_num);
+            Num=Num+1;  num_val.value=Num;
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+
+            var org_goods_price = {$goods.shop_price}; // 商品本店价格
+            var store_count = {$goods.cost_price}; // 商品成本价格
+            var user_gains = "{$gains}";
+            if(user_gains){
+                var gains = org_goods_price-store_count;
+                if(gains >= 0){
+                    gains = gains*user_gains;
+                    $("#gains").html("赚&nbsp;"+gains.toFixed(2));
+                }
+            }else{
+                $("#gains").html();
+            }
+            // 更新商品价格
+            get_goods_price();
+        });
+        function switch_spec(spec) {
+
+            if(spec){
+                $("#ss_"+spec).addClass('colors').siblings().removeClass('colors');
+                $("#ss_"+spec).siblings().children('input').prop('checked',false);
+                $("#ss_"+spec).children('input').prop('checked',true);
+            }
+            //更新商品价格
+            get_goods_price();
+        }
+        function get_goods_price() {
+
+            var org_goods_price = {$goods.shop_price}; // 商品起始价
+            var store_count = {$goods.store_count}; // 商品起始库存
+            var spec_goods_price = {$spec_goods_price};  // 规格 对应 价格 库存表   //alert(spec_goods_price['28_100']['price']);
+            // 如果有属性选择项
+            if(spec_goods_price != null)
+            {
+
+                goods_spec_arr = new Array();
+                goods_spec_title = new Array();
+                $("input[name^='goods_spec']:checked").each(function(){
+                    goods_spec_title.push($(this).attr('title'));
+                    goods_spec_arr.push($(this).val());
+                });
+                var spec_title = goods_spec_title.sort(sortNumber).join('_');
+                var spec_key = goods_spec_arr.sort(sortNumber).join('_');  //排序后组合成 key
+                goods_price = spec_goods_price[spec_key]['price']; // 找到对应规格的价格
+                store_count = spec_goods_price[spec_key]['store_count']; // 找到对应规格的库存
+
+            }
+            var goods_num = parseInt($(".num").html());
+            // 库存不足的情况
+            if(goods_num > store_count)
+            {
+                goods_num = store_count;
+                alert('库存仅剩 '+store_count+' 件');
+                $(".num").val(goods_num);
+            }
+//      var is_flash =    {$flash['is_qiang']};
+//      if(is_flash ==1){
+//          var flash_sale_price = parseFloat("{$flash['flash_price']}");
+//          goods_price = flash_sale_price;
+//      }
+            //加载不同规格的图片
+            var a = goods_spec_arr.sort(sortNumber);
+            var goods_imgs = {$specImageList};
+            for(var i=0;i<a.length;i++){
+                if(goods_imgs[a[i]]){
+                    $("#picture").attr("src",goods_imgs[a[i]]);
+                    break;
+                }
+            }
+            var price = parseFloat(goods_price);
+            $("#goods_price").html(price+'元'); // 变动价格显示
+            $("#kucun").html(store_count+'件');
+            if(spec_title != null){
+                $(".p").css('display','block').html('已选择:'+spec_title);
+            }
+        }
+        function sortNumber(a,b)
+        {
+            return a - b;
+        }
+
+    </script>
+
+    <div class="aui-product-pages">
+        <div class="aui-product-pages-title">
+            <h3 style="font-weight: bolder;">商品详情</h3>
+        </div>
+        <div class="aui-product-pages-img">
+            {$goods['goods_content']}
+        </div>
+    </div>
+</div>
+<footer class="aui-footer-product">
+    <div class="aui-footer-product-fixed">
+        <div class="aui-footer-product-action-list" style="width: 100%">
+            <!--<a class="yellow-color" style="width: 50%" href="javascript:void(0);" onClick="AjaxAddCart({$goods.goods_id},1,0);">加入购物车</a>-->
+            <a href="javascript:void(0);" style="width: 100%" onClick="AjaxAddCart({$goods.goods_id},1,1);" class="red-color">立即申请</a>
+        </div>
+    </div>
+</footer>
+
+<!--<script src="__STATIC__/new/js/scrolltopcontrol.js"></script>-->
+<script src="__STATIC__/new/js/aui.js"></script>
+<script src="__STATIC__/new/js/aui-down.js"></script>
+<script src="__STATIC__/new/js/aui-car.js"></script>
+<script type="text/javascript" src="__STATIC__/new/layer/layer.js"></script>
+<script>
+    //会员套餐判断商品数量
+    $("#goods_num").change(function(){
+        layer.msg("会员套餐数量只能购买一件",{icon:5});
+        $("#goods_num").val("1");
+    });
+    /**
+     * addcart 将商品加入购物车
+     * @goods_id  商品id
+     * @num   商品数量
+     * @form_id  商品详情页所在的 form表单
+     * @to_catr 加入购物车后再跳转到 购物车页面 默认不跳转 1 为跳转
+     * layer弹窗插件请参考http://layer.layui.com/mobile/
+     */
+    function AjaxAddCart(goods_id,num,to_catr)
+    {
+        console.log(goods_id+'---'+num+'--'+to_catr);
+        //如果有商品规格 说明是商品详情页提交
+        if($("#buy_goods_form").length > 0) {
+            var user_id = "{$user['user_id']}";
+            if(!user_id){
+                layer.open({
+                    title:'温馨提示',
+                    content: '未登录->请先登录',
+                    btn: ['登录', '再逛逛'],
+                    shadeClose: false,
+                    yes: function () {
+                        location.href = "/index.php?m=Mobile&c=User&a=login";
+                    },
+                    no: function () {
+                        layer.closeAll();
+                    }
+                });
+            }else{
+                if(num > 0){
+                    $.ajax({
+                        type: "POST",
+                        url: "/index.php?m=Mobile&c=Cart&a=add_cart",
+                        data: {goods_id:goods_id,goods_num:num},
+                        dataType: 'json',
+                        success: function (data) {
+                            location.href = "/Mobile/Cart/cart6";
+                        }
+                    });
+                }
+            }
+        }
+    }
+</script>
+
+
+
+</body>
+</html>

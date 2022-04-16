@@ -1,0 +1,82 @@
+<include file="Public/min-header" />
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content ">
+        <!-- Main content -->
+        <div class="container-fluid">
+            <div class="pull-right">
+                <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default" data-original-title="返回"><i class="fa fa-reply"></i></a>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i> 添加成团人数</h3>
+                </div>
+                <div class="panel-body ">
+                    <!--表单数据-->
+                    <form method="post" id="handleposition" action="{:U('Admin/Promotion/numHandle')}">
+                        <!--通用信息-->
+                        <div class="tab-content col-md-10">
+                            <div class="tab-pane active" id="tab_tongyong">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <td>成团人数：</td>
+                                        <td>
+                                            <input type="text" class="form-control" name="num" value="{$info.num}" >
+                                        </td>
+                                        <td class="col-sm-4">请填写数量</td>
+                                    </tr>
+                                    <tr>
+                                        <td>中奖人数：</td>
+                                        <td>
+                                            <input type="text" class="form-control" name="award_bl" value="{$info.award_bl}" >
+                                        </td>
+                                        <td class="col-sm-4">人</td>
+                                    </tr>
+                                    <tr>
+                                        <td>红包奖励比例：</td>
+                                        <td>
+                                            <input type="text" class="form-control" name="hb_bl" value="{$info.hb_bl}" >
+                                        </td>
+                                        <td class="col-sm-4">%，未中奖得红包奖励比例</td>
+                                    </tr>
+                                    <tr>
+                                        <td>显示：</td>
+                                        <td >
+                                            <input type="radio" class="" name="is_show" value="1" <if condition="$info[is_show] eq 1"> checked="checked"</if>>开启
+                                            <input type="radio" class="" name="is_show" value="0" <if condition="$info[is_show] eq 0"> checked="checked"</if>>关闭
+                                        </td>
+                                        <td class="col-sm-4"></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td><input type="hidden" name="act" value="{$act}">
+                                            <input type="hidden" name="id" value="{$info.id}">
+                                        </td>
+                                        <td class="col-sm-4"><input class="btn btn-primary" type="button" onclick="adsubmit()" value="保存"></td>
+                                        <td class="text-left"></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </form><!--表单数据-->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    // 上传商品图片成功回调函数
+    function call_back(fileurl_tmp){
+        $("#link_logo").val(fileurl_tmp);
+        $("#link_logos").attr('src',fileurl_tmp);
+        $("#link_logos").css('display','block');
+    }
+    function adsubmit(){
+        $('#handleposition').submit();
+    }
+</script>
+</body>
+</html>

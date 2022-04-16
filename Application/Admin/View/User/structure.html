@@ -1,0 +1,691 @@
+<include file="Public/min-header"/>
+<style>
+    .pages a,.pages span {
+        display:inline-block;
+        padding:4px 7px;
+        margin:0 2px;
+        border:1px solid #D5D4D4;
+        -webkit-border-radius:1px;
+        -moz-border-radius:1px;
+        border-radius:1px;
+    }
+    .pages a,.pages li {
+        display:inline-block;
+        list-style: none;
+        text-decoration:none; color:#077ee3;
+    }
+
+    .pages a:hover{
+        border-color:#077ee3;
+    }
+    .pages span.current{
+        background:#077ee3;
+        color:#FFF;
+        font-weight:700;
+        border-color:#077ee3;
+    }
+
+    .long-tr th{
+        text-align: center
+    }
+    .long-td td{
+        text-align: center
+    }
+    .long-td:hover{ background:#f5f5f5}
+</style>
+
+<div class="wrapper">
+<include file="Public/breadcrumb"/>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+
+            <div class="ibox-title">
+
+                <h5><i class="fa fa-tasks"></i> 网络图查询</h5><span class="prompt" style="float:right; font-weight:normal;">★</span>
+
+            </div>
+            <div class="ibox-content">
+                <form name="admin_list_sea" class="form-search" method="get" action="__URL__/structure">
+                    <div  class="input-group col-sm-3" >
+                        <input type="text" name="user_num" id="user_num" class="form-control" value="" placeholder="输入会员编号进行搜索">
+
+                        <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                        </span>
+                    </div>
+                </form>
+                <span class="prompt" style="color: red">★友情提示：</span><br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prompt" style="color: red">1.输入框中，不输入即为抵达网络图顶端！</span><br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prompt" style="color: red">2.输入会员编号进行搜索(编号请前往会员列表查询)</span><br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prompt" style="color: red">3.点击会员编号，查看该会员3层以内下属结构</span>
+            </div>
+
+            <div class="ibox-content">
+
+                <table align="center" cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td class="OChartCellPadding" valign="top" align="middle" width="100%" colspan="2">
+                            <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <table width="200" border="0" align="center" cellpadding="1" cellspacing="1" bordercolor="#21c6a5" bgcolor="#ffffff" id="Table1">
+                                            <tbody>
+                                            <tr align="middle" bgcolor="09c762">
+                                                <td height="9" valign="middle" colspan="3">
+                                                    <div align="center">
+                                                    <span id="chartXP_OChartXP__ctl8_CustomerNO" style="FONT-WEIGHT: bold; COLOR: white;">
+                                                        <a href="{:U('User/structure',array('user_num'=>$huiyuan['user_code']))}">
+                                                             <font color="#fff">编号：{$huiyuan['user_code']}</font><br/>
+                                                             <font color="#fff">累计消费：{$huiyuan['total_amount']}</font><br/>
+                                                             <font color="#fff">购物币：{$huiyuan['shop_money']}</font><br/>
+                                                             <font color="#fff">现金币：{$huiyuan['award_money']}</font><br/>
+                                                             <font color="#fff">姓名：{$huiyuan['nickname']}</font><br/>
+                                                        </a>
+
+                                                    </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr align="middle" bgcolor="f0fefc">
+                                                <td valign="center">
+                                                    <div align="center">
+                                                        <font color="#000">左</font>
+                                                    </div>
+                                                </td>
+                                                <td valign="center">
+                                                    <div align="center">
+                                                        <font color="#000000"></font>
+                                                    </div>
+                                                </td>
+                                                <td valign="center">
+                                                    <div align="center">
+                                                        <font color="#000">右</font>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr align="middle" bgcolor="f0fefc">
+                                                <td valign="center" style="width:33%">
+                                                    <div align="center">
+                                                        <font color="#000000">{$huiyuan['l_num']}</font>
+                                                    </div>
+                                                </td>
+                                                <td valign="center" style="width:33%">
+                                                    <div align="center">
+                                                        <font color="#000000">人数</font>
+                                                    </div>
+                                                </td>
+                                                <td valign="center" style="width:33%">
+                                                    <div align="center">
+                                                        <font color="#000000">{$huiyuan['r_num']}</font>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <table cellspacing="0" cellpadding="0">
+                                <tbody>
+                                <tr>
+                                    <td class="OChartCellPadding" valign="top" align="middle" width="100%" colspan="2">
+                                        <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table id="Table1" bordercolor="#21c6a5" cellspacing="1" cellpadding="1"
+                                                           width="200" align="center" bgcolor="#ffffff" border="0">
+                                                        <tbody>
+                                                        <tr align="middle" bgcolor="09c762">
+                                                            <td width="100" height="9" valign="middle" colspan="3">
+                                                                <div align="center">
+                                                                <span id="chartXP_OChartXP__ctl27_CustomerNO" style="FONT-WEIGHT: bold; COLOR: white;">
+                                                                    <a href="{:U('User/structure',array('user_num'=>$huiyuan1['user_code']))}">
+                                                                        <if condition="$huiyuan1['user_code'] eq '' ">
+                                                                            <font color="#fff">此区暂无会员</font>
+                                                                            <else/>
+                                                                             <font color="#fff">编号：{$huiyuan1['user_code']}</font><br/>
+                                                                            <font color="#fff">累计消费：{$huiyuan1['total_amount']}</font><br/>
+                                                                            <font color="#fff">购物币：{$huiyuan1['shop_money']}</font><br/>
+                                                                            <font color="#fff">现金币：{$huiyuan1['award_money']}</font><br/>
+                                                                            <font color="#fff">姓名：{$huiyuan1['nickname']}</font><br/>
+                                                                        </if>
+                                                                    </a>
+                                                                </span>
+                                                                    <span style="FONT-WEIGHT: bold; COLOR: white;"></span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr align="middle" bgcolor="f0fefc">
+                                                            <td valign="center">
+                                                                <div align="center">
+                                                                    <font color="#000">左</font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center">
+                                                                <div align="center">
+                                                                    <font color="#000000"></font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center">
+                                                                <div align="center">
+                                                                    <font color="#000">右</font>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr align="middle" bgcolor="f0fefc">
+                                                            <td valign="center" style="width:33%">
+                                                                <div align="center">
+                                                                    <font color="#000000">{$huiyuan1['l_num']}</font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center" style="width:33%">
+                                                                <div align="center">
+                                                                    <font color="#000000">人数</font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center" style="width:33%">
+                                                                <div align="center">
+                                                                    <font color="#000000">{$huiyuan1['r_num']}</font>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr align="right" bgcolor="#e7f2fb">
+                                                            <td valign="center" align="middle" bgcolor="#21c6a5" colspan="3">
+                                                                <span id="chartXP_OChartXP__ctl27_AddDate"></span>
+                                                                <span id="chartXP_OChartXP__ctl8_AddDate"></span>
+                                                                <span></span>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td valign="top" >
+                                        <table cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td class="OChartCellPadding" valign="top" align="middle" width="100%" colspan="2">
+                                                    <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <table id="Table1" bordercolor="#21c6a5" cellspacing="1" cellpadding="1"
+                                                                       width="200" align="center" bgcolor="#ffffff" border="0">
+                                                                    <tbody>
+                                                                    <tr align="middle" bgcolor="09c762">
+                                                                        <td width="100" height="9" valign="middle" colspan="3">
+                                                                            <div align="center">
+                                                                            <span id="chartXP_OChartXP__ctl27_CustomerNO" style="FONT-WEIGHT: bold; COLOR: white;">
+                                                                               <a href="{:U('User/structure',array('user_num'=>$huiyuan11['user_code']))}">
+                                                                                    <if condition="$huiyuan11['user_code'] eq '' ">
+                                                                                        <font color="#fff">此区暂无会员</font>
+                                                                                        <else/>
+                                                                                         <font color="#fff">编号：{$huiyuan11['user_code']}</font><br/>
+                                                                                        <font color="#fff">累计消费：{$huiyuan11['total_amount']}</font><br/>
+                                                                                        <font color="#fff">购物币：{$huiyuan11['shop_money']}</font><br/>
+                                                                                        <font color="#fff">现金币：{$huiyuan11['award_money']}</font><br/>
+                                                                                        <font color="#fff">姓名：{$huiyuan11['nickname']}</font><br/>
+                                                                                    </if>
+                                                                                </a>
+                                                                            </span>
+                                                                                <span style="FONT-WEIGHT: bold; COLOR: white;"></span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">左</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000000"></font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">右</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan11['l_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">人数</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan11['r_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr align="right" bgcolor="#e7f2fb">
+                                                                        <td valign="center" align="middle" bgcolor="#21c6a5" colspan="3">
+                                                                            <span id="chartXP_OChartXP__ctl27_AddDate"></span>
+                                                                            <span id="chartXP_OChartXP__ctl8_AddDate"></span>
+                                                                            <span></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td valign="top">
+                                        <table cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td class="OChartCellPadding" valign="top" align="middle" width="100%" colspan="2">
+
+                                                    <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <table id="Table1" bordercolor="#21c6a5" cellspacing="1" cellpadding="1"
+                                                                       width="200" align="center" bgcolor="#ffffff" border="0">
+                                                                    <tbody>
+                                                                    <tr align="middle" bgcolor="09c762">
+                                                                        <td width="100" height="9" valign="middle" colspan="3">
+                                                                            <div align="center">
+                                                                            <span>
+                                                                               <a href="{:U('User/structure',array('user_num'=>$huiyuan12['user_code']))}">
+                                                                                     <if condition="$huiyuan12['user_code'] eq '' ">
+                                                                                        <font color="#fff">此区暂无会员</font>
+                                                                                        <else/>
+                                                                                         <font color="#fff">编号：{$huiyuan12['user_code']}</font><br/>
+                                                                                         <font color="#fff">累计消费：{$huiyuan12['total_amount']}</font><br/>
+                                                                                        <font color="#fff">购物币：{$huiyuan12['shop_money']}</font><br/>
+                                                                                        <font color="#fff">现金币：{$huiyuan12['award_money']}</font><br/>
+                                                                                        <font color="#fff">姓名：{$huiyuan12['nickname']}</font><br/>
+                                                                                    </if>
+                                                                                </a>
+                                                                            </span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">左</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000000"></font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">右</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan12['l_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">人数</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan12['r_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td colspan="3" valign="center">
+
+                                                                            <div align="center">
+                                                                                <font color="#000000"></font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="right" bgcolor="#e7f2fb">
+                                                                        <td valign="center" align="middle" bgcolor="#21c6a5" colspan="3">
+                                                                            <span id="chartXP_OChartXP__ctl27_AddDate"></span>
+                                                                            <span id="chartXP_OChartXP__ctl8_AddDate"></span>
+                                                                            <span></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td valign="top">
+                            <table cellspacing="0" cellpadding="0">
+                                <tbody>
+                                <tr>
+                                    <td class="OChartCellPadding" valign="top" align="middle" width="100%"
+                                        colspan="2">
+
+                                        <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table id="Table1" bordercolor="#21c6a5" cellspacing="1" cellpadding="1"
+                                                           width="200" align="center" bgcolor="#ffffff" border="0">
+                                                        <tbody>
+                                                        <tr align="middle" bgcolor="09c762">
+                                                            <td width="100" height="9" valign="middle" colspan="3">
+                                                                <div align="center">
+                                                                    <span id="chartXP_OChartXP__ctl27_CustomerNO" style="FONT-WEIGHT: bold; COLOR: white;">
+                                                                      <a href="{:U('User/structure',array('user_num'=>$huiyuan2['user_code']))}">
+
+                                                                             <if condition="$huiyuan2['user_code'] eq ''">
+                                                                                 <font color="#fff">此区暂无会员</font>
+                                                                             <else/>
+                                                                                 <font color="#fff">编号：{$huiyuan2['user_code']}</font><br/>
+                                                                                 <font color="#fff">累计消费：{$huiyuan2['total_amount']}</font><br/>
+                                                                                 <font color="#fff">购物币：{$huiyuan2['shop_money']}</font><br/>
+                                                                                 <font color="#fff">现金币：{$huiyuan2['award_money']}</font><br/>
+                                                                                 <font color="#fff">姓名：{$huiyuan2['nickname']}</font><br/>
+                                                                             </if>
+                                                                        </a>
+                                                                    </span>
+                                                                    <span style="FONT-WEIGHT: bold; COLOR: white;"></span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr align="middle" bgcolor="f0fefc">
+                                                            <td valign="center">
+                                                                <div align="center">
+                                                                    <font color="#000">左</font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center">
+                                                                <div align="center">
+                                                                    <font color="#000000"></font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center">
+                                                                <div align="center">
+                                                                    <font color="#000">右</font>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr align="middle" bgcolor="f0fefc">
+                                                            <td valign="center" style="width:33%">
+                                                                <div align="center">
+                                                                    <font color="#000000">{$huiyuan2['l_num']}</font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center" style="width:33%">
+                                                                <div align="center">
+                                                                    <font color="#000000">人数</font>
+                                                                </div>
+                                                            </td>
+                                                            <td valign="center" style="width:33%">
+                                                                <div align="center">
+                                                                    <font color="#000000">{$huiyuan2['r_num']}</font>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr align="right" bgcolor="#e7f2fb">
+                                                            <td valign="center" align="middle" bgcolor="#21c6a5" colspan="3">
+                                                                <span id="chartXP_OChartXP__ctl27_AddDate"></span>
+                                                                <span id="chartXP_OChartXP__ctl8_AddDate"></span>
+                                                                <span></span>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td valign="top">
+                                        <table cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td class="OChartCellPadding" valign="top" align="middle" width="100%"
+                                                    colspan="2">
+
+                                                    <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <table id="Table1" bordercolor="#21c6a5" cellspacing="1" cellpadding="1"
+                                                                       width="200" align="center" bgcolor="#ffffff" border="0">
+                                                                    <tbody>
+                                                                    <tr align="middle" bgcolor="09c762">
+                                                                        <td width="100" height="9" valign="middle" colspan="3">
+                                                                            <div align="center">
+                                                                                <span id="chartXP_OChartXP__ctl27_CustomerNO" style="FONT-WEIGHT: bold; COLOR: white;">
+                                                                                   <a href="{:U('User/structure',array('user_num'=>$huiyuan21['user_code']))}">
+                                                                                        <if condition="$huiyuan21['user_code'] eq '' ">
+                                                                                             <font color="#fff">此区暂无会员</font>
+                                                                                         <else/>
+                                                                                             <font color="#fff">编号：{$huiyuan21['user_code']}</font><br/>
+                                                                                            <font color="#fff">累计消费：{$huiyuan21['total_amount']}</font><br/>
+                                                                                             <font color="#fff">购物币：{$huiyuan21['shop_money']}</font><br/>
+                                                                                              <font color="#fff">现金币：{$huiyuan21['award_money']}</font><br/>
+                                                                                             <font color="#fff">姓名：{$huiyuan21['nickname']}</font><br/>
+                                                                                         </if>
+                                                                                    </a>
+                                                                                </span>
+                                                                                <span style="FONT-WEIGHT: bold; COLOR: white;"></span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">左</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000000"></font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">右</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan21['l_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">人数</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan21['r_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="right" bgcolor="#e7f2fb">
+                                                                        <td valign="center" align="middle" bgcolor="#21c6a5" colspan="3">
+                                                                            <span id="chartXP_OChartXP__ctl27_AddDate"></span>
+                                                                            <span id="chartXP_OChartXP__ctl8_AddDate"></span>
+                                                                            <span></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td valign="top">
+                                        <table cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td class="OChartCellPadding" valign="top" align="middle" width="100%"
+                                                    colspan="2">
+
+                                                    <table id="Table2" cellspacing="1" cellpadding="0" width="82" border="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <table id="Table1" bordercolor="#21c6a5" cellspacing="1" cellpadding="1"
+                                                                       width="200" align="center" bgcolor="#ffffff" border="0">
+                                                                    <tbody>
+                                                                    <tr align="middle" bgcolor="09c762">
+                                                                        <td width="100" height="9" valign="middle" colspan="3">
+                                                                            <div align="center">
+                                                                            <span>
+                                                                               <a href="{:U('User/structure',array('user_num'=>$huiyuan22['user_code']))}">
+
+                                                                                     <if condition="$huiyuan22['user_code'] eq ''">
+                                                                                             <font color="#fff">此区暂无会员</font>
+                                                                                         <else/>
+                                                                                             <font color="#fff">编号：{$huiyuan22['user_code']}</font><br/>
+                                                                                         <font color="#fff">累计消费：{$huiyuan22['total_amount']}</font><br/>
+                                                                                             <font color="#fff">购物币：{$huiyuan22['shop_money']}</font><br/>
+                                                                                             <font color="#fff">现金币：{$huiyuan22['award_money']}</font><br/>
+                                                                                             <font color="#fff">姓名：{$huiyuan22['nickname']}</font><br/>
+                                                                                     </if>
+                                                                                </a>
+                                                                            </span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">左</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000000"></font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center">
+                                                                            <div align="center">
+                                                                                <font color="#000">右</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan22['l_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">人数</font>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td valign="center" style="width:33%">
+                                                                            <div align="center">
+                                                                                <font color="#000000">{$huiyuan22['r_num']}</font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="middle" bgcolor="f0fefc">
+                                                                        <td colspan="3" valign="center">
+
+                                                                            <div align="center">
+                                                                                <font color="#000000"></font>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr align="right" bgcolor="#e7f2fb">
+                                                                        <td valign="center" align="middle" bgcolor="#21c6a5" colspan="3">
+                                                                            <span id="chartXP_OChartXP__ctl27_AddDate"></span>
+                                                                            <span id="chartXP_OChartXP__ctl8_AddDate"></span>
+                                                                            <span></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
+

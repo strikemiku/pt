@@ -1,0 +1,240 @@
+<include file="Public/min-header"/>
+<div class="wrapper">
+    <!-- Content Header (Page header) -->
+   <include file="Public/breadcrumb"/>
+    <section class="content">
+    <!-- Main content -->
+    <!--<div class="container-fluid">-->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i> 用户信息</h3>
+            </div>
+            <div class="panel-body">
+                <form action="" method="post" onsubmit="return checkUserUpdate(this);">
+                    <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-2">推广码:</td>
+                        <td class="col-sm-2"><input type="text" class="form-control" name="user_code" value="{$user.user_code}" readonly="readonly"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2">姓名:</td>
+                        <td ><input type="text" class="form-control" name="nickname" value="{$user.nickname}"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2">会员等级:</td>
+                        <td>
+                            <select name="level" id="level"  class="form-control" style="width:250px;" >
+                                <foreach name="user_level" item="v" key="k" >
+                                    <option value="{$v['level']}" <if condition="$v['is_check'] eq 1">selected="selected"</if> >
+                                    {$v['level_name']}
+                                    </option>
+                                </foreach>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>手机号:</td>
+                        <td>
+                            <input type="text" class="form-control" name="mobile" value="{$user.mobile}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>余额:</td>
+                        <td>
+                            <input class="form-control" type="text" name="user_money" value="{$user.user_money}" readonly="readonly">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>积分:</td>
+                        <td>
+                            <input class="form-control" type="text" name="pay_points" value="{$user.pay_points}" readonly="readonly">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td>推荐值:</td>-->
+                        <!--<td>-->
+                            <!--<input class="form-control" type="text" name="recom_num" value="{$user.recom_num}" readonly="readonly">-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>贡献值:</td>-->
+                        <!--<td>-->
+                            <!--<input class="form-control" type="text" name="devote_num" value="{$user.devote_num}" readonly="readonly">-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <td>活跃度:</td>
+                        <td>
+                            <input class="form-control" type="text" name="active_num" value="{$user.active_num}" readonly="readonly">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>拼团总数:</td>
+                        <td>
+                            <input class="form-control" type="text" name="total_pt_num" value="{$user.total_pt_num}" readonly="readonly">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>每日拼团数量:</td>
+                        <td>
+                            <input class="form-control" type="text" name="pt_num" value="{$user.pt_num}" readonly="readonly">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td>每日拼团失败次数:</td>-->
+                        <!--<td>-->
+                            <!--<input class="form-control" type="text" name="false_num" value="{$user.false_num}">-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <td>登录密码:</td>
+                        <td><input type="password" class="form-control" name="password"></td>
+                        <td>留空表示不修改密码</td>
+                    </tr>
+                    <tr>
+                        <td>交易密码:</td>
+                        <td><input type="password" class="form-control" name="twopassword"></td>
+                        <td>留空表示不修改密码</td>
+                    </tr>
+                    <tr>
+                        <td>注册时间:</td>
+                        <td>
+                            {$user.reg_time|date='Y-m-d H:i:s',###}
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="submit" class="btn btn-info">
+                                <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                            </button>
+                            <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default pull-right" data-original-title="返回"><i class="fa fa-reply"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </form>
+
+            </div>
+        </div>
+ 	  </div> 
+    </div>    <!-- /.content -->
+   </section>
+</div>
+<script>
+    /**
+     * 获取城市
+     * @param t  省份select对象
+     */
+    function get_city(t){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        $('#twon').empty().css('display','none');
+        var url = '/index.php?m=Home&c=Api&a=getRegion&level=2&parent_id='+ parent_id;
+        $.ajax({
+            type : "GET",
+            url  : url,
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择城市</option>'+ v;
+                $('#city').empty().html(v);
+            }
+        });
+    }
+    /**
+     * 获取地区
+     * @param t  城市select对象
+     */
+    function get_area(t){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        var url = '/index.php?m=Home&c=Api&a=getRegion&level=3&parent_id='+ parent_id;
+        $.ajax({
+            type : "GET",
+            url  : url,
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择区域</option>'+ v;
+                $('#district').empty().html(v);
+            }
+        });
+    }
+    // 获取最后一级乡镇
+    function get_twon(obj){
+        var parent_id = $(obj).val();
+        var url = '/index.php?m=Home&c=Api&a=getTwon&parent_id='+ parent_id;
+        $.ajax({
+            type : "GET",
+            url  : url,
+            success: function(res) {
+                if(parseInt(res) == 0){
+                    $('#twon').empty().css('display','none');
+                }else{
+                    $('#twon').css('display','block');
+                    $('#twon').empty().html(res);
+                }
+            }
+        });
+    }
+    // 上传商品图片成功回调函数
+    function call_back(fileurl_tmp){
+        $("#head_pic").val(fileurl_tmp);
+        $("#head_pics").attr('src',fileurl_tmp);
+        $("#head_pics").css('display','block');
+    }
+    function checkUserUpdate(){
+
+        var mobile = $('input[name="mobile"]').val();
+        var password = $('input[name="password"]').val();
+        var password2 = $('input[name="password2"]').val();
+        var twopassword = $('input[name="twopassword"]').val();
+        var twopassword2 = $('input[name="twopassword2"]').val();
+        var error ='';
+//        if(password != password2){
+//            error += "两次输入的密码不一样\n";
+//        }
+//        if(twopassword != twopassword2){
+//            error += "两次输入的二级密码不一样\n";
+//        }
+//        if(!checkEmail(email)){
+//            error += "邮箱地址有误\n";
+//        }
+//        if(!checkMobile(mobile)){
+//            error += "手机号码填写有误\n";
+//        }
+        if(error){
+            layer.alert(error, {icon: 2});  //alert(error);
+            return false;
+        }
+        return true;
+
+    }
+</script>
+
+</body>
+</html>

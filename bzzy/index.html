@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+		<meta id="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,height=device-height"
+		 name="viewport" />
+		<meta name="apple-themes-web-app-capable" content="yes" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta http-equiv="pragma" content="no-store" />
+		<meta http-equiv="Cache-Control" content="no-store, must-revalidate" />
+		<meta http-equiv="expires" content="0" />
+		<title>小小苹果店 - 下载页</title>
+		<link href="css/style.css" rel="stylesheet" media="screen" />
+	</head>
+
+	<body>
+		<div class="content_div">
+			<div class="bei">
+				<!--<div class="pindao">-->
+					<!--<div class="tu">-->
+						<!--&lt;!&ndash;<a href="#">&ndash;&gt;-->
+							<!--&lt;!&ndash;<img alt="" src="images/tu.png" />&ndash;&gt;-->
+						<!--&lt;!&ndash;</a>&ndash;&gt;-->
+					<!--</div>-->
+					<!--<div class="wen">-->
+						<!--<img alt="" src="images/wen.png" />-->
+					<!--</div>-->
+				<!--</div>-->
+				<div class="x_title">
+					<p>赶快下载吧！小小苹果店APP！</p>
+				</div>
+				<div class="box" id="appbox">
+					<div class="an1" onClick="download_ios();">
+						<div class="tub">
+							<img alt="IOS下载" src="images/tubiao.png" />
+						</div>
+						<p>IOS下载</p>
+					</div>
+					<br>
+					<div class="an2" onClick="download_android();">
+						<div class="tub">
+							<img alt="Android下载" src="images/tubiao.png" />
+						</div>
+						<p>Android下载</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="live_weixin">
+			<img src="images/live_weixin.png">
+		</div>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script>
+			//下载地址 http://www.mlail.com/milaile
+			var ios_url = "https://www.dibaqu.com/77rE"; //ios下载地址
+			var android_url = "./Android.apk"; //android下载地址
+			var shouji_url = ""; //mobile地址
+
+			function browserRedirect() {
+				var system = {};
+				var pop = navigator.platform;
+				system.win = pop.indexOf("Win") == 0;
+				system.mac = pop.indexOf("Mac") == 0;
+				system.x11 = (pop == "X11") || (pop.indexOf("Linux") == 0);
+				if (system.win || system.mac || system.xll) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+			function custom_close() {
+				try {
+					window.opener = null;
+					window.open("about:blank", "_top").close();
+					window.open("", "_top").close();
+					window.top.close()
+					window.close();
+				} catch (err) {
+					window.location.href = 'about:blank';
+				}
+			}
+
+			function downloadall() {
+				if (browserRedirect()) {
+					var uop = navigator.userAgent.toLowerCase();
+					if (uop.indexOf('micromessenger') !== -1) { //微信访问
+						$(".live_weixin").show();
+					}
+					if (/(iphone|ipad|ipod|ios)/i.test(uop) && (navigator.platform.indexOf('Linux armv') === -1)) {
+						$(".an2").remove();
+					} else if (/(android)/i.test(uop) || navigator.platform.indexOf('Linux armv') !== -1) {
+						$(".an1").remove();
+					} else {
+						if (shouji_url == "") {
+							alert('暂无您设备的访问方式！');
+							custom_close();
+							return false;
+						} else {
+							window.location.href = shouji_url;
+						}
+					};
+					$(".content_div").show();
+				} else {
+					if (shouji_url == "") {
+						alert('请使用手机访问！');
+						custom_close();
+						return false;
+					} else {
+						window.location.href = shouji_url;
+					}
+				}
+			}
+
+			function download_ios() {
+				ios_url == "" ? alert('暂无下载！') : location = ios_url;
+			}
+
+			function download_android() {
+				android_url == "" ? alert('暂无下载！') : location = android_url;
+			}
+
+			$(window).load(function() {
+				downloadall();
+			});
+
+			$(".live_weixin").on('touchend', function(e) {
+				$(".live_weixin").hide();
+			});
+		</script>
+	</body>
+
+</html>

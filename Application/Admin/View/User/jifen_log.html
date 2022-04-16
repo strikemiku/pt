@@ -1,0 +1,165 @@
+<include file="Public/min-header"/>
+<link href="__PUBLIC__/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+<script src="__PUBLIC__/plugins/daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i>积分记录</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="navbar navbar-default">
+                        <form id="search-form2" class="navbar-form form-inline"  method="get" action="{:U('/Admin/User/jifen_log')}">
+                            <div class="form-group">
+                                <label for="input-order-id" class="control-label">类型:</label>
+                                <select class="form-control" id="type" name="type">
+                                    <option value="">请选择类型</option>
+                                    <option value="1"<if condition="$_REQUEST['type'] eq '1'">selected</if>>转出</option>
+                                    <option value="2"<if condition="$_REQUEST['type'] eq '2'">selected</if>>系统充值</option>
+                                    <option value="3"<if condition="$_REQUEST['type'] eq '3'">selected</if>>转入</option>
+                                    <option value="4"<if condition="$_REQUEST['type'] eq '4'">selected</if>>兑换积分</option>
+                                    <option value="5"<if condition="$_REQUEST['type'] eq '5'">selected</if>>拼团失败</option>
+                                    <option value="6"<if condition="$_REQUEST['type'] eq '6'">selected</if>>积分支付</option>
+                                    <option value="7"<if condition="$_REQUEST['type'] eq '7'">selected</if>>开通会员</option>
+                                </select>
+                                <label for="input-order-id" class="control-label">会员昵称:</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="nickname" placeholder="会员昵称" value="{$Think.request.nickname}" name="nickname" />
+                                </div>
+                                <div class="input-group margin">
+                                    <div class="input-group-addon">
+                                        申请时间<i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="start_time" value="{$create_time}" name="create_time" class="form-control pull-right">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="button-filter search-order" type="submit"><i class="fa fa-search"></i> 筛选</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="ajax_return">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="sorting text-left">ID</th>
+                                    <th class="sorting text-left">用户名</th>
+                                    <th class="sorting text-left">积分</th>
+                                    <th class="sorting text-left">类型</th>
+                                    <th class="sorting text-left">来源用户</th>
+                                    <th class="sorting text-left">描述</th>
+                                    <th class="sorting text-left">操作时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="list" id="v">
+                                    <tr>
+                                        <td class="text-left">{$v.id}</td>
+                                        <td class="text-left">
+                                            {$v.user_name}
+                                        </td>
+                                        <td class="text-left">
+                                            <if condition="$v.action eq 1">
+                                                +
+                                                <else/>
+                                                -
+                                            </if>
+                                            {$v.money}
+                                        </td>
+                                        <td class="text-left">
+                                            <if condition="$v.type eq 1">
+                                                转出
+                                                <elseif condition="$v.type eq 2"/>
+                                                系统充值
+                                                <elseif condition="$v.type eq 3"/>
+                                                转入
+                                                <elseif condition="$v.type eq 4"/>
+                                                兑换积分
+                                                <elseif condition="$v.type eq 5"/>
+                                                拼团失败
+                                                <elseif condition="$v.type eq 6"/>
+                                                积分支付
+                                                <elseif condition="$v.type eq 7"/>
+                                                开通会员
+                                                <else/>
+                                                其他方式
+                                            </if>
+                                        </td>
+                                        <td class="text-left">{$v.from_user_name|default="---"}</td>
+                                        <td class="text-left">{$v.desc}</td>
+                                        <td class="text-left">{$v.add_time|date="Y-m-d H:i:s",###}</td>
+
+                                        <!--<td class="text-left">-->
+                                            <!--<a href="{:U('Admin/User/editWithdrawals',array('id'=>$v['id'],'p'=>$_GET[p]))}" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="编辑"><i class="fa fa-pencil"></i></a>-->
+                                            <!--&lt;!&ndash;<if condition="in_array($v[status],array(0,2))">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<a href="javascript:void(0);" onclick="del('{$v[id]}')" id="button-delete6" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="删除"><i class="fa fa-trash-o"></i></a>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</if>&ndash;&gt;-->
+                                        <!--</td>-->
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 text-left"></div>
+                            <div class="col-sm-6 text-right">{$page}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<script>
+    // 删除操作
+    function del(id)
+    {
+        if(!confirm('确定要删除吗?'))
+            return false;
+        $.ajax({
+            url:"/index.php?m=Admin&c=User&a=delWithdrawals&id="+id,
+            success: function(v){
+                var v =  eval('('+v+')');
+                if(v.hasOwnProperty('status') && (v.status == 1))
+                    location.href='{:U('Admin/User/withdrawals')}';
+                else
+                layer.msg(v.msg, {icon: 2,time: 1000}); //alert(v.msg);
+            }
+        });
+        return false;
+    }
+
+    $(document).ready(function() {
+        $('#start_time').daterangepicker({
+            format:"YYYY/MM/DD",
+            singleDatePicker: false,
+            showDropdowns: true,
+            minDate:'2016/01/01',
+            maxDate:'2030/01/01',
+            startDate:'2016/01/01',
+            locale : {
+                applyLabel : '确定',
+                cancelLabel : '取消',
+                fromLabel : '起始时间',
+                toLabel : '结束时间',
+                customRangeLabel : '自定义',
+                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                firstDay : 1
+            }
+        });
+    });
+</script>
+</body>
+</html>

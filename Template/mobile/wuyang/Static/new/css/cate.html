@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="format-detection" content="telephone=no, email=no"/>
+	<meta charset="UTF-8">
+	<title>午阳乐购</title>
+	<link rel="stylesheet" href="__CSS__/core.css">
+	<link rel="stylesheet" href="__CSS__/icon.css">
+	<link rel="stylesheet" href="__CSS__/home.css">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	<link href="iTunesArtwork@2x.png" sizes="114x114" rel="apple-touch-icon-precomposed">
+</head>
+<body>
+
+	<header class="aui-header-default aui-header-fixed aui-header-bg">
+		 
+		<div class="aui-header-center aui-header-center-clear">
+			<div class="aui-header-search-box">
+				<i class="aui-icon aui-icon-small-search"></i>
+				<input id="" type="text"  placeholder="iphone8 手机钢化膜" class="aui-header-search">
+			</div>
+		</div>
+		 <a href="#" class="aui-header-item-icon"><i class="aui-icon aui-icon-search"></i></a>
+	</header>
+	<section class="aui-scroll-contents">
+		<div class="aui-scroll-box" data-ydui-scrolltab>
+
+			<div class="aui-scroll-nav">
+				<a href="javascript:void(0);" class="aui-scroll-item aui-crt">
+					<div class="aui-scroll-item-icon"></div>
+					<div class="aui-scroll-item-text">特价专区</div>
+				</a>
+				<foreach name="cate_list" item="v">
+					<a href="javascript:void(0);" class="aui-scroll-item " >
+						<div class="aui-scroll-item-icon"></div>
+						<div class="aui-scroll-item-text">{$v['cate_name']}</div>
+					</a>
+				</foreach>
+			</div>
+			<div class="aui-scroll-content">
+				<div class="aui-scroll-content-item" style="display:block;">
+					<div class="aui-class-img">
+						<img style="width: 100%;height: 105px;"  src="__ROOT__/Uploads{$tejia_list[0]['img']}" alt="">
+					</div>
+					<foreach name="tejia_list" item="vv">
+						<h2 class="aui-scroll-content-title">{$vv['cate_name']}</h2>
+						<section class="aui-grid-content">
+							<div class="aui-grid-row aui-grid-row-clear">
+								<foreach name="vv.sub_menu" item="val">
+									<a href="#" class="aui-grid-row-item">
+										<i class="aui-icon-large aui-icon-sign"><img src="__ROOT__/Uploads{$val['img']}" alt=""></i>
+										<p class="aui-grid-row-label">{$val['cate_name']}</p>
+									</a>
+								</foreach>
+							</div>
+						</section>
+					</foreach>
+
+                        <!--<h2 class="aui-scroll-content-title">数码家电</h2>-->
+						<!--<section class="aui-grid-content">-->
+							<!--<div class="aui-grid-row aui-grid-row-clear">-->
+								<!--<a href="#" class="aui-grid-row-item">-->
+									<!--<i class="aui-icon-large aui-icon-sign"><img src="__IMG__/ad/x-sf-1.jpg" alt=""></i>-->
+									<!--<p class="aui-grid-row-label">手机数码</p>-->
+								<!--</a>-->
+								<!--<a href="#" class="aui-grid-row-item">-->
+									<!--<i class="aui-icon-large aui-icon-sign"><img src="__IMG__/ad/x-sf-2.jpg" alt=""></i>-->
+									<!--<p class="aui-grid-row-label">笔记本</p>-->
+								<!--</a>-->
+								<!--<a href="#" class="aui-grid-row-item">-->
+									<!--<i class="aui-icon-large aui-icon-sign"><img src="__IMG__/ad/x-sf-3.jpg" alt=""></i>-->
+									<!--<p class="aui-grid-row-label">空调</p>-->
+								<!--</a>-->
+							<!--</div>-->
+						<!--</section>-->
+
+				</div>
+				<foreach name="cate_list" item="v">
+					<div class="aui-scroll-content-item" >
+						<div class="aui-class-img">
+							<img src="__ROOT__/Uploads{$v['img']}" style="width: 100%;height: 105px;" alt="">
+						</div>
+						<h2 class="aui-scroll-content-title">{$v['cate_name']}</h2>
+						<section class="aui-grid-content">
+							<div class="aui-grid-row aui-grid-row-clear">
+								<foreach name="v['sub_menu']" item="vv">
+									<a href="
+									   " class="aui-grid-row-item">
+										<i class="aui-icon-large aui-icon-sign"><img src="__ROOT__/Uploads{$vv['img']}" alt=""></i>
+										<p class="aui-grid-row-label">{$vv['cate_name']}</p>
+									</a>
+								</foreach>
+							</div>
+						</section>
+					</div>
+				</foreach>
+			</div>
+		</div>
+	</section>
+
+
+	<!--尾部-->
+	<include file="Public:footer" />
+	<script src="__JS__/aui.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Common/laytpl/laytpl.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Common/laypage/laypage.js"></script>
+	<script>
+		$(document).ready(function(){
+			$(".aui-scroll-item").click(function(){
+//				console.log($(this).index());
+				$(".aui-scroll-item").eq($(this).index()).addClass("aui-crt").siblings().removeClass("aui-crt");
+				$(".aui-scroll-content-item").hide().eq($(this).index()).show();
+			});
+		});
+	</script>
+</body>
+</html>

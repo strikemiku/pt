@@ -1,0 +1,105 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta name="Generator" content="tpshop" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>修改地址</title>
+    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="__STATIC__/old/css/public.css">
+    <link rel="stylesheet" href="__STATIC__/old/css/user.css">
+    <script src="__PUBLIC__/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/old/js/layer.js" ></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
+    <script src="__STATIC__/js/layer/layer.js"></script>
+    <style>
+        .addressmone ul li select option{
+            width: 78%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">修改地址</div>
+            <!--<div class="h-right">-->
+            <!--<aside class="top_bar">-->
+            <!--<div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>-->
+            <!--</aside>-->
+            <!--</div>-->
+        </div>
+    </div>
+</header>
+<!--<include file="Public/menu"/>-->
+<div id="tbh5v0">
+    <div class="addressmone">
+            <ul>
+                <li>
+                    <span style="width: 20%;">省份</span>
+                    <select class="province_select"  name="province" id="province" onChange="get_city(this)" style="width: 60%;border: 1px solid #d1b180;">
+                        <option value="0">请选择</option>
+                        <volist name="province" id="p">
+                            <option <if condition="$user['province'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>
+                        </volist>
+                    </select>
+                </li>
+                <li>
+                    <span style="width: 20%;">城市</span>
+                    <select name="city" id="city" onChange="get_area(this)" style="width: 60%;border: 1px solid #d1b180;">
+                        <option  value="0">请选择</option>
+                        <volist name="city" id="p">
+                            <option <if condition="$user['city'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>
+                        </volist>
+                    </select>
+                </li>
+                <li>
+                    <span style="width: 20%;">地区</span>
+                    <select name="district" id="district" onChange="get_twon(this)" style="width: 60%;border: 1px solid #d1b180;">
+                        <option  value="0">请选择</option>
+                        <volist name="district" id="p">
+                            <option <if condition="$user['district'] eq $p['id']">selected</if>  value="{$p.id}">{$p.name}</option>
+                        </volist>
+                    </select>
+                </li>
+            </ul>
+            <div style=" height:50px"></div>
+            <div class="dotm_btn">
+                <input type="submit" value="保存" onClick="checkSubmit()" class="dotm_btn1" />
+            </div>
+
+    </div>        </div>
+<script src="__PUBLIC__/js/validate2.js"></script>
+<script>
+    function checkSubmit()
+    {
+        var province = $.trim($('#province option:selected').val());
+        var city = $.trim($('#city option:selected').val());
+        var district = $.trim($('#district option:selected').val());
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=User&a=change_address&t='+Math.random(),
+            data : {province:province,city:city,district:district},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        location.href="/Mobile/User/set";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试',{icon:5,time:1500});
+            }
+        })
+    }
+</script>
+</body>
+</html>

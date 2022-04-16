@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link href="__STATIC__/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/web.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__STATIC__/js/swiper.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__STATIC__/js/web.js"></script>
+    <title>修改身份证号</title>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="header_list">
+        <a href="javascript:history.back(-1)" class="go_back">
+            <i class="iconfont">&#xe892;</i>
+        </a>
+        <h3>修改身份证号</h3>
+    </div>
+
+    <div style="height:45px;"></div>
+
+    <ul class="product_sq nicheng">
+        <li>
+            <span>身份证号:</span>
+            <input type="text" class="add-input" name="id_card" id="id_card" value="{$user.id_card}"  placeholder="请输入身份证号">
+        </li>
+
+    </ul>
+    <div class="tjbtn">
+        <input type="button" class="confirm" onClick="checkSubmit()" value="确认提交">
+    </div>
+    <!--底部区域开始-->
+    <include file="Public/footer"/>
+    <!--底部区域结束-->
+
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    function isCardNo(card) {
+
+        var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+
+        return pattern.test(card);
+
+    }
+    function checkSubmit()
+    {
+
+        var id_card = $.trim($('#id_card').val());
+        if(id_card == ''){
+            layer.msg("请输入身份证号",{icon:5,time:1500});
+            return false;
+        }
+
+        if (isCardNo(id_card) == false) {
+            layer.msg('身份证号格式错误',{icon:5,time:1500});
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url :"{:U('Mobile/User/change_card')}",
+            data : {id_card:id_card},
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 200){
+                    layer.msg(res.msg,{icon:6,time:1500},function () {
+                        window.location.href = "{:U('Mobile/User/set')}";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:5,time:1500});
+                    return false;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('网络失败，请刷新页面后重试');
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

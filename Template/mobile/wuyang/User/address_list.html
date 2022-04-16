@@ -1,0 +1,69 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta name="Generator" content="tpshop" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>地址列表</title>
+    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="__STATIC__/old/css/public.css">
+    <link rel="stylesheet" href="__STATIC__/old/css/user.css">
+
+    <script type="text/javascript" src="__STATIC__/old/js/jquery.js"></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
+</head>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header" >
+            <div class="h-left"><a class="sb-back" href="{:U('User/index')}" style="font-size: 24px;color: #fff;line-height: 45px;" title="返回"></a></div>
+            <div class="h-mid">地址管理</div>
+        </div>
+    </div>
+</header>
+<div id="tbh5v0">
+    <volist name="lists" id="list">
+
+        <div class="address_add   <if condition="$list[is_default] eq 1"> Default</if>">
+
+        <if condition="$_GET['source'] eq 'cart2'">
+            <a href="{:U('/Mobile/Cart/cart2',array('address_id'=>$list['address_id']))}">
+                <if condition="$list[is_default] eq 1"><h2><img src="__STATIC__/old/images/right.png"></h2></if>
+                <dl>
+                    <dt><span>{$list.consignee}</span><em style="float: left">电话:{$list.mobile}</em></dt>
+                    <dd>{$list.p_name}，{$list.c_name}，{$list.d_name}，{$list.address}</dd>
+                </dl>
+            </a>
+            <else/>
+            <if condition="$list[is_default] eq 1"><h2><img src="__STATIC__/old/images/right.png"></h2></if>
+            <dl>
+                <dt><span>{$list.consignee}</span><em style="float: left">电话:{$list.mobile}</em></dt>
+                <dd>{$list.p_name}，{$list.c_name}，{$list.d_name}，{$list.address}</dd>
+            </dl>
+        </if>
+
+        <a href="{:U('/Mobile/User/edit_address',array('id'=>$list[address_id],'source'=>$_GET['source'],'maichu_id'=>$_GET['maichu_id']))}"><img id="amend" src="__STATIC__/old/images/amend.png"/></a>
+</div>
+
+</volist>
+</div>
+
+<div style=" width:100%; height:50px;"></div>
+<div class="list_footer" >
+    <a href="{:U('/Mobile/User/add_address',array('source'=>$_GET['source'],'maichu_id'=>$_GET['maichu_id']))}">添加新地址</a>
+</div>
+
+<script>
+    function goTop(){
+        $('html,body').animate({'scrollTop':0},600);
+    }
+</script>
+<a href="javascript:goTop();" class="gotop"><img src="__STATIC__/old/images/topup.png"></a>
+</div>
+
+
+</body>
+</html>

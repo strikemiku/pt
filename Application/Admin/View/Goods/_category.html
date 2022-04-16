@@ -1,0 +1,100 @@
+<include file="Public/min-header"/>
+<div class="wrapper">
+    <include file="Public/breadcrumb"/>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">增加分类</h3>
+                        <div class="pull-right">
+                            <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default" data-original-title="返回"><i class="fa fa-reply"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- /.box-header -->
+                    <form action="{:U('Goods/addEditCategory')}" method="post" class="form-horizontal" id="category_form">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">分类名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" placeholder="名称" class="form-control large" name="name" value="{$goods_category_info.name}">
+                                    <span class="help-inline" style="color:#F00; display:none;" id="err_name"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label0 class="control-label col-sm-2">选择分类</label0>
+
+                                <div class="col-sm-4">
+                                    <select name="parent_id_1" id="parent_id_1" onchange="get_category(this.value,'parent_id_2','0');" class="small form-control">
+                                        <option value="0">-选择上级分类-</option>
+                                        <foreach name="cat_list" item="v" >
+                                            <option value="{$v[id]}">{$v[name]}</option>
+                                        </foreach>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--<tr>-->
+                                <!--<td class="col-sm-2">分类展示图片:</td>-->
+                                <!--<td >-->
+                                    <!--<img src='__PUBLIC__/images/no_img.png'  style="width: 100px;height: 100px;float: left;border: 1px solid gray;" onclick="GetUploadify(1,'','original_img','call_back3');">-->
+                                    <!--<input type="hidden" name="original_img" id="original_img" value="{$goodsInfo.original_img}">-->
+                                    <!--<img width="100" height="100"   class="original_imgs" src="{$goodsInfo.original_img}"  <if condition="$goodsInfo.original_img neq ''">style="display: block;float: left"<else/>style="display: none;float: left"</if>>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">缩略图</label>
+
+                                <div class="col-sm-8">
+                                    <img src='__PUBLIC__/images/no_img.png'  style="width: 100px;height: 100px;float: left;border: 1px solid gray;" onclick="GetUploadify(1,'','image','call_back3');">
+                                    <input type="hidden" name="image" id="image" value="{$goods_category_info.image}">
+                                    <img width="100" height="100"   class="images" src="{$goods_category_info.image}"  <if condition="$goods_category_info.image neq ''">style="display: block;float: left"<else/>style="display: none;float: left"</if>>
+                                    <!--<input onclick="GetUploadify(1,'image','category');" type="button" value="上传图片"/>-->
+                                    <!--<input type="text" value="{$goods_category_info.image}" name="image" id="image" class="form-control large" readonly="readonly"  style="width:450px;display:initial;"/>-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">显示排序</label>
+                                <div class="col-sm-1">
+                                    <input type="text" placeholder="50" class="form-control large" name="sort_order" value="{$goods_category_info.sort_order}"/>
+                                    <span class="help-inline" style="color:#F00; display:none;" id="err_sort_order"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <input type="hidden" name="id" value="{$goods_category_info.id}">
+                            <button type="button" style="margin-left: 17.4%;" onclick="ajax_submit_form('category_form','{:U('Goods/addEditCategory?is_ajax=1')}');" class="btn btn-primary pull-left"><i class="icon-ok"></i>提交  </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    function call_back3(fileurl_tmp){
+
+        $("#image").val(fileurl_tmp);
+        $(".images").attr('src',fileurl_tmp);
+        $(".images").css('display','block');
+    }
+
+    /** 以下是编辑时默认选中某个商品分类*/
+    $(document).ready(function(){
+        <if condition="$level_cat['2'] gt 0">
+            // 如果当前是二级分类就让一级父id默认选中
+            $("#parent_id_1").val('{$level_cat[1]}');
+        get_category('{$level_cat[1]}','parent_id_2','0');
+        </if>
+        <if condition="$level_cat['3'] gt 0">
+            // 如果当前是三级分类就一级和二级父id默认 都选中
+            $("#parent_id_1").val('{$level_cat[1]}');
+        get_category('{$level_cat[1]}','parent_id_2','{$level_cat[2]}');
+        </if>
+    });
+
+</script>
+
+</body>
+</html>
